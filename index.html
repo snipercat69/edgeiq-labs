@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>EdgeIQ Labs — Cybersecurity Monitoring for Small Business</title>
+  <meta name="description" content="EdgeIQ Labs provides subscription cybersecurity monitoring: uptime checks, SSL/domain alerts, authorized security scanning, and monthly reports." />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121923;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --accent: #3dd9ff;
+      --border: #233142;
+      --ok: #70f0a8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+    nav {
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(11,15,20,0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+
+    .hero { padding: 72px 0 50px; text-align: center; }
+    .badge {
+      display: inline-block;
+      border: 1px solid #244058;
+      background: #102030;
+      color: var(--accent);
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-new {
+      background: #1a3a2a;
+      border-color: #2d6e4f;
+      color: #70f0a8;
+      display: inline-block;
+      border: 1px solid #2d6e4f;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .service-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .service-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+    .feature-tag { display: inline-block; background: rgba(61,217,255,0.08); border: 1px solid rgba(61,217,255,0.2); color: var(--accent); font-size: 0.72rem; border-radius: 6px; padding: 3px 8px; margin: 3px 2px; font-family: monospace; }
+
+    h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.15; margin-bottom: 14px; }
+    .hero p { color: var(--muted); max-width: 700px; margin: 0 auto 24px; }
+    .btn {
+      display: inline-block;
+      border-radius: 10px;
+      padding: 11px 18px;
+      text-decoration: none;
+      font-weight: 700;
+      margin: 6px;
+      border: 1px solid var(--border);
+    }
+    .btn-primary { background: var(--accent); color: #071018; border-color: transparent; }
+    .btn-secondary { color: var(--text); }
+
+    section { padding: 42px 0; }
+    h2 { font-size: 1.5rem; margin-bottom: 12px; }
+    .section-sub { color: var(--muted); margin-bottom: 22px; }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .card h3 { margin-bottom: 8px; font-size: 1.05rem; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .price { font-size: 2rem; font-weight: 800; margin: 4px 0 10px; }
+    .price span { font-size: 1rem; color: var(--muted); font-weight: 500; }
+    ul { margin-left: 18px; color: var(--muted); }
+    .highlight { border-color: #2d5e78; box-shadow: 0 0 0 1px #2d5e78 inset; }
+    .plan-actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .plan-actions .btn { margin: 0; padding: 8px 12px; font-size: 0.86rem; }
+
+    .note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+    }
+    .note a { color: var(--accent); text-decoration: none; }
+
+    .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+    .skill-tag {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      padding: 3px 10px;
+      font-size: 0.76rem;
+      margin-bottom: 8px;
+    }
+    .roadmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .roadmap-grid ul { margin-top: 8px; }
+    .roadmap-grid li { margin: 6px 0; }
+    .spoiler { color: var(--accent); font-weight: 700; }
+
+    .request-form {
+      display: grid;
+      gap: 10px;
+      max-width: 720px;
+    }
+    .request-form label { font-size: 0.9rem; color: var(--muted); }
+    .request-form input,
+    .request-form textarea {
+      width: 100%;
+      background: #0f1620;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 0.95rem;
+    }
+    .request-form textarea { min-height: 110px; resize: vertical; }
+
+    .contact a { color: var(--accent); text-decoration: none; }
+    footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 0 40px;
+      margin-top: 26px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a class="nav-brand" href="/">
+        <img class="nav-logo-img" src="logo-edgeiq-selected.png" alt="EdgeIQ Labs logo" />
+        <div class="nav-wordmark">
+          <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+          <div class="nav-brand-tag">Security Intelligence</div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#skills">Skills</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#request">Request</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-cta" href="#pricing">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge badge-new">New</div>
+      <h1>Security Intelligence, Beautifully Automated</h1>
+      <p>
+        EdgeIQ Labs provides professional-grade security tools for penetration testers and small business teams.
+        XSS scanning, full-spectrum network reconnaissance, and SSL/domain monitoring — all in one place.
+      </p>
+      <a class="btn btn-primary" href="#skills">View All Skills</a>
+      <a class="btn btn-secondary" href="https://discord.gg/PaP7nsFUJT" target="_blank" rel="noopener">Talk to Support</a>
+    </section>
+
+    <section id="services">
+      <h2>What we offer</h2>
+      <p class="section-sub">Real tools built by a security pro. Everything is authorized-only and designed for teams who want protection without the enterprise price tag.</p>
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>🔍 XSS Scanner — Live</h3>
+          <p>40+ payloads, WAF detection + bypass, blind XSS detection, security header analysis, JSON + HTML output. Free tier covers basic scans. Pro unlocks blind XSS, screenshot evidence, and HTML reports.</p>
+          <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
+        </article>
+        <article class="card">
+          <h3>🌐 Network Scanner — Live</h3>
+          <p>Port scan 1–65535, service version detection, CVE matching, OS fingerprinting, traceroute, subdomain enumeration, SSL/TLS grading, and JSON + HTML reports. Free tier covers ports 1–1024. Pro unlocks deep scan and all advanced features.</p>
+          <a href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
+        </article>
+        <article class="card">
+          <h3>🔒 SSL & Domain Watcher — Live</h3>
+          <p>SSL certificate health, security header analysis (CSP, HSTS, X-Frame-Options + more), domain expiry WHOIS tracking, port scanning for common services, CVE lookup. Free tier covers basic SSL check. Pro unlocks full header analysis, port scan, and HTML + JSON reports.</p>
+          <a href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
+        </article>
+      </div>
+    </section>
+      </div>
+      <p class="note">All security testing is performed only on assets owned by the customer or with explicit written authorization.</p>
+    </section>
+
+    <section id="pricing">
+      <h2>Plans</h2>
+      <p class="section-sub">Simple monthly plans. Cancel anytime. All plans include free tier access.</p>
+      <div class="pricing">
+        <article class="card">
+          <h3>XSS Pro</h3>
+          <div class="price">$19 <span>/month</span></div>
+          <ul>
+            <li>Blind XSS detection (callback payloads)</li>
+            <li>Screenshot evidence capture</li>
+            <li>HTML report export</li>
+            <li>All free tier features included</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-primary" href="https://buy.stripe.com/3cI14p0Lxbxr8Ec8AE7wA00" target="_blank" rel="noopener">Buy XSS Pro</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" rel="noopener">View on ClawHub</a>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Network Pro</h3>
+          <div class="price">$29 <span>/month</span></div>
+          <ul>
+            <li>Deep port scan (1–65535)</li>
+            <li>Traceroute + subdomain enumeration</li>
+            <li>CVE matching + HTML reports</li>
+            <li>All free tier features included</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-primary" href="https://buy.stripe.com/7sYaEZeCn5934nW8AE7wA01" target="_blank" rel="noopener">Buy Network Pro</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" rel="noopener">View on ClawHub</a>
+          </div>
+        </article>
+        <article class="card">
+          <h3>SSL Watcher Pro</h3>
+          <div class="price">$9 <span>/month</span></div>
+          <ul>
+            <li>Security header analysis (CSP, HSTS + more)</li>
+            <li>Port scanning for common services</li>
+            <li>JSON + HTML report export</li>
+            <li>WHOIS domain expiry tracking</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-primary" href="https://buy.stripe.com/28EbJ3gKv7hb3jS2cg7wA03" target="_blank" rel="noopener">Buy SSL Pro</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" rel="noopener">View on ClawHub</a>
+          </div>
+        </article>
+        <article class="card highlight">
+          <h3>Bundle — All 3 Skills</h3>
+          <div class="price">$39 <span>/month</span></div>
+          <ul>
+            <li>XSS Pro + Network Pro + SSL Pro</li>
+            <li>All current and future EdgeIQ skills</li>
+            <li>Priority Discord support</li>
+            <li>Combined monthly report</li>
+          </ul>
+          <div class="plan-actions">
+            <a class="btn btn-primary" href="https://buy.stripe.com/aFabJ3am79pjg6E18c7wA02" target="_blank" rel="noopener">Buy Bundle</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" rel="noopener">XSS</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" rel="noopener">Network</a>
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" rel="noopener">SSL</a>
+          </div>
+        </article>
+      </div>
+      <p class="note">All skills have free tiers — no payment required to get started. <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" rel="noopener">XSS Scanner</a> · <a href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" rel="noopener">Network Scanner</a> · <a href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" rel="noopener">SSL Watcher</a></p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills Catalog</h2>
+      <p class="section-sub">Current and upcoming EdgeIQ skills.</p>
+      <div class="catalog-grid">
+        <article class="card">
+          <span class="skill-tag">Live</span>
+          <h3>EdgeIQ XSS Scanner</h3>
+          <p>Professional XSS vulnerability scanner with blind XSS, WAF bypass, header analysis, and JSON/HTML output.</p>
+          <div class="plan-actions">
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" rel="noopener">Open on ClawHub</a>
+          </div>
+        </article>
+        <article class="card">
+          <span class="skill-tag">Live</span>
+          <h3>EdgeIQ Network Scanner</h3>
+          <p>Full-spectrum port scanning, service fingerprinting, CVE matching, traceroute, and SSL/TLS analysis.</p>
+          <div class="plan-actions">
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" rel="noopener">Open on ClawHub</a>
+          </div>
+        </article>
+        <article class="card">
+          <span class="skill-tag">Live</span>
+          <h3>EdgeIQ SSL & Domain Watcher</h3>
+          <p>SSL certificate health, security header analysis, domain expiry tracking, and port scanning for common services.</p>
+          <div class="plan-actions">
+            <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" rel="noopener">Open on ClawHub</a>
+          </div>
+        </article>
+        <article class="card">
+          <span class="skill-tag">Coming Soon</span>
+          <h3>CVE Match Assistant</h3>
+          <p>Service fingerprint to CVE matching and monthly risk summaries.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <h2>Roadmap</h2>
+      <p class="section-sub">What’s shipping now and what’s next.</p>
+      <div class="roadmap-grid">
+        <article class="card">
+          <h3>Now</h3>
+          <ul>
+            <li>XSS Scanner live on ClawHub</li>
+            <li>Network Scanner live on ClawHub</li>
+            <li>SSL & Domain Watcher live on ClawHub</li>
+            <li>Stripe plans and bundle checkout live</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Next</h3>
+          <ul>
+            <li>Automated monthly PDF reports</li>
+            <li>Client onboarding helper skill</li>
+            <li>CVE Match Assistant</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Spoiler</h3>
+          <ul>
+            <li><span class="spoiler">YouTube channel is coming soon 👀</span></li>
+            <li>Live demos, scans, and build-in-public updates</li>
+            <li>Weekly release breakdowns</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="request">
+      <h2>Request a Skill</h2>
+      <p class="section-sub">Tell us what you want built next and we’ll prioritize by demand.</p>
+      <form class="request-form" action="mailto:gpalmieri21@gmail.com" method="post" enctype="text/plain">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" placeholder="Name" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+        <label for="idea">Skill idea</label>
+        <textarea id="idea" name="idea" placeholder="What should this skill do? Who is it for?" required></textarea>
+
+        <div class="plan-actions">
+          <button class="btn btn-primary" type="submit">Send Request</button>
+          <a class="btn btn-secondary" href="mailto:gpalmieri21@gmail.com?subject=EdgeIQ%20Skill%20Request">Email Instead</a>
+        </div>
+      </form>
+      <p class="note">No forms backend yet — submit opens your email app. We can wire this to a hosted form next.</p>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p class="section-sub">Need onboarding or support?</p>
+      <div class="card">
+        <p>Support: <a href="mailto:gpalmieri21@gmail.com">gpalmieri21@gmail.com</a></p>
+        <p>Discord: <a href="https://discord.gg/PaP7nsFUJT" target="_blank" rel="noopener">discord.gg/PaP7nsFUJT</a></p>
+        <p style="margin-top:10px;color:var(--muted);font-size:0.92rem;">Refund policy: First-time purchases are eligible for a 7-day refund window.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 EdgeIQ Labs · Monitoring and authorized security services.
+  </footer>
+</body>
+</html>
