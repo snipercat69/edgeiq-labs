@@ -355,6 +355,7 @@
           <button class="scan-tab" onclick="showScannerTab('headers')" id="tab-btn-headers">📡 Headers Analyzer</button>
           <button class="scan-tab" onclick="showScannerTab('xss')" id="tab-btn-xss">💉 XSS Quick Scan</button>
         </div>
+        <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
           <div class="scan-input-row">
             <input
@@ -396,99 +397,84 @@
         <div id="scan-error" class="scan-error" style="display:none;">
           <p id="scan-error-msg">Something went wrong. Please try again.</p>
         </div>
-      </div>
-    </section>
+        </div>
 
-    <!-- HTTP Headers Analyzer — Free Tool #2 -->
-    <section id="headers-checker" style="display:none;">
-      <div class="scanner-container">
-        <h2>📡 HTTP Security Headers Analyzer</h2>
-        <p class="section-sub">Drop a URL — get an instant breakdown of security headers and how well they're configured.</p>
-        <form id="headers-scan-form" class="scan-form">
-          <div class="scan-input-row">
-            <input
-              type="url"
-              id="headers-url"
-              name="url"
-              placeholder="https://example.com"
-              required
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <button type="submit" class="btn btn-primary scan-btn" id="headers-submit">
-              <span id="headers-label">Analyze</span>
-              <span id="headers-loading" style="display:none;">Analyzing...</span>
-            </button>
-          </div>
-          <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
-        </form>
-
-        <div id="headers-results" class="scan-results" style="display:none;">
-          <div class="scan-grade-wrap">
-            <div class="scan-grade" id="headers-grade-badge">?</div>
-            <div class="scan-grade-info">
-              <h3 id="headers-hostname">example.com</h3>
-              <p id="headers-summary">Analyzing...</p>
+        <!-- HTTP Headers Analyzer — Free Tool #2 -->
+        <div id="headers-panel" class="scan-panel" style="display:none;">
+          <form id="headers-scan-form" class="scan-form">
+            <div class="scan-input-row">
+              <input
+                type="url"
+                id="headers-url"
+                name="url"
+                placeholder="https://example.com"
+                required
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="submit" class="btn btn-primary scan-btn" id="headers-submit">
+                <span id="headers-label">Analyze</span>
+                <span id="headers-loading" style="display:none;">Analyzing...</span>
+              </button>
+            </div>
+            <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
+          </form>
+          <div id="headers-results" class="scan-results" style="display:none;">
+            <div class="scan-grade-wrap">
+              <div class="scan-grade" id="headers-grade-badge">?</div>
+              <div class="scan-grade-info">
+                <h3 id="headers-hostname">example.com</h3>
+                <p id="headers-summary">Analyzing...</p>
+              </div>
+            </div>
+            <div class="headers-findings" id="headers-findings"></div>
+            <div class="scan-cta" id="headers-cta">
+              <p>Want continuous header monitoring, change alerts, and full security posture reports?</p>
+              <a href="#pricing" class="btn btn-primary">Get SSL Watcher Pro →</a>
             </div>
           </div>
-
-          <div class="headers-findings" id="headers-findings"></div>
-
-          <div class="scan-cta" id="headers-cta">
-            <p>Want continuous header monitoring, change alerts, and full security posture reports?</p>
-            <a href="#pricing" class="btn btn-primary">Get SSL Watcher Pro →</a>
+          <div id="headers-error" class="scan-error" style="display:none;">
+            <p id="headers-error-msg">Something went wrong. Please try again.</p>
           </div>
         </div>
 
-        <div id="headers-error" class="scan-error" style="display:none;">
-          <p id="headers-error-msg">Something went wrong. Please try again.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- XSS Quick Scanner — Free Tool #3 -->
-    <section id="xss-quick" style="display:none;">
-      <div class="scanner-container">
-        <h2>💉 XSS Quick Security Check</h2>
-        <p class="section-sub">Check a URL's XSS mitigations — security headers and CSP configuration. Quick scan, no payloads.</p>
-        <form id="xss-quick-form" class="scan-form">
-          <div class="scan-input-row">
-            <input
-              type="url"
-              id="xss-quick-url"
-              name="url"
-              placeholder="https://example.com"
-              required
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <button type="submit" class="btn btn-primary scan-btn" id="xss-quick-submit">
-              <span id="xss-quick-label">Quick Scan</span>
-              <span id="xss-quick-loading" style="display:none;">Scanning...</span>
-            </button>
-          </div>
-          <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
-        </form>
-
-        <div id="xss-quick-results" class="scan-results" style="display:none;">
-          <div class="scan-grade-wrap">
-            <div class="scan-grade" id="xss-quick-grade-badge">?</div>
-            <div class="scan-grade-info">
-              <h3 id="xss-quick-hostname">example.com</h3>
-              <p id="xss-quick-summary">Analyzing...</p>
+        <!-- XSS Quick Scanner — Free Tool #3 -->
+        <div id="xss-quick-panel" class="scan-panel" style="display:none;">
+          <form id="xss-quick-form" class="scan-form">
+            <div class="scan-input-row">
+              <input
+                type="url"
+                id="xss-quick-url"
+                name="url"
+                placeholder="https://example.com"
+                required
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="submit" class="btn btn-primary scan-btn" id="xss-quick-submit">
+                <span id="xss-quick-label">Quick Scan</span>
+                <span id="xss-quick-loading" style="display:none;">Scanning...</span>
+              </button>
+            </div>
+            <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
+          </form>
+          <div id="xss-quick-results" class="scan-results" style="display:none;">
+            <div class="scan-grade-wrap">
+              <div class="scan-grade" id="xss-quick-grade-badge">?</div>
+              <div class="scan-grade-info">
+                <h3 id="xss-quick-hostname">example.com</h3>
+                <p id="xss-quick-summary">Analyzing...</p>
+              </div>
+            </div>
+            <div class="headers-findings" id="xss-quick-findings"></div>
+            <div class="scan-cta" id="xss-quick-cta">
+              <p>Want deep XSS testing with real payloads, reflected parameter detection, and exploit verification?</p>
+              <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" class="btn btn-primary">Get XSS Scanner Pro →</a>
             </div>
           </div>
-
-          <div class="headers-findings" id="xss-quick-findings"></div>
-
-          <div class="scan-cta" id="xss-quick-cta">
-            <p>Want deep XSS testing with real payloads, reflected parameter detection, and exploit verification?</p>
-            <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" class="btn btn-primary">Get XSS Scanner Pro →</a>
+          <div id="xss-quick-error" class="scan-error" style="display:none;">
+            <p id="xss-quick-error-msg">Something went wrong. Please try again.</p>
           </div>
-        </div>
-
-        <div id="xss-quick-error" class="scan-error" style="display:none;">
-          <p id="xss-quick-error-msg">Something went wrong. Please try again.</p>
         </div>
       </div>
     </section>
@@ -1151,25 +1137,25 @@
 (function() {
   // Tab switching
   window.showScannerTab = function(tab) {
-    // Show/hide the target scanner section, hide others
-    var allSections = ['scanner', 'headers-checker', 'xss-quick'];
-    allSections.forEach(function(s) {
-      var sec = document.getElementById(s);
-      if (sec) sec.style.display = (s === tab || (tab === 'ssl' && s === 'scanner')) ? 'block' : 'none';
-    });
-
+    // Panel IDs for each tab
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel' };
     var tabs = ['ssl', 'headers', 'xss'];
+
+    // Show the correct panel, hide others
     tabs.forEach(function(t) {
-      var form = document.getElementById(t + '-scan-form');
-      var results = document.getElementById(t + '-results') ||
-                   document.getElementById(t + '-quick-results') ||
-                   (t === 'ssl' ? document.getElementById('scan-results') : null);
-      var errEl = document.getElementById(t + '-error') ||
-                  (t === 'ssl' ? document.getElementById('scan-error') : null);
+      var panel = document.getElementById(panelMap[t]);
+      if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
+
+      // Reset results/error for that tab
+      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : 'xss-quick-results');
+      var errId = t === 'ssl' ? 'scan-error' : (t === 'headers' ? 'headers-error' : 'xss-quick-error');
+      var r = document.getElementById(resultsId);
+      var e = document.getElementById(errId);
+      if (r) r.style.display = 'none';
+      if (e) e.style.display = 'none';
+
+      // Update tab button active state
       var tabBtn = document.getElementById('tab-btn-' + t);
-      if (form) form.style.display = (t === tab) ? 'block' : 'none';
-      if (results) results.style.display = 'none';
-      if (errEl) errEl.style.display = 'none';
       if (tabBtn) tabBtn.classList.toggle('active', t === tab);
     });
   };
