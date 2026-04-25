@@ -1151,11 +1151,21 @@
 (function() {
   // Tab switching
   window.showScannerTab = function(tab) {
+    // Show/hide the target scanner section, hide others
+    var allSections = ['scanner', 'headers-checker', 'xss-quick'];
+    allSections.forEach(function(s) {
+      var sec = document.getElementById(s);
+      if (sec) sec.style.display = (s === tab || (tab === 'ssl' && s === 'scanner')) ? 'block' : 'none';
+    });
+
     var tabs = ['ssl', 'headers', 'xss'];
     tabs.forEach(function(t) {
       var form = document.getElementById(t + '-scan-form');
-      var results = document.getElementById(t + '-results') || document.getElementById(t + '-quick-results') || document.getElementById('scan-results');
-      var errEl = document.getElementById(t + '-error') || document.getElementById('scan-error');
+      var results = document.getElementById(t + '-results') ||
+                   document.getElementById(t + '-quick-results') ||
+                   (t === 'ssl' ? document.getElementById('scan-results') : null);
+      var errEl = document.getElementById(t + '-error') ||
+                  (t === 'ssl' ? document.getElementById('scan-error') : null);
       var tabBtn = document.getElementById('tab-btn-' + t);
       if (form) form.style.display = (t === tab) ? 'block' : 'none';
       if (results) results.style.display = 'none';
