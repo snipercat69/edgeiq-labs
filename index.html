@@ -168,7 +168,37 @@
       font-size: 0.9rem;
     }
 
-    /* SSL Scanner */
+    /* Scanner tabs */
+    .scanner-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin: 18px 0 0;
+    }
+    .scan-tab {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scan-tab:hover { border-color: var(--accent); color: var(--text); }
+    .scan-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #001a0d;
+      font-weight: 600;
+    }
+    .scan-form, .scan-results, .scan-error {
+      display: none;
+    }
+    .scan-form.active, .scan-results.active, .scan-error.active {
+      display: block;
+    }
+    /* Scanner */
     #scanner {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -320,7 +350,12 @@
       <div class="scanner-container">
         <h2>🔒 Free SSL Security Scanner</h2>
         <p class="section-sub">Instantly check any site's SSL certificate, TLS version, and security headers. See exactly what an attacker sees.</p>
-        <form id="ssl-scan-form" class="scan-form">
+        <div class="scanner-tabs">
+          <button class="scan-tab active" onclick="showScannerTab('ssl')" id="tab-btn-ssl">🔒 SSL Checker</button>
+          <button class="scan-tab" onclick="showScannerTab('headers')" id="tab-btn-headers">📡 Headers Analyzer</button>
+          <button class="scan-tab" onclick="showScannerTab('xss')" id="tab-btn-xss">💉 XSS Quick Scan</button>
+        </div>
+        <form id="ssl-scan-form" class="scan-form" style="display:block;">
           <div class="scan-input-row">
             <input
               type="url"
@@ -360,6 +395,100 @@
 
         <div id="scan-error" class="scan-error" style="display:none;">
           <p id="scan-error-msg">Something went wrong. Please try again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HTTP Headers Analyzer — Free Tool #2 -->
+    <section id="headers-checker" style="display:none;">
+      <div class="scanner-container">
+        <h2>📡 HTTP Security Headers Analyzer</h2>
+        <p class="section-sub">Drop a URL — get an instant breakdown of security headers and how well they're configured.</p>
+        <form id="headers-scan-form" class="scan-form">
+          <div class="scan-input-row">
+            <input
+              type="url"
+              id="headers-url"
+              name="url"
+              placeholder="https://example.com"
+              required
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="submit" class="btn btn-primary scan-btn" id="headers-submit">
+              <span id="headers-label">Analyze</span>
+              <span id="headers-loading" style="display:none;">Analyzing...</span>
+            </button>
+          </div>
+          <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
+        </form>
+
+        <div id="headers-results" class="scan-results" style="display:none;">
+          <div class="scan-grade-wrap">
+            <div class="scan-grade" id="headers-grade-badge">?</div>
+            <div class="scan-grade-info">
+              <h3 id="headers-hostname">example.com</h3>
+              <p id="headers-summary">Analyzing...</p>
+            </div>
+          </div>
+
+          <div class="headers-findings" id="headers-findings"></div>
+
+          <div class="scan-cta" id="headers-cta">
+            <p>Want continuous header monitoring, change alerts, and full security posture reports?</p>
+            <a href="#pricing" class="btn btn-primary">Get SSL Watcher Pro →</a>
+          </div>
+        </div>
+
+        <div id="headers-error" class="scan-error" style="display:none;">
+          <p id="headers-error-msg">Something went wrong. Please try again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- XSS Quick Scanner — Free Tool #3 -->
+    <section id="xss-quick" style="display:none;">
+      <div class="scanner-container">
+        <h2>💉 XSS Quick Security Check</h2>
+        <p class="section-sub">Check a URL's XSS mitigations — security headers and CSP configuration. Quick scan, no payloads.</p>
+        <form id="xss-quick-form" class="scan-form">
+          <div class="scan-input-row">
+            <input
+              type="url"
+              id="xss-quick-url"
+              name="url"
+              placeholder="https://example.com"
+              required
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="submit" class="btn btn-primary scan-btn" id="xss-quick-submit">
+              <span id="xss-quick-label">Quick Scan</span>
+              <span id="xss-quick-loading" style="display:none;">Scanning...</span>
+            </button>
+          </div>
+          <p class="scan-note">Free scan — no account required · Results in ~5 seconds</p>
+        </form>
+
+        <div id="xss-quick-results" class="scan-results" style="display:none;">
+          <div class="scan-grade-wrap">
+            <div class="scan-grade" id="xss-quick-grade-badge">?</div>
+            <div class="scan-grade-info">
+              <h3 id="xss-quick-hostname">example.com</h3>
+              <p id="xss-quick-summary">Analyzing...</p>
+            </div>
+          </div>
+
+          <div class="headers-findings" id="xss-quick-findings"></div>
+
+          <div class="scan-cta" id="xss-quick-cta">
+            <p>Want deep XSS testing with real payloads, reflected parameter detection, and exploit verification?</p>
+            <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" class="btn btn-primary">Get XSS Scanner Pro →</a>
+          </div>
+        </div>
+
+        <div id="xss-quick-error" class="scan-error" style="display:none;">
+          <p id="xss-quick-error-msg">Something went wrong. Please try again.</p>
         </div>
       </div>
     </section>
@@ -1020,6 +1149,22 @@
   </footer>
 <script>
 (function() {
+  // Tab switching
+  window.showScannerTab = function(tab) {
+    var tabs = ['ssl', 'headers', 'xss'];
+    tabs.forEach(function(t) {
+      var form = document.getElementById(t + '-scan-form');
+      var results = document.getElementById(t + '-results') || document.getElementById(t + '-quick-results') || document.getElementById('scan-results');
+      var errEl = document.getElementById(t + '-error') || document.getElementById('scan-error');
+      var tabBtn = document.getElementById('tab-btn-' + t);
+      if (form) form.style.display = (t === tab) ? 'block' : 'none';
+      if (results) results.style.display = 'none';
+      if (errEl) errEl.style.display = 'none';
+      if (tabBtn) tabBtn.classList.toggle('active', t === tab);
+    });
+  };
+
+  // SSL Scanner form
   var form = document.getElementById('ssl-scan-form');
   if (!form) return;
 
@@ -1099,6 +1244,127 @@
       submitBtn.disabled = false;
     }
   });
+})();
+
+(function() {
+  // HTTP Headers Analyzer
+  var hForm = document.getElementById('headers-scan-form');
+  if (hForm) {
+    hForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var url = document.getElementById('headers-url').value.trim();
+      if (!url) return;
+      var btn = document.getElementById('headers-submit');
+      var lbl = document.getElementById('headers-label');
+      var ldg = document.getElementById('headers-loading');
+      var results = document.getElementById('headers-results');
+      var errDiv = document.getElementById('headers-error');
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+      try {
+        var resp = await fetch('https://edgeiq-headers-checker.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        if (!resp.ok) throw new Error('Scan failed (status ' + resp.status + ')');
+        var data = await resp.json();
+
+        var grade = data.grade || '?';
+        var gradeEl = document.getElementById('headers-grade-badge');
+        gradeEl.textContent = grade;
+        gradeEl.className = 'scan-grade grade-' + grade;
+
+        document.getElementById('headers-hostname').textContent = data.hostname || url;
+        document.getElementById('headers-summary').textContent =
+          'Score: ' + (data.score !== undefined ? data.score + '/100 — ' : '') + (data.summary || '');
+
+        var findingsEl = document.getElementById('headers-findings');
+        findingsEl.innerHTML = '';
+        if (data.issues && data.issues.length > 0) {
+          data.issues.forEach(function(issue) {
+            var div = document.createElement('div');
+            var sev = issue.includes('CRITICAL') ? 'critical' : issue.includes('HIGH') ? 'high' : 'medium';
+            div.className = 'finding ' + sev;
+            var icon = sev === 'critical' ? '🔴' : sev === 'high' ? '🟠' : '🟡';
+            div.innerHTML = '<span class="finding-icon">' + icon + '</span><span>' + issue + '</span>';
+            findingsEl.appendChild(div);
+          });
+        } else {
+          var div = document.createElement('div');
+          div.className = 'finding info';
+          div.innerHTML = '<span class="finding-icon">✅</span><span>All critical headers present.</span>';
+          findingsEl.appendChild(div);
+        }
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('headers-error-msg').textContent = 'Scan failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
+
+  // XSS Quick Scanner
+  var xForm = document.getElementById('xss-quick-form');
+  if (xForm) {
+    xForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var url = document.getElementById('xss-quick-url').value.trim();
+      if (!url) return;
+      var btn = document.getElementById('xss-quick-submit');
+      var lbl = document.getElementById('xss-quick-label');
+      var ldg = document.getElementById('xss-quick-loading');
+      var results = document.getElementById('xss-quick-results');
+      var errDiv = document.getElementById('xss-quick-error');
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+      try {
+        var resp = await fetch('https://edgeiq-xss-scanner.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        if (!resp.ok) throw new Error('Scan failed (status ' + resp.status + ')');
+        var data = await resp.json();
+
+        var grade = data.grade || '?';
+        var gradeEl = document.getElementById('xss-quick-grade-badge');
+        gradeEl.textContent = grade;
+        gradeEl.className = 'scan-grade grade-' + grade;
+
+        document.getElementById('xss-quick-hostname').textContent = data.hostname || url;
+        document.getElementById('xss-quick-summary').textContent =
+          'Score: ' + (data.score !== undefined ? data.score + '/100 — ' : '') + (data.summary || '');
+
+        var findingsEl = document.getElementById('xss-quick-findings');
+        findingsEl.innerHTML = '';
+        if (data.findings && data.findings.length > 0) {
+          data.findings.forEach(function(f) {
+            var div = document.createElement('div');
+            div.className = 'finding ' + f.severity;
+            var icon = f.severity === 'critical' ? '🔴' :
+                       f.severity === 'high' ? '🟠' :
+                       f.severity === 'medium' ? '🟡' :
+                       f.severity === 'low' ? '🟢' : 'ℹ️';
+            div.innerHTML = '<span class="finding-icon">' + icon + '</span><span><span class="severity-' + f.severity + '">' + f.type.toUpperCase() + '</span> — ' + f.message + '</span>';
+            findingsEl.appendChild(div);
+          });
+        }
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('xss-quick-error-msg').textContent = 'Scan failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
 })();
 </script>
 </body>
