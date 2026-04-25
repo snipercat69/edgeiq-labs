@@ -1137,26 +1137,26 @@
 (function() {
   // Tab switching
   window.showScannerTab = function(tab) {
-    // Panel IDs for each tab
+    // Panel + form IDs for each tab
     var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form' };
     var tabs = ['ssl', 'headers', 'xss'];
 
-    // Show the correct panel, hide others
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
-      if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
-
-      // Reset results/error for that tab
+      var form  = document.getElementById(formMap[t]);
       var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : 'xss-quick-results');
-      var errId = t === 'ssl' ? 'scan-error' : (t === 'headers' ? 'headers-error' : 'xss-quick-error');
+      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : 'xss-quick-error');
       var r = document.getElementById(resultsId);
       var e = document.getElementById(errId);
+      var tabBtn = document.getElementById('tab-btn-' + t);
+
+      var show = (t === tab);
+      if (panel) panel.style.display = show ? 'block' : 'none';
+      if (form)  form.style.display  = show ? 'block' : 'none';
       if (r) r.style.display = 'none';
       if (e) e.style.display = 'none';
-
-      // Update tab button active state
-      var tabBtn = document.getElementById('tab-btn-' + t);
-      if (tabBtn) tabBtn.classList.toggle('active', t === tab);
+      if (tabBtn) tabBtn.classList.toggle('active', show);
     });
   };
 
