@@ -1,0 +1,33 @@
+{
+  "note": "Real Stripe Payment Link URLs created 2026-04-25 — these are the actual buy.stripe.com URLs",
+  "lookup_keys": {
+    "xss_lifetime": "https://buy.stripe.com/14AfZjcuf30V8Ec4ko7wA0O",
+    "xss_monthly": "https://buy.stripe.com/00w28t2TF30V5s0eZ27wA15",
+    "network_lifetime": "https://buy.stripe.com/bJe00ldyjdFz1bK6sw7wA0V",
+    "network_monthly": "https://buy.stripe.com/7sYaEZ51N0SN3jSaIM7wA13",
+    "subdomain_lifetime": "https://buy.stripe.com/5kQdRbbqbfNHf2A7wA7wA0S",
+    "subdomain_monthly": "https://buy.stripe.com/8x2aEZeCn44ZcUs18c7wA11",
+    "ssl_lifetime": "https://buy.stripe.com/8x23cxfGratng6E4ko7wA0T",
+    "ssl_monthly": "https://buy.stripe.com/aFa9AV51N8lf2fOcQU7wA19",
+    "sql_lifetime": "https://buy.stripe.com/fZu5kF51NgRL07G2cg7wA10",
+    "sql_monthly": "https://buy.stripe.com/00wfZj2TF1WR7A82cg7wA1d",
+    "oauth_lifetime": "https://buy.stripe.com/3cI28t2TFdFz7A88AE7wA0P",
+    "oauth_monthly": "https://buy.stripe.com/aFaeVfcuffNH7A8g367wA16",
+    "darkweb_lifetime": "https://buy.stripe.com/28EbJ31PBcBv1bK7wA7wA0U",
+    "darkweb_monthly": "https://buy.stripe.com/6oU00leCn7hb4nWg367wA1b",
+    "malware_lifetime": "https://buy.stripe.com/dRmbJ3dyjdFz7A86sw7wA0Q",
+    "malware_monthly": "https://buy.stripe.com/fZudRbgKv9pj3jS5os7wA17",
+    "email_lifetime": "https://buy.stripe.com/5kQ9AV65RfNHbQobMQ7wA0R",
+    "email_monthly": "https://buy.stripe.com/dRm7sN3XJdFzcUs2cg7wA1c",
+    "phishing_lifetime": "https://buy.stripe.com/9B6fZjdyjfNH1bK8AE7wA0Y",
+    "phishing_monthly": "https://buy.stripe.com/00w00l1PBbxr5s04ko7wA18",
+    "api_lifetime": "https://buy.stripe.com/6oU6oJam76d75s05os7wA0Z",
+    "api_monthly": "https://buy.stripe.com/6oU7sN9i3dFzaMkcQU7wA1a",
+    "lead_lifetime": "https://buy.stripe.com/8x25kF3XJeJD07GbMQ7wA0X",
+    "lead_monthly": "https://buy.stripe.com/dRm8wR79V9pj7A89EI7wA12",
+    "listing_lifetime": "https://buy.stripe.com/7sYcN79i3fNHaMkg367wA0N",
+    "listing_monthly": "https://buy.stripe.com/cNi8wR3XJgRL3jSdUY7wA1e",
+    "report_lifetime": "https://buy.stripe.com/3cI8wR51N6d7g6EdUY7wA0W",
+    "report_monthly": "https://buy.stripe.com/28EfZj9i35938EcbMQ7wA14"
+  }
+}

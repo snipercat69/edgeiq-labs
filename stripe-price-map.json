@@ -1,0 +1,262 @@
+{
+  "products": {
+    "oauth_security_checker": "prod_UOwH4PYIlbA75f",
+    "dark_web_credential_checker": "prod_UOwHBn1booqX8v"
+  },
+  "tools": {
+    "xss_scanner": {
+      "name": "EdgeIQ XSS Scanner Pro",
+      "product_id": "prod_UNpTEFaxXRajTa",
+      "lifetime": {
+        "price_id": "price_1TQ8PhRC1NZ20yDTnBFzVhcW",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "xss_lifetime",
+        "checkout_url": "https://buy.stripe.com/xss_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QGRC1NZ20yDTJUa3clRn",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "xss_monthly",
+        "checkout_url": "https://buy.stripe.com/xss_monthly"
+      }
+    },
+    "network_scanner": {
+      "name": "EdgeIQ Network Scanner Pro",
+      "product_id": "prod_UNpUFCSyN3z4Bt",
+      "lifetime": {
+        "price_id": "price_1TQ8PhRC1NZ20yDT0Q4hfI6F",
+        "amount": 4900,
+        "currency": "usd",
+        "lookup_key": "network_lifetime",
+        "checkout_url": "https://buy.stripe.com/network_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QHRC1NZ20yDTShc0KsGy",
+        "amount": 1000,
+        "currency": "usd",
+        "lookup_key": "network_monthly",
+        "checkout_url": "https://buy.stripe.com/network_monthly"
+      }
+    },
+    "subdomain_hunter": {
+      "name": "EdgeIQ Subdomain Hunter Pro",
+      "product_id": "prod_UOY8ZU6eM1jKvp",
+      "lifetime": {
+        "price_id": "price_1TQ8PhRC1NZ20yDTVMRll7Ws",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "subdomain_lifetime",
+        "checkout_url": "https://buy.stripe.com/subdomain_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QHRC1NZ20yDTJcMud07w",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "subdomain_monthly",
+        "checkout_url": "https://buy.stripe.com/subdomain_monthly"
+      }
+    },
+    "ssl_watcher": {
+      "name": "EdgeIQ SSL Watcher Pro",
+      "product_id": "prod_UO9SIrCd24ARwD",
+      "lifetime": {
+        "price_id": "price_1TQ8PiRC1NZ20yDTBVdYKpft",
+        "amount": 2500,
+        "currency": "usd",
+        "lookup_key": "ssl_lifetime",
+        "checkout_url": "https://buy.stripe.com/ssl_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QHRC1NZ20yDT7GQy34Ei",
+        "amount": 500,
+        "currency": "usd",
+        "lookup_key": "ssl_monthly",
+        "checkout_url": "https://buy.stripe.com/ssl_monthly"
+      }
+    },
+    "sql_injection_scanner": {
+      "name": "EdgeIQ SQL Injection Scanner Pro",
+      "product_id": "prod_UOYCHfFQG4Tz94",
+      "lifetime": {
+        "price_id": "price_1TQ8PiRC1NZ20yDTYhM4HhpS",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "sql_lifetime",
+        "checkout_url": "https://buy.stripe.com/sql_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QHRC1NZ20yDTrI6hzpVQ",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "sql_monthly",
+        "checkout_url": "https://buy.stripe.com/sql_monthly"
+      }
+    },
+    "oauth_security_checker": {
+      "name": "EdgeIQ OAuth Security Checker Pro",
+      "product_id": "prod_UOwH4PYIlbA75f",
+      "lifetime": {
+        "price_id": "price_1TQ8PiRC1NZ20yDTapotncUw",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "oauth_lifetime",
+        "checkout_url": "https://buy.stripe.com/oauth_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QIRC1NZ20yDTZEo2MvdD",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "oauth_monthly",
+        "checkout_url": "https://buy.stripe.com/oauth_monthly"
+      }
+    },
+    "dark_web_credential_checker": {
+      "name": "EdgeIQ Dark Web Credential Checker Pro",
+      "product_id": "prod_UOwHBn1booqX8v",
+      "lifetime": {
+        "price_id": "price_1TQ8PjRC1NZ20yDT0NjAssWb",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "darkweb_lifetime",
+        "checkout_url": "https://buy.stripe.com/darkweb_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QIRC1NZ20yDTWRsu6u4h",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "darkweb_monthly",
+        "checkout_url": "https://buy.stripe.com/darkweb_monthly"
+      }
+    },
+    "malware_signature_scanner": {
+      "name": "EdgeIQ Malware Signature Scanner Pro",
+      "product_id": "prod_UOZXslM4obHoCp",
+      "lifetime": {
+        "price_id": "price_1TQ8PjRC1NZ20yDTBhhYGmhU",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "malware_lifetime",
+        "checkout_url": "https://buy.stripe.com/malware_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QIRC1NZ20yDT6O4Ar3rI",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "malware_monthly",
+        "checkout_url": "https://buy.stripe.com/malware_monthly"
+      }
+    },
+    "email_header_analyzer": {
+      "name": "EdgeIQ Email Header Analyzer Pro",
+      "product_id": "prod_UOZXGdLXqc47gi",
+      "lifetime": {
+        "price_id": "price_1TQ8PjRC1NZ20yDTOU5lkjtd",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "email_lifetime",
+        "checkout_url": "https://buy.stripe.com/email_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QJRC1NZ20yDTkWqeKXvp",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "email_monthly",
+        "checkout_url": "https://buy.stripe.com/email_monthly"
+      }
+    },
+    "phishing_kit_detector": {
+      "name": "EdgeIQ Phishing Kit Detector Pro",
+      "product_id": "prod_UOZXSTcEKo75zf",
+      "lifetime": {
+        "price_id": "price_1TQ8PkRC1NZ20yDTyY091PLj",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "phishing_lifetime",
+        "checkout_url": "https://buy.stripe.com/phishing_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QJRC1NZ20yDTFluo2ldT",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "phishing_monthly",
+        "checkout_url": "https://buy.stripe.com/phishing_monthly"
+      }
+    },
+    "api_endpoint_discovery": {
+      "name": "EdgeIQ API Endpoint Discovery Pro",
+      "product_id": "prod_UOZdEcEf2aHH3d",
+      "lifetime": {
+        "price_id": "price_1TQ8PkRC1NZ20yDT4sDW9JNb",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "api_lifetime",
+        "checkout_url": "https://buy.stripe.com/api_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QJRC1NZ20yDTD9Rno8Md",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "api_monthly",
+        "checkout_url": "https://buy.stripe.com/api_monthly"
+      }
+    },
+    "lead_researcher": {
+      "name": "EdgeIQ Lead Researcher Pro",
+      "product_id": "prod_UOBgiDEyM8yqIN",
+      "lifetime": {
+        "price_id": "price_1TQ8PkRC1NZ20yDTLj5Dx6Rl",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "lead_lifetime",
+        "checkout_url": "https://buy.stripe.com/lead_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QJRC1NZ20yDTnGI6flWe",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "lead_monthly",
+        "checkout_url": "https://buy.stripe.com/lead_monthly"
+      }
+    },
+    "business_listing_aggregator": {
+      "name": "EdgeIQ Business Listing Aggregator Pro",
+      "product_id": "prod_UOBhMcY3cqtyJa",
+      "lifetime": {
+        "price_id": "price_1TQ8PkRC1NZ20yDTdAEWS3Mv",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "listing_lifetime",
+        "checkout_url": "https://buy.stripe.com/listing_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QKRC1NZ20yDTNEGH86NT",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "listing_monthly",
+        "checkout_url": "https://buy.stripe.com/listing_monthly"
+      }
+    },
+    "security_report_generator": {
+      "name": "EdgeIQ Security Report Generator Pro",
+      "product_id": "prod_UOFZbujJsgwJuX",
+      "lifetime": {
+        "price_id": "price_1TQ8PlRC1NZ20yDT9n7JJ2JB",
+        "amount": 3900,
+        "currency": "usd",
+        "lookup_key": "report_lifetime",
+        "checkout_url": "https://buy.stripe.com/report_lifetime"
+      },
+      "monthly": {
+        "price_id": "price_1TQ8QKRC1NZ20yDTrHchOUlG",
+        "amount": 700,
+        "currency": "usd",
+        "lookup_key": "report_monthly",
+        "checkout_url": "https://buy.stripe.com/report_monthly"
+      }
+    }
+  },
+  "created_at": "2026-04-25T15:44:00Z",
+  "stripe_mode": "live"
+}
