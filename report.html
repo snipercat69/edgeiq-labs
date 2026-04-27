@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security Report Generator — EdgeIQ Labs</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --bg2: #111827;
+      --bg3: #1a2235;
+      --accent: #00ff88;
+      --accent2: #7c3aed;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --border: #1e293b;
+      --card-bg: #111827;
+      --red: #ef4444;
+      --orange: #f97316;
+      --yellow: #eab308;
+      --green: #22c55e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(10,14,23,0.95);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .nav-brand img { height: 32px; width: 32px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { color: var(--text-dim); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+    .nav-cta {
+      background: var(--accent);
+      color: #000 !important;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .nav-cta:hover { background: #00e07a; text-decoration: none !important; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.4);
+      color: #a78bfa;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .hero-url {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    /* REPORT PREVIEW */
+    .report-preview {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 900px;
+      margin: 0 auto 64px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .report-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      padding: 48px 48px 40px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .report-cover::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .report-cover::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(0,255,136,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .report-cover-inner { position: relative; z-index: 1; }
+    .report-cover-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .report-cover-logo img { height: 48px; width: 48px; border-radius: 10px; }
+    .report-cover-logo span { font-weight: 700; font-size: 1.1rem; }
+    .report-title-block { margin-bottom: 24px; }
+    .report-title-block h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .report-title-block p { color: var(--text-dim); font-size: 0.9rem; }
+    .report-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .report-meta-item label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      margin-bottom: 3px;
+    }
+    .report-meta-item span {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .report-classification {
+      display: inline-block;
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #f87171;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    .report-sections {
+      padding: 32px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 640px) { .report-sections { grid-template-columns: 1fr; padding: 24px; } }
+    .report-sections h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    .severity-bars { display: flex; flex-direction: column; gap: 8px; }
+    .sev-row { display: flex; align-items: center; gap: 10px; }
+    .sev-label { width: 60px; font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+    .sev-bar { flex: 1; height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+    .sev-fill { height: 100%; border-radius: 4px; }
+    .sev-fill.critical { background: var(--red); }
+    .sev-fill.high { background: var(--orange); }
+    .sev-fill.medium { background: var(--yellow); }
+    .sev-fill.low { background: var(--green); }
+    .sev-count { font-size: 0.8rem; font-weight: 700; width: 20px; text-align: right; }
+    .finding-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .finding-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .finding-name { font-size: 0.88rem; font-weight: 600; }
+    .severity-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .severity-badge.critical { background: rgba(239,68,68,0.2); color: #f87171; }
+    .severity-badge.high { background: rgba(249,115,22,0.2); color: #fb923c; }
+    .severity-badge.medium { background: rgba(234,179,8,0.2); color: #facc15; }
+    .severity-badge.low { background: rgba(34,197,94,0.2); color: #4ade80; }
+    .finding-cvss { font-size: 0.75rem; color: var(--text-dim); }
+    .finding-cvss span { color: var(--text); font-weight: 600; }
+
+    /* WHAT'S INSIDE */
+    .whats-inside {
+      max-width: 900px;
+      margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+    .whats-inside h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .feature-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .feature-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-item p { font-size: 0.85rem; color: var(--text-dim); }
+
+    /* PRICING */
+    .pricing-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 72px 24px;
+    }
+    .pricing-section h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .pricing-section .subtitle {
+      text-align: center;
+      color: var(--text-dim);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0,255,136,0.1);
+      position: relative;
+    }
+    .pricing-card.featured::before {
+      content: 'Best Value';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pricing-tier { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pricing-price { font-size: 2.4rem; font-weight: 800; margin-bottom: 4px; }
+    .pricing-price .cents { font-size: 1rem; font-weight: 500; color: var(--text-dim); }
+    .pricing-per { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 20px; }
+    .pricing-features { list-style: none; flex: 1; margin-bottom: 24px; }
+    .pricing-features li {
+      font-size: 0.85rem;
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+    }
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .btn-stripe {
+      display: block;
+      text-align: center;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-stripe:hover { background: #00e07a; transform: translateY(-1px); text-decoration: none; }
+    .btn-stripe:hover { text-decoration: none; }
+
+    /* HOW IT WORKS */
+    .how-it-works {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+    .how-it-works h2 { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 40px; }
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,255,136,0.1);
+      border: 1px solid rgba(0,255,136,0.3);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .step-content p { font-size: 0.88rem; color: var(--text-dim); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      border-top: 1px solid rgba(124,58,237,0.3);
+      border-bottom: 1px solid rgba(124,58,237,0.3);
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .cta-banner h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-banner p { color: var(--text-dim); margin-bottom: 24px; font-size: 1rem; }
+    .cta-banner .btn-stripe { display: inline-block; padding: 14px 32px; font-size: 1rem; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .anim { animation: fadeInUp 0.5s ease forwards; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <img src="/logo-report.png" alt="EdgeIQ" onerror="this.style.display='none'">
+    <span>EdgeIQ Labs</span>
+  </div>
+  <div class="nav-links">
+    <a href="/">Free Scanners</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/snipercat69/edgeiq-scan-extension" target="_blank">Browser Extension</a>
+    <a href="https://github.com/snipercat69" target="_blank" class="nav-cta">View on GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🛡️ Pentest-Grade Reports</div>
+  <h1>Security reports a client will actually pay for</h1>
+  <p>Run a scan, generate a branded PDF with CVSS scoring, executive summary, and actionable remediation steps. The same quality as reports costing $200/month — for a fraction of the price.</p>
+  <div class="hero-url">✨ Reports start at <strong>$19</strong> · No subscription required</div>
+</section>
+
+<!-- Report Preview -->
+<div class="report-preview anim">
+  <div class="report-cover">
+    <div class="report-cover-inner">
+      <div class="report-cover-logo">
+        <img src="/logo-report.png" alt="EdgeIQ" onerror="this.parentElement.style.display='none'">
+        <span>EdgeIQ Labs</span>
+      </div>
+      <div class="report-title-block">
+        <h2>Penetration Test Report</h2>
+        <p>target: example.com &nbsp;·&nbsp; 2026-04-27 &nbsp;·&nbsp; Prepared by EdgeIQ Labs</p>
+      </div>
+      <div class="report-meta-grid">
+        <div class="report-meta-item"><label>Target</label><span>example.com</span></div>
+        <div class="report-meta-item"><label>Scan Date</label><span>2026-04-27</span></div>
+        <div class="report-meta-item"><label>Risk Score</label><span style="color:#f87171;font-weight:700;">7.4 / 10</span></div>
+        <div class="report-meta-item"><label>Classified</label><span class="report-classification">Confidential</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="report-sections">
+    <div>
+      <h3>Findings by Severity</h3>
+      <div class="severity-bars">
+        <div class="sev-row"><span class="sev-label">Critical</span><div class="sev-bar"><div class="sev-fill critical" style="width:25%"></div></div><span class="sev-count" style="color:#f87171">1</span></div>
+        <div class="sev-row"><span class="sev-label">High</span><div class="sev-bar"><div class="sev-fill high" style="width:50%"></div></div><span class="sev-count" style="color:#fb923c">2</span></div>
+        <div class="sev-row"><span class="sev-label">Medium</span><div class="sev-bar"><div class="sev-fill medium" style="width:75%"></div></div><span class="sev-count" style="color:#facc15">3</span></div>
+        <div class="sev-row"><span class="sev-label">Low</span><div class="sev-bar"><div class="sev-fill low" style="width:50%"></div></div><span class="sev-count" style="color:#4ade80">2</span></div>
+      </div>
+    </div>
+    <div>
+      <h3>Top Findings</h3>
+      <div class="finding-item">
+        <div class="finding-header">
+          <span class="finding-name">Reflected XSS in Search Parameter</span>
+          <span class="severity-badge critical">Critical</span>
+        </div>
+        <div class="finding-cvss">CVSS: <span>9.3 (CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H)</span></div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-header">
+          <span class="finding-name">Outdated TLS 1.0 / 1.1</span>
+          <span class="severity-badge high">High</span>
+        </div>
+        <div class="finding-cvss">CVSS: <span>7.4 (CVSS:3.1/AV:N/AC:H/UI:N/S:U/C:H/I:H/A:N)</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- What's Inside -->
+<div class="whats-inside">
+  <h2>Everything a professional report needs</h2>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <h3>🎨 Branded Cover Page</h3>
+      <p>Your logo, company name, classification label (Confidential/Internal), date and consultant name.</p>
+    </div>
+    <div class="feature-item">
+      <h3>📊 Executive Summary</h3>
+      <p>Non-technical overview with risk score, total findings, top issues, and recommended remediation timeline.</p>
+    </div>
+    <div class="feature-item">
+      <h3>🐞 Vulnerability Findings</h3>
+      <p>Each finding includes severity badge, CVSS score, full vector, evidence, business impact, and remediation steps.</p>
+    </div>
+    <div class="feature-item">
+      <h3>🔍 Technical Appendix</h3>
+      <p>Raw scan data, HTTP requests/responses, payload examples, and CVE/CWE references for auditors.</p>
+    </div>
+    <div class="feature-item">
+      <h3>⚡ Instant Download</h3>
+      <p>PDF generates immediately after payment. Delivered to your browser and emailed to you as a backup.</p>
+    </div>
+    <div class="feature-item">
+      <h3>🔒 Secure & Private</h3>
+      <p>PDF generation happens server-side. Your scan data is never stored or shared with third parties.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div class="pricing-section" id="pricing">
+  <h2>Simple, transparent pricing</h2>
+  <p class="subtitle">No subscription. No monthly fees. Pay only when you need a report.</p>
+  <div class="pricing-grid">
+    <!-- Single -->
+    <div class="pricing-card">
+      <div class="pricing-tier">Single Report</div>
+      <div class="pricing-price">$19</div>
+      <div class="pricing-per">One-time · instant PDF</div>
+      <ul class="pricing-features">
+        <li>1 branded PDF report</li>
+        <li>Cover page + logo</li>
+        <li>CVSS scoring</li>
+        <li>Executive summary</li>
+        <li>Raw scan appendix</li>
+        <li>Email receipt</li>
+      </ul>
+      <a href="https://buy.stripe.com/14A28t79V44ZaMk4ko7wA1p" target="_blank" class="btn-stripe">Buy Report — $19</a>
+    </div>
+    <!-- 5-pack -->
+    <div class="pricing-card featured">
+      <div class="pricing-tier">5 Reports</div>
+      <div class="pricing-price">$79</div>
+      <div class="pricing-per">$15.80/report · never expire</div>
+      <ul class="pricing-features">
+        <li>5 branded PDF reports</li>
+        <li>Cover page + logo</li>
+        <li>CVSS scoring</li>
+        <li>Executive summary</li>
+        <li>Raw scan appendix</li>
+        <li>Email receipts</li>
+      </ul>
+      <a href="https://buy.stripe.com/5kQdRb3XJ9pj6w4g367wA1q" target="_blank" class="btn-stripe">Buy 5 Reports — $79</a>
+    </div>
+    <!-- 10-pack -->
+    <div class="pricing-card">
+      <div class="pricing-tier">10 Reports</div>
+      <div class="pricing-price">$129</div>
+      <div class="pricing-per">$12.90/report · never expire</div>
+      <ul class="pricing-features">
+        <li>10 branded PDF reports</li>
+        <li>Cover page + logo</li>
+        <li>CVSS scoring</li>
+        <li>Executive summary</li>
+        <li>Raw scan appendix</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="https://buy.stripe.com/7sY00l51NcBvdYw3gk7wA1r" target="_blank" class="btn-stripe">Buy 10 Reports — $129</a>
+    </div>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="how-it-works">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Run your scan</h3>
+        <p>Use any EdgeIQ scanner — XSS, SSL, Subdomain, DNS, or CVE lookup. Copy the scan results (JSON or URL).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Generate your report</h3>
+        <p>Fill in your client name, target, consultant details, and paste the scan results. Preview what your PDF will look like.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Checkout with Stripe</h3>
+        <p>Select a package and pay securely via Stripe. Your payment is confirmed instantly — no account required.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Download your PDF</h3>
+        <p>PDF generates immediately and downloads to your browser. A copy is emailed to you as a backup receipt.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Ready to generate your first report?</h2>
+  <p>Join security consultants and pentesters who use EdgeIQ Reports for client deliverables.</p>
+  <a href="#pricing" class="btn-stripe">Get Started — from $19</a>
+</div>
+
+<footer>
+  <p style="margin-bottom:8px;">☕ If this saved you time, show some love: <a href="https://buy.stripe.com/fZu9AVgKvfNHaMkdUY7wA1m" target="_blank" rel="noopener" style="color:#00ff88;text-decoration:none;font-weight:600;">$3</a> · <a href="https://buy.stripe.com/cNiaEZdyjcBv3jScQU7wA1n" target="_blank" rel="noopener" style="color:#00ff88;text-decoration:none;font-weight:600;">$5</a> · <a href="https://buy.stripe.com/6oUaEZ1PB0SN8EcdUY7wA1o" target="_blank" rel="noopener" style="color:#00ff88;text-decoration:none;font-weight:600;">$10</a> — every tip helps keep these tools free.</p>
+  <p>© 2026 EdgeIQ Labs · <a href="https://github.com/snipercat69" target="_blank" rel="noopener">GitHub</a> · <a href="https://edgeiqlabs.com" target="_blank">edgeiqlabs.com</a></p>
+</footer>
+
+</body>
+</html>
