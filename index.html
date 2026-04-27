@@ -32,17 +32,17 @@
       backdrop-filter: blur(6px);
       z-index: 10;
     }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; flex-wrap: wrap; }
     .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
     .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
     .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
     .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
     .nav-brand-name span { color: var(--accent); }
     .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
-    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
     .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 7px 14px !important; border-radius: 8px !important; white-space: nowrap; flex-shrink: 0; }
     .nav-cta:hover { opacity: 0.88; }
 
     .hero { padding: 72px 0 50px; text-align: center; }
@@ -361,6 +361,7 @@
           <button class="scan-tab active" onclick="showScannerTab('ssl')" id="tab-btn-ssl">🔒 SSL Checker</button>
           <button class="scan-tab" onclick="showScannerTab('headers')" id="tab-btn-headers">📡 Headers Analyzer</button>
           <button class="scan-tab" onclick="showScannerTab('xss')" id="tab-btn-xss">💉 XSS Quick Scan</button>
+          <button class="scan-tab" onclick="showScannerTab('sub')" id="tab-btn-sub">🔗 Subdomains</button>
         </div>
         <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
@@ -481,6 +482,45 @@
           </div>
           <div id="xss-quick-error" class="scan-error" style="display:none;">
             <p id="xss-quick-error-msg">Something went wrong. Please try again.</p>
+          </div>
+        </div>
+
+        <!-- Subdomain Hunter — Free Tool #4 -->
+        <div id="sub-panel" class="scan-panel" style="display:none;">
+          <form id="sub-scan-form" class="scan-form">
+            <div class="scan-input-row">
+              <input
+                type="text"
+                id="sub-domain"
+                name="domain"
+                placeholder="example.com"
+                required
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="submit" class="btn btn-primary scan-btn" id="sub-scan-submit">
+                <span id="sub-label">Find Subdomains</span>
+                <span id="sub-loading" style="display:none;">Scanning...</span>
+              </button>
+            </div>
+            <p class="scan-note">Free scan — no account required · Uses Certificate Transparency logs</p>
+          </form>
+          <div id="sub-results" class="scan-results" style="display:none;">
+            <div class="scan-grade-wrap">
+              <div class="scan-grade" id="sub-count-badge">?</div>
+              <div class="scan-grade-info">
+                <h3 id="sub-domain-display">example.com</h3>
+                <p id="sub-summary">Loading...</p>
+              </div>
+            </div>
+            <div class="headers-findings" id="sub-findings"></div>
+            <div class="scan-cta" id="sub-cta">
+              <p>Want takeover detection, DNS zone transfer checks, and daily monitoring?</p>
+              <a href="https://clawhub.ai/snipercat69/edgeiq-subdomain-hunter" target="_blank" class="btn btn-primary">Get Subdomain Hunter Pro →</a>
+            </div>
+          </div>
+          <div id="sub-error" class="scan-error" style="display:none;">
+            <p id="sub-error-msg">Something went wrong. Please try again.</p>
           </div>
         </div>
       </div>
@@ -1168,15 +1208,15 @@
   // Tab switching
   window.showScannerTab = function(tab) {
     // Panel + form IDs for each tab
-    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel' };
-    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form' };
-    var tabs = ['ssl', 'headers', 'xss'];
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form' };
+    var tabs = ['ssl', 'headers', 'xss', 'sub'];
 
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
       var form  = document.getElementById(formMap[t]);
-      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : 'xss-quick-results');
-      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : 'xss-quick-error');
+      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : 'sub-results'));
+      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : 'sub-error'));
       var r = document.getElementById(resultsId);
       var e = document.getElementById(errId);
       var tabBtn = document.getElementById('tab-btn-' + t);
@@ -1385,6 +1425,80 @@
         results.style.display = 'block';
       } catch(err) {
         document.getElementById('xss-quick-error-msg').textContent = 'Scan failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
+
+  // Subdomain Hunter
+  var subForm = document.getElementById('sub-scan-form');
+  if (subForm) {
+    subForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var domain = document.getElementById('sub-domain').value.trim();
+      if (!domain) return;
+      var btn = document.getElementById('sub-scan-submit');
+      var lbl = document.getElementById('sub-label');
+      var ldg = document.getElementById('sub-loading');
+      var results = document.getElementById('sub-results');
+      var errDiv = document.getElementById('sub-error');
+
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+
+      try {
+        var resp = await fetch('https://edgeiq-subdomain-hunter.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ domain: domain })
+        });
+
+        if (!resp.ok) throw new Error('Scan failed (status ' + resp.status + ')');
+
+        var data = await resp.json();
+
+        document.getElementById('sub-domain-display').textContent = domain;
+        document.getElementById('sub-count-badge').textContent = data.total || 0;
+        document.getElementById('sub-count-badge').className = 'scan-grade';
+        document.getElementById('sub-summary').textContent =
+          (data.total || 0) + ' subdomain' + (data.total !== 1 ? 's' : '') + ' found via Certificate Transparency';
+
+        var findingsEl = document.getElementById('sub-findings');
+        findingsEl.innerHTML = '';
+
+        if (data.error) {
+          var errP = document.createElement('p');
+          errP.style.color = '#ff6b81';
+          errP.textContent = 'Error: ' + data.error;
+          findingsEl.appendChild(errP);
+        } else if (data.subdomains && data.subdomains.length > 0) {
+          data.subdomains.slice(0, 50).forEach(function(sub) {
+            var div = document.createElement('div');
+            div.className = 'finding info';
+            div.style.fontSize = '0.85rem';
+            div.innerHTML = '<span class="finding-icon">🔗</span><span style="word-break:break-all;">' + sub.subdomain + '</span>';
+            findingsEl.appendChild(div);
+          });
+          if (data.subdomains.length > 50) {
+            var more = document.createElement('div');
+            more.className = 'finding info';
+            more.innerHTML = '<span class="finding-icon">ℹ️</span><span>...and ' + (data.subdomains.length - 50) + ' more. Upgrade to Pro for full results.</span>';
+            findingsEl.appendChild(more);
+          }
+        } else {
+          var div = document.createElement('div');
+          div.className = 'finding info';
+          div.innerHTML = '<span class="finding-icon">✅</span><span>No subdomains found for ' + domain + '. Try a different domain.</span>';
+          findingsEl.appendChild(div);
+        }
+
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('sub-error-msg').textContent = 'Scan failed: ' + err.message;
         errDiv.style.display = 'block';
       } finally {
         lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
