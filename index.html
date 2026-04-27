@@ -130,6 +130,24 @@
 
     section { padding: 42px 0; }
     h2 { font-size: 1.5rem; margin-bottom: 12px; }
+    /* ── Scroll-triggered animations ── */
+    .anim-card {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .anim-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .anim-card:nth-child(1) { transition-delay: 0ms; }
+    .anim-card:nth-child(2) { transition-delay: 80ms; }
+    .anim-card:nth-child(3) { transition-delay: 160ms; }
+    .anim-card:nth-child(4) { transition-delay: 240ms; }
+    .anim-card:nth-child(5) { transition-delay: 320ms; }
+    .anim-card:nth-child(6) { transition-delay: 400ms; }
+    .anim-card:nth-child(n+7) { transition-delay: 480ms; }
+
     .section-sub { color: var(--muted); margin-bottom: 22px; }
 
     .grid { display: grid; gap: 16px; }
@@ -161,6 +179,8 @@
     .note a { color: var(--accent); text-decoration: none; }
 
     .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+    .anim-card.catalog-card { cursor: pointer; }
+    .anim-card.catalog-card:hover { border-color: var(--accent); transform: translateY(-3px); }
     .skill-tag {
       display: inline-block;
       border: 1px solid var(--border);
@@ -576,42 +596,42 @@
       <h2>What we offer</h2>
       <p class="section-sub">Security and OSINT tools, managed services, and automation infrastructure — built to work from day one.</p>
       <div class="grid grid-3">
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔍 Security Scanner Suite</h3>
           <p>XSS, SQL injection, OAuth, phishing kit, and malware scanning. Real payloads, real findings. All tools run standalone from any terminal — no OpenClaw required.</p>
           <a href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🌐 Network &amp; Reconnaissance</h3>
           <p>Deep port scanning, CVE matching, subdomain enumeration, SSL/TLS analysis, and API endpoint discovery. For internal networks, external attack surfaces, and asset inventories.</p>
           <a href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔒 Dark Web &amp; Credential Monitoring</h3>
           <p>Breach monitoring, dark web exposure checks, email header forensics, and spoofing detection. Know what's been exposed before someone else does.</p>
           <a href="https://clawhub.ai/snipercat69/dark-web-credential-checker" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>📡 Lead &amp; Business Intelligence</h3>
           <p>Company enrichment, business listing audits, competitor price monitoring, and market research. Data delivered in CSV, JSON, or Excel.</p>
           <a href="https://clawhub.ai/snipercat69/edgeiq-lead-researcher" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>📈 Automation &amp; Alerting Infrastructure</h3>
           <p>Alert routing to Slack, Telegram, Discord, and email. Scheduled reporting, security digest generation, and client dashboards. The connective tissue for every monitoring stack.</p>
           <a href="https://clawhub.ai/snipercat69/edgeiq-alerting-system" target="_blank" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">View on ClawHub →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>⚙️ Security Automation &amp; Integration</h3>
           <p>Remote VPS installs, integrations, automations, and hands-on configuration for individuals and teams. Python, bash, cron, Cloudflare Workers — ready to work on day one.</p>
           <a href="#pricing" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">See Plans →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🤖 Custom Bot &amp; Workflow Development</h3>
           <p>Community bots, alert systems, moderation helpers, and business process automation. Fast delivery, ongoing maintenance.</p>
           <a href="#request" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>📊 Data Extraction &amp; Reporting</h3>
           <p>Structured extraction from public sources, automated reports delivered on schedule, and spreadsheet wrangling. Clean data, no fluff.</p>
           <a href="#request" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
@@ -628,7 +648,7 @@
       <p class="section-sub">All tools available as a one-time lifetime purchase. No recurring fees, no cancellations, no surprises. Optional lower monthly plan if you prefer to rent.</p>
       <div class="pricing">
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔍 XSS Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/14AfZjcuf30V8Ec4ko7wA0O" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -642,7 +662,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🌐 Network Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/bJe00ldyjdFz1bK6sw7wA0V" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $49</a>
@@ -656,7 +676,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🎯 Subdomain Hunter Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/5kQdRbbqbfNHf2A7wA7wA0S" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -670,7 +690,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔒 SSL Watcher Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/8x23cxfGratng6E4ko7wA0T" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $25</a>
@@ -684,7 +704,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>💉 SQL Injection Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/fZu5kF51NgRL07G2cg7wA10" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -698,7 +718,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔐 OAuth Security Checker Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/3cI28t2TFdFz7A88AE7wA0P" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -712,7 +732,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🕳️ Dark Web Credential Checker Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/28EbJ31PBcBv1bK7wA7wA0U" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -726,7 +746,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🦠 Malware Signature Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/dRmbJ3dyjdFz7A86sw7wA0Q" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -740,7 +760,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>📧 Email Header Analyzer Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/5kQ9AV65RfNHbQobMQ7wA0R" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -754,7 +774,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🎣 Phishing Kit Detector Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/9B6fZjdyjfNH1bK8AE7wA0Y" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -768,7 +788,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔎 API Endpoint Discovery Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/6oU6oJam76d75s05os7wA0Z" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -782,7 +802,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>📡 Lead Researcher Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/8x25kF3XJeJD07GbMQ7wA0X" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -796,7 +816,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🏪 Business Listing Aggregator Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/7sYcN79i3fNHaMkg367wA0N" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -810,7 +830,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>📄 Security Report Generator Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/3cI8wR51N6d7g6EdUY7wA0W" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
@@ -829,7 +849,7 @@
       <p class="section-sub" style="margin-bottom:16px;">These tools require ongoing server infrastructure — lifetime option not available.</p>
       <div class="pricing">
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔔 Alerting System Pro</h3>
           <div class="price">$9 <span>/month</span></div>
           <ul>
@@ -843,7 +863,7 @@
             <a href="https://clawhub.ai/snipercat69/edgeiq-alerting-system" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:0.8rem;">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>📈 Market Watch Bot Pro</h3>
           <div class="price">$19 <span>/month</span></div>
           <ul>
@@ -857,7 +877,7 @@
             <a href="https://clawhub.ai/snipercat69/edgeiq-market-watch-bot" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:0.8rem;">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🏷️ Competitor Price Intelligence Pro</h3>
           <div class="price">$19 <span>/month</span></div>
           <ul>
@@ -878,7 +898,7 @@
       <p class="section-sub" style="margin-bottom:16px;">Remote and VPS OpenClaw installs. One-time setup with optional ongoing managed service.</p>
       <div class="pricing">
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🦞 OpenClaw Starter</h3>
           <div class="price">$99 <span>/one-time</span></div>
           <ul>
@@ -891,7 +911,7 @@
             <a href="#contact" class="btn btn-secondary" style="font-size:0.8rem;">Ask a Question</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🦞 OpenClaw Pro Setup</h3>
           <div class="price">$249 <span>/one-time</span></div>
           <ul>
@@ -905,7 +925,7 @@
             <a href="#contact" class="btn btn-secondary" style="font-size:0.8rem;">Custom Scope</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🦞 OpenClaw Managed</h3>
           <div class="price">$49 <span>/month</span></div>
           <ul>
@@ -927,7 +947,7 @@
       <h2>Skills Catalog</h2>
       <p class="section-sub">All EdgeIQ tools available on ClawHub. Download and run from any terminal — no server or subscription required to start.</p>
       <div class="catalog-grid">
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>XSS Scanner</h3>
           <p>40+ payloads, WAF bypass, blind XSS detection, screenshot evidence.</p>
@@ -935,7 +955,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-xss-scanner" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Network Scanner</h3>
           <p>Deep port scanning, CVE matching, OS fingerprinting, traceroute.</p>
@@ -943,7 +963,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-network-scanner" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>SSL &amp; Domain Watcher</h3>
           <p>SSL health, security headers, WHOIS expiry tracking, port scanning.</p>
@@ -951,7 +971,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/ssl-watcher" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Subdomain Hunter</h3>
           <p>Certificate Transparency logs, DNS zone transfers, takeover detection.</p>
@@ -959,7 +979,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-subdomain-hunter" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>SQL Injection Scanner</h3>
           <p>Boolean blind, time-based blind, and UNION SELECT injection detection.</p>
@@ -967,7 +987,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-sql-injection-scanner" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>OAuth Security Checker</h3>
           <p>Redirect URI flaws, state/CSRF issues, PKCE, implicit flow risks.</p>
@@ -975,7 +995,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-oauth-security-checker" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Dark Web Credential Checker</h3>
           <p>Breach exposure checks, password hash detection, full reports.</p>
@@ -983,7 +1003,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/dark-web-credential-checker" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Malware Signature Scanner</h3>
           <p>YARA pattern matching, PE header analysis, entropy, C2 indicators.</p>
@@ -991,7 +1011,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-malware-signature-scanner" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Email Header Analyzer</h3>
           <p>SPF/DKIM/DMARC failures, spoofing detection, forensic routing.</p>
@@ -999,7 +1019,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-email-header-analyzer" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Phishing Kit Detector</h3>
           <p>Brand impersonation, credential harvest endpoints, suspicious JS.</p>
@@ -1007,7 +1027,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-phishing-kit-detector" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>API Endpoint Discovery</h3>
           <p>Passive OSINT + active brute-forcing. Map any API's attack surface.</p>
@@ -1015,7 +1035,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-api-endpoint-discovery" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Lead Researcher</h3>
           <p>Company profiles: tech stack, industry, size, social links, news.</p>
@@ -1023,7 +1043,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-lead-researcher" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Business Listing Aggregator</h3>
           <p>Google Maps, Yelp, BBB, Facebook, Apple Maps — audit all in one place.</p>
@@ -1031,7 +1051,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-business-listing-aggregator" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Alerting System</h3>
           <p>Routing to Slack, Telegram, Discord, email. Deduplication, rate limiting.</p>
@@ -1039,7 +1059,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-alerting-system" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Security Report Generator</h3>
           <p>Branded PDF/HTML digest from XSS, Network, and SSL scan results.</p>
@@ -1047,7 +1067,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-security-report-generator" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Market Watch Bot</h3>
           <p>Crypto market monitoring, funding rates, Bollinger bands, Telegram alerts.</p>
@@ -1055,7 +1075,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-market-watch-bot" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Competitor Price Intelligence</h3>
           <p>Monitor public product pages for price, availability, listing changes.</p>
@@ -1063,7 +1083,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-competitor-price-intelligence" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Live</span>
           <h3>Client Dashboard</h3>
           <p>Per-customer scan history, SSL timelines, risk scores, self-serve reports.</p>
@@ -1071,7 +1091,7 @@
             <a class="btn btn-secondary" href="https://clawhub.ai/snipercat69/edgeiq-client-dashboard" target="_blank" rel="noopener">View on ClawHub →</a>
           </div>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <span class="skill-tag">Coming Soon</span>
           <h3>CVE Match Assistant</h3>
           <p>Service fingerprint to CVE matching and monthly risk summaries.</p>
@@ -1083,61 +1103,61 @@
       <h2>Micro-SaaS Products</h2>
       <p class="section-sub">Standalone subscription tools — each solving one problem, built on top of our existing infrastructure.</p>
       <div class="grid grid-3">
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔗 Data Enrichment API</h3>
           <p>Developer API for enriching company and contact data from email, domain, or phone. Returns tech stack, social links, employee count, funding info, and more — perfect for CRMs and lead pipelines. Free tier: 50 calls/mo. Pro: 5,000 calls/mo.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$19/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/data-enrichment-api" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/6oUeVf8dZ9pj8EccQU7wA0q" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔔 sub.alerts</h3>
           <p>Monitor your domains via Certificate Transparency logs. Get daily or weekly email digests when new subdomains appear or disappear. Built on Subdomain Hunter infrastructure. Free tier: 1 domain, weekly. Pro: 10 domains, daily alerts, webhooks.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$5/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/sub-alerts" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/cNi00lam7gRL7A88AE7wA0r" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🌐 Domain Expiry Monitor</h3>
           <p>WHOIS-based domain registration expiry tracking. Know when your domains expire before they do. Color-coded urgency, registrar info, and email alerts. Free tier: 3 domains. Pro: 10 domains, full WHOIS data, daily expiry alerts.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$5/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/domain-expiry" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/6oUbJ3eCn8lfbQocQU7wA0s" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔍 leak.scan</h3>
           <p>Personal data breach exposure scanner covering email, phone, address, SSN fragments, DOB, and national IDs. Deterministic results so scans are consistent. Free tier: 3 scans/mo. Pro: unlimited scans, full exposure report, breach source list.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$5/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/leak-scan" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/cNi00lgKv6d76w46sw7wA0t" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>📸 Screenshot API</h3>
           <p>Capture PNG/JPEG screenshots of any URL via API. Built on Playwright. Free tier: 100 screenshots/mo with fixed dimensions. Pro: 2000/mo, full-page capture, custom viewport sizes, and wait_for JS selector support.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$19/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/screenshot-api" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/00w28tam730V7A89EI7wA0u" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🛡️ headers.check</h3>
           <p>HTTP security headers scanner — analyzes HSTS, CSP, X-Frame-Options, and more. Get an A-F security grade with detailed breakdown. Free tier: 20 scans/day. Pro: unlimited scans + detailed remediation guide.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$5/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/headers-check" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/bJedRb8dZeJD9Ig0487wA0w" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>⏱️ uptime.check</h3>
           <p>URL uptime monitoring with email and webhook alerts. Checks if your sites stay up with HTTP HEAD requests. Free tier: 3 monitors, daily checks. Pro: 20 monitors, 5-minute checks, webhook alerts, and 90-day history.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$5/mo Pro</strong> · <a href="https://clawhub.ai/snipercat69/uptime-check" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
           <a href="https://buy.stripe.com/fZu00l8dZbxrbQo0487wA0v" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🗺️ SurfaceMap — Live Now</h3>
           <p>Automated API attack surface mapping and continuous monitoring. Tracks your exposed API endpoints over time, alerts on new exposures, and grades your API security posture. Built on our API Endpoint Discovery infrastructure.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$19/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
           <a href="https://buy.stripe.com/8x25kF51Natn1bKcQU7wA1f" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Now →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>🛡️ BrandGuard — Live Now</h3>
           <p>Monitor the web for brand impersonation, phishing kits using your brand assets, and lookalike domains. Get alerts when your brand is being cloned or used in fraud campaigns. Built on our Phishing Kit Detector infrastructure.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$14/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
           <a href="https://buy.stripe.com/14A5kFeCnfNHdYw3gk7wA1g" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Now →</a>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>💳 FraudCheck — Live Now</h3>
           <p>Analyze any URL or domain for checkout scam indicators before your customers get burned. Detects fraudulent payment pages, brand impersonation, and scam infrastructure. Built on phishing kit detection + dark web intelligence.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$9/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
@@ -1145,21 +1165,21 @@
         </article>
 
         <!-- NEW: Cert Alert, Subdomain Takeover, Secrets Scan -->
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔐 Cert Alert — Live Now</h3>
           <p>SSL certificate expiration monitoring. Tracks your certs, alerts 30/7/1 day before expiry, and flags revoked or unexpectedly reissued certificates. Built on Certificate Transparency logs.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$9/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
           <a href="https://buy.stripe.com/eVqdRbcuf9pj1bKcQU7wA1k" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Now →</a>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🕳️ Subdomain Takeover Scanner — Live Now</h3>
           <p>Automated dangling DNS detection. Finds expired cloud resources (AWS S3, GitHub Pages, Heroku, Azure, Netlify, Vercel) that attackers can hijack to take over your subdomains.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$14/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
           <a href="https://buy.stripe.com/aFa5kFgKvcBv9IgeZ27wA1i" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Now →</a>
         </article>
 
-        <article class="card">
+        <article class="card anim-card">
           <h3>🔑 Secrets Scan — Live Now</h3>
           <p>API key exposure detector. Scans URLs and public GitHub repos for exposed AWS keys, GitHub tokens, Stripe keys, JWTs, private keys, and more. Reports findings without storing actual secrets.</p>
           <p style="margin-top:8px;"><strong style="color:var(--accent)">$12/mo Pro</strong> · <span style="color:#00c853;font-size:0.82rem;">● Live</span></p>
@@ -1172,7 +1192,7 @@
       <h2>Roadmap</h2>
       <p class="section-sub">What’s shipping now and what’s next.</p>
       <div class="roadmap-grid">
-        <article class="card">
+        <article class="card anim-card">
           <h3>Now</h3>
           <ul>
             <li>XSS Scanner live on ClawHub</li>
@@ -1189,7 +1209,7 @@
             <li>Stripe plans and bundle checkout live</li>
           </ul>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>Next</h3>
           <ul>
             <li>Subdomain Hunter</li>
@@ -1199,7 +1219,7 @@
             <li>Client onboarding helper skill</li>
           </ul>
         </article>
-        <article class="card">
+        <article class="card anim-card">
           <h3>Spoiler</h3>
           <ul>
             <li><span class="spoiler">YouTube channel is coming soon 👀</span></li>
@@ -1613,6 +1633,20 @@
       counter.textContent = base.toLocaleString();
     }, 4000);
   }
+
+  // ── Scroll-triggered card animations ───────────────────────────────────
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.anim-card').forEach(function(card) {
+    observer.observe(card);
+  });
 })();
 </script>
 </body>
