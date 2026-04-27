@@ -46,33 +46,68 @@
     .nav-cta:hover { opacity: 0.88; }
 
     .hero { padding: 72px 0 50px; text-align: center; }
-    .badge {
+    .hero-terminal {
+      max-width: 600px;
+      margin: 28px auto 0;
+      background: #0a1018;
+      border: 1px solid #1e3050;
+      border-radius: 12px;
+      padding: 22px 28px;
+      text-align: left;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88rem;
+      color: #5aaa7a;
+      line-height: 1.8;
+      box-shadow: 0 0 32px rgba(61,217,255,0.06), 0 2px 12px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-terminal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #3dd9ff22, transparent);
+    }
+    .terminal-line { display: flex; gap: 10px; }
+    .terminal-prompt { color: #3dd9ff; flex-shrink: 0; }
+    .terminal-output { color: #7ab8a0; }
+    .terminal-cursor {
       display: inline-block;
-      border: 1px solid #244058;
-      background: #102030;
+      width: 8px; height: 14px;
+      background: #3dd9ff;
+      animation: blink 1.1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .scan-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+    .scan-counter-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--ok);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+    #live-counter {
+      font-variant-numeric: tabular-nums;
       color: var(--accent);
-      font-size: 0.78rem;
-      border-radius: 999px;
-      padding: 6px 12px;
-      margin-bottom: 16px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
     }
-    .badge-new {
-      background: #1a3a2a;
-      border-color: #2d6e4f;
-      color: #70f0a8;
-      display: inline-block;
-      border: 1px solid #2d6e4f;
-      font-size: 0.78rem;
-      border-radius: 999px;
-      padding: 6px 12px;
-      margin-bottom: 16px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
+    .hero-terminal .ok { color: #70f0a8; }
+    .hero-terminal .warn { color: #ffc400; }
+    .hero-terminal .fail { color: #ff5252; }
+    .hero-terminal .dim { color: #3d6080; }
+    .hero-badge-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .hero-badge-row .badge { margin-bottom: 0; }
+    .scan-counter { display: block; margin-top: 14px; }
     .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
     .service-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
     .service-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
@@ -341,7 +376,10 @@
 
   <main class="container">
     <section class="hero">
-      <div class="badge badge-new">New</div>
+      <div class="hero-badge-row">
+        <span class="badge badge-new">New</span>
+        <span class="badge" style="background:#0f2535;border-color:#1e4060;color:#7ab8d0;">✨ Subdomain Scanner Now Live</span>
+      </div>
       <h1>Security Intelligence, Beautifully Automated</h1>
       <p>
         EdgeIQ Labs provides professional-grade security tools and business intelligence for penetration testers and small business teams.
@@ -350,6 +388,15 @@
       </p>
       <a class="btn btn-primary" href="#skills">View All Skills</a>
       <a class="btn btn-secondary" href="https://discord.gg/PaP7nsFUJT" target="_blank" rel="noopener">Talk to Support</a>
+
+      <div class="hero-terminal" id="hero-terminal">
+        <div class="terminal-line"><span class="terminal-prompt">›</span><span class="terminal-output" id="terminal-line-1"></span><span class="terminal-cursor"></span></div>
+      </div>
+
+      <div class="scan-counter">
+        <span class="scan-counter-dot"></span>
+        <span><span id="live-counter">142,847</span> scans completed</span>
+      </div>
     </section>
 
     <section id="scanner">
@@ -1503,6 +1550,68 @@
         lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
       }
     });
+  }
+})();
+
+// ── Animated Hero Terminal ──────────────────────────────────────────────────
+(function() {
+  var lines = [
+    { delay: 0,    text: '> scanning edgeiqlabs.com...' },
+    { delay: 600,  text: 'SSL Certificate    <span class="ok">✅ Valid — A+</span>' },
+    { delay: 1100, text: 'TLS Version        <span class="ok">✅ TLS 1.3</span>' },
+    { delay: 1600, text: 'Security Headers   <span class="warn">⚠ 7/8 — X-Frame missing</span>' },
+    { delay: 2100, text: 'XSS Posture        <span class="ok">✅ No reflected params</span>' },
+    { delay: 2600, text: 'Subdomain Enum     <span class="ok">✅ 12 exposed subdomains</span>' },
+    { delay: 3000, text: 'Threats Detected   <span class="ok">✅ 0 critical</span>' },
+  ];
+
+  var el = document.getElementById('terminal-line-1');
+  if (!el) return;
+
+  var output = document.createElement('span');
+  el.appendChild(output);
+
+  var html = '';
+  var charIdx = 0;
+  var lineIdx = 0;
+
+  function typeNextChar() {
+    if (lineIdx >= lines.length) return;
+    var line = lines[lineIdx];
+    if (charIdx < line.text.length) {
+      // handle HTML tags inline — don't split them
+      var remaining = line.text.substring(charIdx);
+      var tagMatch = remaining.match(/^<[^>]+>/);
+      if (tagMatch) {
+        html += tagMatch[0];
+        charIdx += tagMatch[0].length;
+      } else {
+        html += line.text[charIdx];
+        charIdx++;
+      }
+      output.innerHTML = html;
+      setTimeout(typeNextChar, 18);
+    } else {
+      lineIdx++;
+      charIdx = 0;
+      if (lineIdx < lines.length) {
+        html += '<br>';
+        output.innerHTML = html;
+        setTimeout(typeNextChar, lines[lineIdx].delay - line.delay - line.text.length * 18);
+      }
+    }
+  }
+
+  setTimeout(typeNextChar, 400);
+
+  // ── Live scan counter ───────────────────────────────────────────────────
+  var counter = document.getElementById('live-counter');
+  if (counter) {
+    var base = 142847;
+    setInterval(function() {
+      base += Math.floor(Math.random() * 3) + 1;
+      counter.textContent = base.toLocaleString();
+    }, 4000);
   }
 })();
 </script>
