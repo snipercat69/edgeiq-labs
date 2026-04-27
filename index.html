@@ -428,6 +428,7 @@
           <button class="scan-tab" onclick="showScannerTab('headers')" id="tab-btn-headers">📡 Headers Analyzer</button>
           <button class="scan-tab" onclick="showScannerTab('xss')" id="tab-btn-xss">💉 XSS Quick Scan</button>
           <button class="scan-tab" onclick="showScannerTab('sub')" id="tab-btn-sub">🔗 Subdomains</button>
+          <button class="scan-tab" onclick="showScannerTab('dns')" id="tab-btn-dns">🌐 DNS Lookup</button>
         </div>
         <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
@@ -591,6 +592,29 @@
         </div>
       </div>
     </section>
+
+    <!-- DNS Lookup — Free Tool #5 -->
+    <div id="dns-panel" class="scan-panel" style="display:none;">
+      <form id="dns-scan-form" class="scan-form">
+        <div class="scan-input-row">
+          <input
+            type="text"
+            id="dns-domain"
+            placeholder="Enter a domain (e.g. google.com)"
+            style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 16px;font-size:0.95rem;"
+          />
+          <button type="submit" class="btn btn-primary scan-btn" id="dns-scan-submit">
+            <span id="dns-label">Lookup DNS</span>
+            <span id="dns-loading" style="display:none;">⟳</span>
+          </button>
+        </div>
+        <p class="scan-note">Free scan — A, AAAA, MX, NS, TXT, CNAME records via Cloudflare DNS</p>
+      </form>
+      <div id="dns-results" style="display:none;margin-top:28px;text-align:left;"></div>
+      <div id="dns-error" class="scan-error" style="display:none;">
+        <p id="dns-error-msg">Something went wrong. Please try again.</p>
+      </div>
+    </div>
 
     <section id="services">
       <h2>What we offer</h2>
@@ -1274,15 +1298,15 @@
   // Tab switching
   window.showScannerTab = function(tab) {
     // Panel + form IDs for each tab
-    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel' };
-    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form' };
-    var tabs = ['ssl', 'headers', 'xss', 'sub'];
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form' };
+    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns'];
 
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
       var form  = document.getElementById(formMap[t]);
-      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : 'sub-results'));
-      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : 'sub-error'));
+      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : (t === 'sub' ? 'sub-results' : 'dns-results')));
+      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : (t === 'sub' ? 'sub-error' : 'dns-error')));
       var r = document.getElementById(resultsId);
       var e = document.getElementById(errId);
       var tabBtn = document.getElementById('tab-btn-' + t);
@@ -1647,6 +1671,62 @@
   document.querySelectorAll('.anim-card').forEach(function(card) {
     observer.observe(card);
   });
+
+  // ── DNS Lookup ─────────────────────────────────────────────────────────
+  var dnsForm = document.getElementById('dns-scan-form');
+  if (dnsForm) {
+    dnsForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var domain = document.getElementById('dns-domain').value.trim();
+      if (!domain) return;
+      var btn = document.getElementById('dns-scan-submit');
+      var lbl = document.getElementById('dns-label');
+      var ldg = document.getElementById('dns-loading');
+      var results = document.getElementById('dns-results');
+      var errDiv = document.getElementById('dns-error');
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+      try {
+        var resp = await fetch('https://edgeiq-dns-lookup.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ domain: domain, types: ['A', 'AAAA', 'MX', 'NS', 'TXT', 'CNAME'] })
+        });
+
+        if (!resp.ok) throw new Error('DNS lookup failed (status ' + resp.status + ')');
+
+        var data = await resp.json();
+        var html = '<div style="margin-bottom:8px;font-size:1.05rem;font-weight:700;">DNS Records for <span style="color:var(--accent)">' + domain + '</span></div>';
+        html += '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:18px;">' + data.totalRecords + ' total records found</div>';
+
+        if (data.error) {
+          html += '<div class="finding critical"><span class="finding-icon">⚠</span><span>' + data.error + '</span></div>';
+        } else if (data.results && data.results.length > 0) {
+          data.results.forEach(function(r) {
+            var color = r.type === 'A' || r.type === 'AAAA' ? 'var(--ok)' : (r.type === 'MX' ? 'var(--warn)' : 'var(--accent)');
+            html += '<div style="margin-bottom:18px;">';
+            html += '<div style="font-size:0.75rem;font-weight:700;color:' + color + ';letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">' + r.type + ' — ' + r.records.length + ' record' + (r.records.length !== 1 ? 's' : '') + '</div>';
+            r.records.forEach(function(rec) {
+              html += '<div class="finding info" style="font-size:0.88rem;"><span class="finding-icon"></span><span style="word-break:break-all;">' + rec + '</span></div>';
+            });
+            html += '</div>';
+          });
+        } else {
+          html += '<div class="finding info"><span class="finding-icon">ℹ</span><span>No DNS records found. Try a different domain.</span></div>';
+        }
+
+        results.innerHTML = html;
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('dns-error-msg').textContent = 'DNS lookup failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
 })();
 </script>
 </body>
