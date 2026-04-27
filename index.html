@@ -430,6 +430,7 @@
           <button class="scan-tab" onclick="showScannerTab('sub')" id="tab-btn-sub">🔗 Subdomains</button>
           <button class="scan-tab" onclick="showScannerTab('dns')" id="tab-btn-dns">🌐 DNS Lookup</button>
           <button class="scan-tab" onclick="showScannerTab('whois')" id="tab-btn-whois">📋 WHOIS Lookup</button>
+          <button class="scan-tab" onclick="showScannerTab('cve')" id="tab-btn-cve">🔎 CVE Lookup</button>
         </div>
         <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
@@ -637,6 +638,35 @@
       <div id="whois-results" style="display:none;margin-top:28px;text-align:left;"></div>
       <div id="whois-error" class="scan-error" style="display:none;">
         <p id="whois-error-msg">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+
+    <!-- CVE Lookup — Free Tool #7 -->
+    <div id="cve-panel" class="scan-panel" style="display:none;">
+      <form id="cve-scan-form" class="scan-form">
+        <div class="scan-input-row">
+          <input
+            type="text"
+            id="cve-software"
+            placeholder="Software name (e.g. nginx, openssh)"
+            style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 16px;font-size:0.95rem;"
+          />
+          <input
+            type="text"
+            id="cve-version"
+            placeholder="Version (e.g. 1.18.0)"
+            style="width:130px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 16px;font-size:0.95rem;"
+          />
+          <button type="submit" class="btn btn-primary scan-btn" id="cve-scan-submit">
+            <span id="cve-label">Find CVEs</span>
+            <span id="cve-loading" style="display:none;">⟳</span>
+          </button>
+        </div>
+        <p class="scan-note">Free — matches software against the National Vulnerability Database (NVD)</p>
+      </form>
+      <div id="cve-results" style="display:none;margin-top:28px;text-align:left;"></div>
+      <div id="cve-error" class="scan-error" style="display:none;">
+        <p id="cve-error-msg">Something went wrong. Please try again.</p>
       </div>
     </div>
 
@@ -1322,15 +1352,15 @@
   // Tab switching
   window.showScannerTab = function(tab) {
     // Panel + form IDs for each tab
-    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel', whois: 'whois-panel' };
-    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form', whois: 'whois-scan-form' };
-    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns', 'whois'];
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel', whois: 'whois-panel', cve: 'cve-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form', whois: 'whois-scan-form', cve: 'cve-scan-form' };
+    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns', 'whois', 'cve'];
 
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
       var form  = document.getElementById(formMap[t]);
-      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : (t === 'sub' ? 'sub-results' : (t === 'dns' ? 'dns-results' : 'whois-results'))));
-      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : (t === 'sub' ? 'sub-error' : (t === 'dns' ? 'dns-error' : 'whois-error'))));
+      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : (t === 'sub' ? 'sub-results' : (t === 'dns' ? 'dns-results' : (t === 'whois' ? 'whois-results' : 'cve-results')))));
+      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : (t === 'sub' ? 'sub-error' : (t === 'dns' ? 'dns-error' : (t === 'whois' ? 'whois-error' : 'cve-error')))));
       var r = document.getElementById(resultsId);
       var e = document.getElementById(errId);
       var tabBtn = document.getElementById('tab-btn-' + t);
@@ -1816,6 +1846,69 @@
         results.style.display = 'block';
       } catch(err) {
         document.getElementById('whois-error-msg').textContent = 'WHOIS lookup failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
+
+  // ── CVE Lookup ───────────────────────────────────────────────────────────
+  var cveForm = document.getElementById('cve-scan-form');
+  if (cveForm) {
+    cveForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var software = document.getElementById('cve-software').value.trim();
+      var version = document.getElementById('cve-version').value.trim();
+      if (!software) return;
+      var btn = document.getElementById('cve-scan-submit');
+      var lbl = document.getElementById('cve-label');
+      var ldg = document.getElementById('cve-loading');
+      var results = document.getElementById('cve-results');
+      var errDiv = document.getElementById('cve-error');
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+      try {
+        var resp = await fetch('https://edgeiq-cve-match.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ software: software, version: version || undefined })
+        });
+
+        if (!resp.ok) throw new Error('CVE lookup failed (status ' + resp.status + ')');
+
+        var data = await resp.json();
+        var html = '<div style="margin-bottom:8px;font-size:1.05rem;font-weight:700;">CVEs for <span style="color:var(--accent)">' + software + (version ? ' ' + version : '') + '</span></div>';
+        html += '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:18px;">' + data.totalResults + ' vulnerability' + (data.totalResults !== 1 ? 'es' : '') + ' found</div>';
+
+        if (data.error) {
+          html += '<div class="finding info"><span class="finding-icon">ℹ</span><span>' + data.error + '</span></div>';
+        } else if (data.results && data.results.length > 0) {
+          data.results.forEach(function(r) {
+            var sevColor = r.severity === 'CRITICAL' ? '#ff1744' : r.severity === 'HIGH' ? '#ff6d00' : r.severity === 'MEDIUM' ? '#ffc400' : r.severity === 'LOW' ? 'var(--ok)' : 'var(--muted)';
+            var bgColor = r.severity === 'CRITICAL' ? 'rgba(255,23,68,0.1)' : r.severity === 'HIGH' ? 'rgba(255,109,0,0.1)' : r.severity === 'MEDIUM' ? 'rgba(255,196,0,0.08)' : 'rgba(255,255,255,0.03)';
+            html += '<div style="margin-bottom:14px;padding:14px;background:' + bgColor + ';border:1px solid var(--border);border-radius:10px;">';
+            html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">';
+            html += '<span style="font-weight:700;font-size:0.85rem;color:' + sevColor + ';">' + r.severity + '</span>';
+            html += '<span style="font-weight:700;font-size:0.88rem;">' + r.cveId + '</span>';
+            if (r.cvssScore !== null) html += '<span style="font-size:0.78rem;color:var(--muted);">CVSS ' + r.cvssScore + '</span>';
+            html += '</div>';
+            html += '<div style="font-size:0.85rem;color:var(--muted);line-height:1.6;">' + r.description + '</div>';
+            if (r.references && r.references.length > 0) {
+              html += '<div style="margin-top:8px;"><a href="' + r.references[0] + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.8rem;">View details →</a></div>';
+            }
+            html += '</div>';
+          });
+        } else {
+          html += '<div class="finding info"><span class="finding-icon">✅</span><span>No known CVEs found for this software.</span></div>';
+        }
+
+        results.innerHTML = html;
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('cve-error-msg').textContent = 'CVE lookup failed: ' + err.message;
         errDiv.style.display = 'block';
       } finally {
         lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
