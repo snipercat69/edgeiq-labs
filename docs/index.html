@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started — EdgeIQ Labs</title>
+  <meta name="description" content="Learn how to use EdgeIQ Labs security tools. Step-by-step guides for free web scanners, OpenClaw skill installation, and Cloudflare Worker deployment." />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/docs/" />
+  <style>
+    :root { --bg: #0b0f14; --card: #121923; --text: #e8eef7; --muted: #9fb0c7; --accent: #3dd9ff; --border: #233142; --ok: #70f0a8; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    .container { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+    nav { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(11,15,20,0.92); backdrop-filter: blur(6px); z-index: 10; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+    .doc-header { padding: 64px 0 40px; }
+    .doc-header h1 { font-size: 2.2rem; margin-bottom: 12px; }
+    .doc-header p { color: var(--muted); font-size: 1.05rem; }
+    .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 32px 0; }
+    .method-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s, transform 0.2s; }
+    .method-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .method-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+    .method-card p { color: var(--muted); font-size: 0.88rem; }
+    .method-card .badge { display: inline-block; background: rgba(61,217,255,0.1); border: 1px solid rgba(61,217,255,0.25); color: var(--accent); font-size: 0.7rem; border-radius: 5px; padding: 3px 8px; font-family: monospace; margin-bottom: 8px; }
+    h2 { font-size: 1.5rem; margin: 40px 0 16px; padding-top: 40px; border-top: 1px solid var(--border); }
+    h2:first-of-type { border-top: none; padding-top: 0; }
+    h3 { font-size: 1.1rem; margin: 24px 0 10px; color: var(--accent); }
+    p { color: var(--muted); margin-bottom: 14px; }
+    ul, ol { color: var(--muted); margin: 0 0 14px 22px; }
+    li { margin-bottom: 6px; }
+    code { background: rgba(61,217,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 0.88em; color: var(--accent); }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; overflow-x: auto; margin: 14px 0; }
+    pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+    .step-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+    .step-number { font-size: 0.72rem; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .cta-box { background: var(--card); border: 1px solid var(--accent); border-radius: 14px; padding: 24px; margin: 32px 0; text-align: center; }
+    .cta-box h3 { color: var(--text); margin-bottom: 8px; }
+    .cta-box p { margin-bottom: 16px; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+    .tool-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+    .tool-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .tool-name { font-weight: 700; font-size: 0.95rem; }
+    .tool-free { color: var(--ok); font-size: 0.78rem; font-weight: 700; background: rgba(112,240,168,0.1); border: 1px solid rgba(112,240,168,0.25); padding: 3px 8px; border-radius: 5px; }
+    .tool-paid { color: var(--accent); font-size: 0.78rem; font-weight: 700; background: rgba(61,217,255,0.1); border: 1px solid rgba(61,217,255,0.25); padding: 3px 8px; border-radius: 5px; }
+    .footer-cta { padding: 48px 0; border-top: 1px solid var(--border); margin-top: 40px; text-align: center; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../" class="nav-brand">
+          <img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" />
+          <div class="nav-wordmark">
+            <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+            <div class="nav-brand-tag">Security Intelligence</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="../">Tools</a>
+          <a href="../#pricing">Pricing</a>
+          <a href="../blog/">Blog</a>
+          <a href="./">Docs</a>
+          <a href="../#contact">Contact</a>
+          <a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="doc-header">
+      <h1>Getting Started with EdgeIQ Labs</h1>
+      <p>Three ways to use EdgeIQ tools — pick the one that fits your workflow.</p>
+    </div>
+
+    <div class="method-grid">
+      <a href="#web" class="method-card">
+        <span class="badge">No install needed</span>
+        <h3>Free Web Scanners</h3>
+        <p>Use any tool directly in your browser. No account, no CLI, no setup.</p>
+      </a>
+      <a href="#openclaw" class="method-card">
+        <span class="badge">OpenClaw required</span>
+        <h3>OpenClaw Skills</h3>
+        <p>Install tools locally via OpenClaw/ClawHub. Full automation, CLI access, and pipeline integration.</p>
+      </a>
+      <a href="#cloudflare" class="method-card">
+        <span class="badge">Cloudflare account</span>
+        <h3>Self-Hosted Workers</h3>
+        <p>Deploy your own Cloudflare Worker instances. Full control, your own API keys, white-label ready.</p>
+      </a>
+    </div>
+
+    <!-- WEB SCANNERS -->
+    <h2 id="web">Method 1 — Free Web Scanners</h2>
+    <p>The fastest way to get started. All web scanners run directly in your browser — no account, no API key, no installation required.</p>
+
+    <h3>Available Free Scanners</h3>
+    <div class="tool-list">
+      <div class="tool-item">
+        <span class="tool-name">🔍 XSS Quick Scan</span>
+        <span class="tool-free">Free</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">🌐 Network Scanner</span>
+        <span class="tool-free">Free</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">🔗 Subdomain Hunter</span>
+        <span class="tool-free">Free</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">🔒 SSL & Security Headers</span>
+        <span class="tool-free">Free</span>
+      </div>
+    </div>
+
+    <h3>How to Run a Free Scan</h3>
+    <div class="step-box">
+      <div class="step-number">Step 1 — Open the Scanner</div>
+      <p style="margin-bottom:0">Go to <a href="https://edgeiqlabs.com" style="color:var(--accent)">edgeiqlabs.com</a> and scroll to the free scanner section, or select a tool directly from the navigation.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-number">Step 2 — Enter Your Target</div>
+      <p style="margin-bottom:0">Type the URL or domain you want to scan. For subdomain enumeration, enter your base domain (e.g. <code>example.com</code>). For XSS, enter the target URL with a parameter (e.g. <code>https://example.com/search?q=test</code>).</p>
+    </div>
+    <div class="step-box">
+      <div class="step-number">Step 3 — Run the Scan</div>
+      <p style="margin-bottom:0">Click <strong>Scan</strong>. Results appear instantly. No data is stored — results are shown in your browser only.</p>
+    </div>
+    <div class="step-box">
+      <div class="step-number">Step 4 — Interpret Results</div>
+      <p style="margin-bottom:0">Each scanner returns structured findings with risk ratings, technical details, and remediation recommendations. Pro users get exportable JSON/PDF reports.</p>
+    </div>
+
+    <!-- OPENCLAW -->
+    <h2 id="openclaw">Method 2 — OpenClaw Skills</h2>
+    <p>OpenClaw is a local AI agent platform. EdgeIQ tools are published as OpenClaw skills, which means you can run them from your terminal, automate them on a schedule, or pipe results into other tools. Requires OpenClaw installed on your machine.</p>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li><strong>OpenClaw</strong> — Install from <a href="https://openclaw.ai" style="color:var(--accent)">openclaw.ai</a></li>
+      <li><strong>Python 3.8+</strong> — Required for most skill scripts</li>
+      <li><strong>API keys</strong> — Some tools require free API keys (see individual skill docs)</li>
+    </ul>
+
+    <h3>Install OpenClaw</h3>
+    <pre><code># Install OpenClaw globally via npm
+npm install -g openclaw
+
+# Or via curl (recommended)
+curl -fsSL https://openclaw.ai/install.sh | bash
+
+# Verify installation
+openclaw --version</code></pre>
+
+    <h3>Find EdgeIQ Tools on ClawHub</h3>
+    <p>All EdgeIQ tools are published on <a href="https://clawhub.ai" style="color:var(--accent)">ClawHub</a> — the skill marketplace for OpenClaw. Search "edgeiq" to see all available tools.</p>
+
+    <h3>Install an EdgeIQ Skill</h3>
+    <pre><code># Search for EdgeIQ skills
+openclaw skills search edgeiq
+
+# Install a specific skill
+openclaw skills install edgeiq-xss-scanner
+
+# Install all EdgeIQ tools at once
+openclaw skills install edgeiq-alerting-system edgeiq-network-scanner edgeiq-ssl-watcher</code></pre>
+
+    <h3>Run a Tool via OpenClaw</h3>
+    <pre><code># Run directly from terminal
+openclaw run edgeiq-xss-scanner --target https://example.com/search?q=test
+
+# Run with output formatting
+openclaw run edgeiq-ssl-watcher --domain example.com --format json
+
+# Run with verbose output
+openclaw run edgeiq-subdomain-hunter --domain example.com --verbose</code></pre>
+
+    <h3>Configure API Keys</h3>
+    <p>Some EdgeIQ skills require external API keys. These are set once in your OpenClaw config:</p>
+    <pre><code># Set an API key for a skill
+openclaw config set edgeiq-ssl-watcher API_KEY your_key_here
+
+# View current config for a skill
+openclaw config show edgeiq-ssl-watcher</code></pre>
+
+    <h3>Automate with Cron</h3>
+    <p>Schedule scans to run automatically and receive alerts via Slack, Discord, or Telegram:</p>
+    <pre><code># Schedule a weekly SSL check
+openclaw schedule add --name "Weekly SSL Check" \
+  --cron "0 9 * * 1" \
+  --skill edgeiq-ssl-watcher \
+  --args "--domain example.com" \
+  --notify slack</code></pre>
+
+    <h3>Install Alerting (Recommended)</h3>
+    <p>Connect EdgeIQ tools to Slack, Discord, or Telegram for automated alerts:</p>
+    <pre><code># Install the alerting system
+openclaw skills install edgeiq-alerting-system
+
+# Configure a Discord webhook
+openclaw config set edgeiq-alerting-system \
+  DISCORD_WEBHOOK https://discord.com/api/webhooks/your-webhook-here
+
+# Test the alerting setup
+openclaw run edgeiq-alerting-system --test</code></pre>
+
+    <!-- CLOUDFLARE WORKERS -->
+    <h2 id="cloudflare">Method 3 — Self-Hosted Cloudflare Workers</h2>
+    <p>If you want to run your own instance of any EdgeIQ tool — for higher rate limits, white-labeling, or custom integrations — every tool is available as a Cloudflare Worker you can deploy to your own account.</p>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li><strong>Cloudflare account</strong> — Free at <a href="https://cloudflare.com" style="color:var(--accent)">cloudflare.com</a></li>
+      <li><strong>Wrangler CLI</strong> — Cloudflare's Worker deployment tool</li>
+    </ul>
+
+    <h3>Install Wrangler</h3>
+    <pre><code># Install Wrangler via npm
+npm install -g wrangler
+
+# Or via pip
+pip install wrangler
+
+# Verify
+wrangler --version</code></pre>
+
+    <h3>Deploy a Worker</h3>
+    <pre><code># Clone the Worker source (example: SSL Checker)
+git clone https://github.com/snipercat69/edgeiq-labs
+cd edgeiq-labs/edgeiq-ssl-checker
+
+# Configure your Cloudflare account
+wrangler login
+
+# Deploy
+wrangler deploy
+
+# Your Worker URL will be returned, e.g.:
+# https://edgeiq-ssl-checker.your-subdomain.workers.dev</code></pre>
+
+    <h3>Configure Environment Variables</h3>
+    <p>Workers often use external APIs. Set these in <code>wrangler.toml</code> or via Cloudflare Dashboard:</p>
+    <pre><code># In wrangler.toml
+[vars]
+ALLOWED_ORIGIN = "https://yourdomain.com"
+
+# For API keys, use secrets
+wrangler secret put CRT_SH_API_KEY
+# Enter your API key when prompted</code></pre>
+
+    <h3>Bind to Your Custom Domain</h3>
+    <pre><code># In wrangler.toml, add a route
+routes = [
+  { pattern = "ssl.yourdomain.com", zone_name = "yourdomain.com" }
+]
+
+# Redeploy
+wrangler deploy</code></pre>
+
+    <div class="cta-box">
+      <h3>Try the Free Web Scanners First</h3>
+      <p>No install, no account, no API key needed. Start scanning in seconds.</p>
+      <a href="../" class="cta-btn">Browse free tools →</a>
+    </div>
+
+    <div class="footer-cta">
+      <p style="color: var(--muted); margin-bottom: 14px;">Need help? Reach out at <a href="mailto:support@edgeiqlabs.com" style="color:var(--accent)">support@edgeiqlabs.com</a></p>
+      <a href="../" class="cta-btn">Back to EdgeIQ Labs →</a>
+    </div>
+
+  </div>
+</body>
+</html>
