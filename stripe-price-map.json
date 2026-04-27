@@ -242,18 +242,25 @@
       "name": "EdgeIQ Security Report Generator Pro",
       "product_id": "prod_UOFZbujJsgwJuX",
       "lifetime": {
-        "price_id": "price_1TQ8PlRC1NZ20yDT9n7JJ2JB",
+        "price_id": "price_1TQwkARC1NZ20yDTCC4CxmUb",
         "amount": 7900,
         "currency": "usd",
         "lookup_key": "report_bundle5",
-        "checkout_url": "https://buy.stripe.com/report_lifetime"
+        "checkout_url": "https://buy.stripe.com/4gM5kF1PB1WR8Ec5os7wA1t"
       },
       "monthly": {
-        "price_id": "price_1TQ8QKRC1NZ20yDTrHchOUlG",
+        "price_id": "price_1TPT3zRC1NZ20yDT8OaFjS2Q",
         "amount": 1900,
         "currency": "usd",
         "lookup_key": "report_single",
-        "checkout_url": "https://buy.stripe.com/report_monthly"
+        "checkout_url": "https://buy.stripe.com/aFabJ3fGreJD1bKg367wA1s"
+      },
+      "annual": {
+        "price_id": "price_1TQwkARC1NZ20yDTXMgoh9rd",
+        "amount": 12900,
+        "currency": "usd",
+        "lookup_key": "report_bundle10",
+        "checkout_url": "https://buy.stripe.com/6oUaEZam744ZdYw0487wA1u"
       }
     }
   },
