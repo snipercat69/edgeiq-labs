@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Attackers See When They Recon Your Business — EdgeIQ Labs</title>
+  <meta name="description" content="DNS records, CT logs, exposed ports, LinkedIn profiles, GitHub repos, breach data — here's what an attacker learns about your business before they ever touch your network. Non-technical walkthrough for founders, marketers, and small business owners." />
+  <meta property="og:title" content="What Attackers See When They Recon Your Business" />
+  <meta property="og:description" content="The public data attackers use to build a profile of your business before they launch their first attack." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/what-attackers-recon-your-business.html" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121923;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --accent: #3dd9ff;
+      --border: #233142;
+      --ok: #70f0a8;
+      --warn: #f0a83d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+    nav {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(11,15,20,0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+    .article-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+    .article-header h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.2; margin-bottom: 16px; }
+    .article-meta { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; }
+    .tag { display: inline-block; background: rgba(61,217,255,0.08); border: 1px solid rgba(61,217,255,0.2); color: var(--accent); font-size: 0.7rem; border-radius: 5px; padding: 3px 8px; margin-right: 6px; font-family: monospace; }
+    .lead { font-size: 1.1rem; color: var(--text); margin-bottom: 28px; border-left: 3px solid var(--accent); padding-left: 18px; }
+    h2 { font-size: 1.5rem; margin: 36px 0 14px; }
+    h3 { font-size: 1.15rem; margin: 24px 0 10px; color: var(--accent); }
+    p { color: var(--muted); margin-bottom: 18px; }
+    ul, ol { color: var(--muted); margin: 0 0 18px 22px; }
+    li { margin-bottom: 8px; }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .step-card h3 { margin-top: 0; color: var(--text); }
+    .fact-box {
+      background: rgba(61,217,255,0.05);
+      border: 1px solid rgba(61,217,255,0.2);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+    .fact-box p { color: var(--accent); font-size: 0.95rem; margin-bottom: 0; }
+    .cta-box {
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 28px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    .cta-box h3 { color: var(--text); font-size: 1.2rem; margin-bottom: 10px; }
+    .cta-box p { color: var(--muted); margin-bottom: 18px; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; padding: 11px 22px; border-radius: 10px; text-decoration: none; }
+    .footer-cta { padding: 48px 0; border-top: 1px solid var(--border); margin-top: 48px; text-align: center; }
+    .checklist-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin: 18px 0; }
+    .checklist-box h3 { margin-bottom: 14px; }
+    .checklist-box li { margin-bottom: 10px; }
+    .tool-tag { display: inline-block; background: rgba(112,240,168,0.08); border: 1px solid rgba(112,240,168,0.2); color: var(--ok); font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; font-family: monospace; margin-right: 4px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../" class="nav-brand">
+          <img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" />
+          <div class="nav-wordmark">
+            <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+            <div class="nav-brand-tag">Security Intelligence</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="../">Tools</a>
+          <a href="../#pricing">Pricing</a>
+          <a href="./">Blog</a>
+          <a href="../#contact">Contact</a>
+          <a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 27, 2026 &nbsp;·&nbsp; 7 min read &nbsp;·&nbsp; <span class="tag">recon</span><span class="tag">osint</span><span class="tag">attack-surface</span></div>
+      <h1>What Attackers See When They Recon Your Business</h1>
+      <p class="lead">Before an attacker ever sends a packet to your network, they've already built a profile of your business using nothing but public data. DNS records, certificate logs, LinkedIn, GitHub, and data breach databases — here's the view from the other side, and why "security through obscurity" doesn't work.</p>
+    </div>
+
+    <p>Most business owners assume that unless an attacker is actively targeting them, there's nothing to see. That's not true. The public internet is full of data about every organization — data that attackers gather as the first step of any operation, long before they decide what to do. Understanding what they see is the first step to deciding what to close.</p>
+
+    <h2>DNS Records: The Infrastructure Map</h2>
+    <p>Every domain has DNS records — information about which IP addresses, mail servers, and subdomains belong to your organization. This data is public and queriable by anyone. You can't hide it by making it private; it's fundamental to how the internet works.</p>
+
+    <p>What attackers learn from DNS:</p>
+    <ul>
+      <li><strong>IP ranges you own</strong> — Your DNS records reveal the IP addresses your infrastructure lives on. Attackers can then scan those ranges for open ports, exposed services, and forgotten servers.</li>
+      <li><strong>Mail server locations</strong> — MX records show your mail providers. Many companies don't realize they've exposed their entire email infrastructure through DNS.</li>
+      <li><strong>Cloud provider fingerprints</strong> — DNS records for AWS, Azure, and GCP resources often reveal which cloud platforms you use, which regions, and sometimes which account IDs.</li>
+      <li><strong>Subdomains</strong> — Things like <code>dev.yourcompany.com</code>, <code>staging.yourcompany.com</code>, <code>admin.yourcompany.com</code>, or <code>vpn.yourcompany.com</code>. These are often less secured than the main site.</li>
+    </ul>
+
+    <div class="fact-box">
+      <p>You can look up your own DNS records in seconds: use a free DNS lookup tool and search for your domain. Whatever shows up, an attacker sees too.</p>
+    </div>
+
+    <h2>Certificate Transparency Logs: Subdomains You Forgot</h2>
+    <p>Every time a certificate is issued for your domain — even for a dev server that only existed for two weeks three years ago — it's recorded in public Certificate Transparency (CT) logs. These logs are searchable by anyone, and they never expire.</p>
+
+    <p>The result: any subdomain that ever had a SSL/TLS certificate is permanently, publicly discoverable. That old staging server you decommissioned? The dev environment you spun up for a hackathon? The internal tool you set up with a Let's Encrypt certificate? All in the logs, forever.</p>
+
+    <p>Search for your domain at <span class="tool-tag">crt.sh</span> and see what comes up. If you're surprised by anything, so will an attacker.</p>
+
+    <h2>WHOIS Data: Your Organization's Business Card</h2>
+    <p>When a domain is registered, the registrant's information goes into the WHOIS database — a public record of who owns what domain, when it was registered, and how to contact them. For many businesses, this reveals:</p>
+    <ul>
+      <li>Business name and legal entity</li>
+      <li>Physical address and phone number</li>
+      <li>Names and email addresses of technical and administrative contacts</li>
+      <li>Creation date (revealing how old the business is)</li>
+      <li>Nameservers (which can reveal infrastructure details)</li>
+    </ul>
+
+    <p>Privacy services exist to mask this information, but they cost extra and many businesses don't use them. Even with privacy enabled, registration dates and nameservers are often still visible — and those reveal plenty.</p>
+
+    <h2>Exposed Ports and Services: The Entry Points</h2>
+    <p>Once an attacker knows your IP ranges and subdomains, they run port scans. This maps what's exposed to the internet — and it's often more than businesses expect.</p>
+
+    <div class="step-card">
+      <h3>Common Exposed Services Found During Recon</h3>
+      <ul>
+        <li><strong>Admin panels</strong> — <code>/admin</code>, <code>/wp-admin</code>, <code>/phpmyadmin</code> — often found on staging or dev subdomains with weak or no auth</li>
+        <li><strong>Remote access portals</strong> — VPN login pages, RD Web Access, Citrix portals — all discoverable by subdomain and all high-value targets</li>
+        <li><strong>Dev and staging environments</strong> — Full test environments with real data, no rate limiting, and weaker security than production</li>
+        <li><strong>API endpoints</strong> — Undocumented or internal API servers that weren't meant to be public</li>
+        <li><strong>Legacy applications</strong> — Old versions of software still running, unpatched, on forgotten subdomains</li>
+        <li><strong>Jenkins, Jira, Confluence</strong> — Developer tool panels often exposed with default or weak credentials</li>
+        <li><strong>Database admin interfaces</strong> — Exposed phpMyAdmin or similar UI, sometimes unauthenticated</li>
+      </ul>
+    </div>
+
+    <p>A single exposed admin panel on a forgotten staging subdomain — with a weak password — has been the root cause of multiple major breaches. It's not glamorous, but it works.</p>
+
+    <h2>LinkedIn: The Human Attack Surface</h2>
+    <p>People are the softest part of any organization. LinkedIn reveals:</p>
+    <ul>
+      <li><strong>Organizational structure</strong> — Who works in IT, who manages infrastructure, who has admin access to systems</li>
+      <li><strong>Technology choices</strong> — Job postings for "Senior AWS Engineer" or "Windows Server Administrator" tell attackers exactly what cloud platforms and OSes you run</li>
+      <li><strong>Vendor relationships</strong> — Employees mentioning third-party tools and vendors reveals your supply chain</li>
+      <li><strong>New hires and org changes</strong> — A new employee in IT with no training yet is a prime spear-phishing target</li>
+    </ul>
+
+    <p>LinkedIn isn't "bad" — it's just public information. Attackers use it to craft convincing phishing emails ("Hey, it's Mike from IT, reset my password") and to identify who has access to what systems.</p>
+
+    <h2>GitHub: The Code That Left the Building</h2>
+    <p>Public GitHub repositories and commits are one of the most underappreciated sources of exposed credentials and system information. Security researchers routinely find:</p>
+    <ul>
+      <li><strong>API keys and secrets</strong> — Developers accidentally commit AWS keys, Stripe tokens, database passwords, and JWT secrets into public repos</li>
+      <li><strong>Internal hostnames</strong> — Code references internal service names, staging environment URLs, internal API endpoints</li>
+      <li><strong>Architecture details</strong> — README files and architecture diagrams describe system design</li>
+      <li><strong>Employee names and emails</strong> — Commit history ties code to individuals, enabling targeted attacks</li>
+      <li><strong>Old credentials</strong> — Even credentials that have been rotated stay in git history forever</li>
+    </ul>
+
+    <p>GitHub's secret scanning catches some of this, but not all of it. Organizations should assume anything ever committed to a public repo is permanently discoverable — even after deletion.</p>
+
+    <h2>Have I Been Pwned: Credentials Already Exposed</h2>
+    <p>HaveIBeenPwned.com aggregates data from hundreds of breaches. Searching your corporate domain there shows whether any employee email addresses appear in breach data — and what types of credentials were exposed.</p>
+
+    <p>The critical point: most people reuse passwords. If an employee's corporate email appears in a breach with a password, attackers will try that email/password combination on corporate services — VPN, O365, cloud apps. It's called credential stuffing, and it's effective because password reuse is everywhere.</p>
+
+    <div class="fact-box">
+      <p>Search your domain at <span class="tool-tag">haveibeenpwned.com</span> to see what employee data has already been exposed in third-party breaches. The answer is usually surprising.</p>
+    </div>
+
+    <h2>Why "Security Through Obscurity" Doesn't Work</h2>
+    <p>Some organizations believe that if something isn't widely known, it's safe. They use obscure internal naming conventions, hide dev servers behind non-standard ports, or assume "no one will think to look there."</p>
+
+    <p>This fails because:</p>
+    <ul>
+      <li><strong>CT logs are permanent</strong> — Any hostname that ever had a certificate is in a public database. You can't remove it.</li>
+      <li><strong>DNS is public</strong> — All your hostnames and IP ranges are queryable by anyone with an internet connection.</li>
+      <li><strong>Tools automate discovery</strong> — Subdomain enumeration tools scan millions of records automatically. Your "obscure" hostname will show up in seconds.</li>
+      <li><strong>Attackers don't guess</strong> — They use wordlists of common subdomain patterns, internal codenames, and permutations of your brand name to find things you think are hidden.</li>
+      <li><strong>Breach data is searchable</strong> — Employee credentials are already out there. The question is whether attackers can use them.</li>
+    </ul>
+
+    <p>The only security that works is security that assumes attackers can see everything public about your organization — and designing your defenses accordingly.</p>
+
+    <h2>What to Do: Your Quarterly Audit Checklist</h2>
+
+    <div class="checklist-box">
+      <h3>Quarterly External Attack Surface Audit</h3>
+      <ol>
+        <li><strong>Search CT logs for your domain</strong> — Use crt.sh. Identify every subdomain that has ever had a certificate. Check whether any of those subdomains shouldn't be exposed.</li>
+        <li><strong>Run a port scan on your public IP ranges</strong> — Find every open port and service. Identify anything that shouldn't be internet-facing.</li>
+        <li><strong>Check for exposed admin panels</strong> — Search for /admin, /wp-admin, /phpmyadmin, /jenkins, and similar paths on every exposed subdomain.</li>
+        <li><strong>Search GitHub for your company name</strong> — Find public repos, check for accidentally committed secrets, review what internal system details are visible.</li>
+        <li><strong>Search HaveIBeenPwned for your domain</strong> — Identify which employee emails have been exposed and in which breaches.</li>
+        <li><strong>Audit your DNS records</strong> — Remove anything that shouldn't exist. Make sure subdomains pointing to old/decommissioned servers are cleaned up.</li>
+        <li><strong>Review WHOIS privacy settings</strong> — Ensure your registration data is as private as possible, and that only necessary contact info is exposed.</li>
+        <li><strong>Check LinkedIn job posts</strong> — Remove any posts that reveal specific technology platforms, cloud providers, or internal system details you don't want public.</li>
+        <li><strong>Alert employees about password reuse</strong> — Enforce unique passwords for corporate accounts and mandate a password manager.</li>
+        <li><strong>Set up CT log monitoring</strong> — Get alerts when new certificates are issued for your domain, so you know about unexpected subdomains immediately.</li>
+      </ol>
+    </div>
+
+    <div class="cta-box">
+      <h3>See Your Full Attack Surface</h3>
+      <p>EdgeIQ's site scanner automatically maps your exposed subdomains, DNS records, and running services — giving you the same view an attacker sees, without needing to run a dozen different tools.</p>
+      <a href="../" class="cta-btn">Scan your domain free →</a>
+    </div>
+
+    <h2>The Bottom Line</h2>
+    <p>Attackers start with public data. They don't port-scan you until they know what you're running. They don't phishing your employees until they've built a profile. The recon phase is where they decide if you're worth attacking at all — and most of that recon is just reading public information.</p>
+    <p>The good news: it's fixable. You can audit your DNS, lock down your CT log exposure, remove exposed admin panels, and clean up your public code footprint. You can't unring the bell on breached credentials — but you can stop those credentials from working by enforcing unique passwords and MFA everywhere.</p>
+    <p>Do the audit. Know what they see. Close what needs closing.</p>
+
+    <div class="footer-cta">
+      <p style="color: var(--muted); margin-bottom: 14px;">Get a free attack surface scan and see what attackers see when they look at your business.</p>
+      <a href="../" class="cta-btn">Get started free →</a>
+    </div>
+
+  </div>
+</body>
+</html>
