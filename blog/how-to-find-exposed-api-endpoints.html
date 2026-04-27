@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Find Exposed API Endpoints: A Practical Guide — EdgeIQ Labs</title>
+  <meta name="description" content="Misconfigured APIs leak data, expose admin panels, and create attack surfaces that scanners miss. Here's the OSINT and recon workflow used by security researchers to find them." />
+  <meta property="og:title" content="How to Find Exposed API Endpoints: A Practical Guide" />
+  <meta property="og:description" content="Misconfigured APIs leak data, expose admin panels, and create attack surfaces that scanners miss." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/how-to-find-exposed-api-endpoints.html" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121923;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --accent: #3dd9ff;
+      --border: #233142;
+      --ok: #70f0a8;
+      --warn: #f0a83d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+    nav {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(11,15,20,0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+    .article-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+    .article-header h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.2; margin-bottom: 16px; }
+    .article-meta { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; }
+    .tag { display: inline-block; background: rgba(61,217,255,0.08); border: 1px solid rgba(61,217,255,0.2); color: var(--accent); font-size: 0.7rem; border-radius: 5px; padding: 3px 8px; margin-right: 6px; font-family: monospace; }
+    .lead { font-size: 1.1rem; color: var(--text); margin-bottom: 28px; border-left: 3px solid var(--accent); padding-left: 18px; }
+    h2 { font-size: 1.5rem; margin: 36px 0 14px; }
+    h3 { font-size: 1.15rem; margin: 24px 0 10px; color: var(--accent); }
+    p { color: var(--muted); margin-bottom: 18px; }
+    ul, ol { color: var(--muted); margin: 0 0 18px 22px; }
+    li { margin-bottom: 8px; }
+    code { background: rgba(61,217,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 0.88em; color: var(--accent); }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; overflow-x: auto; margin: 18px 0; }
+    pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .step-number { font-size: 0.72rem; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .step-card h3 { margin-top: 0; color: var(--text); }
+    .cta-box {
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 28px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    .cta-box h3 { color: var(--text); font-size: 1.2rem; margin-bottom: 10px; }
+    .cta-box p { color: var(--muted); margin-bottom: 18px; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; padding: 11px 22px; border-radius: 10px; text-decoration: none; }
+    .footer-cta { padding: 48px 0; border-top: 1px solid var(--border); margin-top: 48px; text-align: center; }
+    .endpoint-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.88rem; }
+    .endpoint-table th { text-align: left; color: var(--accent); padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .endpoint-table td { padding: 10px 12px; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .endpoint-table tr:last-child td { border-bottom: none; }
+    .risk-badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+    .risk-high { background: rgba(240,80,80,0.15); color: #f05050; border: 1px solid rgba(240,80,80,0.3); }
+    .risk-med { background: rgba(240,168,61,0.12); color: var(--warn); border: 1px solid rgba(240,168,61,0.3); }
+    .risk-low { background: rgba(112,240,168,0.1); color: var(--ok); border: 1px solid rgba(112,240,168,0.25); }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../" class="nav-brand">
+          <img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" />
+          <div class="nav-wordmark">
+            <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+            <div class="nav-brand-tag">Security Intelligence</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="../">Tools</a>
+          <a href="../#pricing">Pricing</a>
+          <a href="./">Blog</a>
+          <a href="../#contact">Contact</a>
+          <a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 27, 2026 &nbsp;·&nbsp; 7 min read &nbsp;·&nbsp; <span class="tag">API Security</span><span class="tag">OSINT</span><span class="tag">Recon</span></div>
+      <h1>How to Find Exposed API Endpoints: A Practical Guide</h1>
+      <p class="lead">Every year, sensitive APIs get discovered, exploited, and breached — not because attackers were technically sophisticated, but because the APIs were publicly accessible and never intended to be exposed. Here's how it works and how to find your own exposure before someone else does.</p>
+    </div>
+
+    <p>APIs are the connective tissue of modern applications. They handle payments, user data, authentication, admin functions — everything. And when they're exposed to the internet without proper auth or access controls, they're one of the fastest paths from "interesting finding" to "critical breach."</p>
+
+    <p>The problem: most organizations don't know how many APIs they have, what those APIs do, or whether they're actually supposed to be public. Security researchers find this out within minutes. Here's the playbook.</p>
+
+    <h2>Why APIs Get Exposed</h2>
+    <p>APIs get exposed in ways that look completely innocent:</p>
+    <ul>
+      <li><strong>Internal endpoints left accessible</strong> — A developer spins up an admin API on port 8080 "just for testing" and it makes it to production</li>
+      <li><strong>Legacy endpoints forgotten</strong> — Old API versions stay live with weaker security because no one knows they exist</li>
+      <li><strong>Staging environments</strong> — Staging APIs with full test data and no rate limiting are accessible via DNS records</li>
+      <li><strong>Swagger/OpenAPI docs</strong> — API documentation published without auth requirements reveals the entire endpoint surface</li>
+      <li><strong>JavaScript source maps</strong> — Web apps bundle JS that contains API keys, endpoint paths, and internal hostname references</li>
+      <li><strong>Mobile apps</strong> — API endpoints hardcoded in mobile app binaries</li>
+    </ul>
+
+    <h2>The Recon Workflow</h2>
+
+    <div class="step-card">
+      <div class="step-number">Step 1 — Passive Discovery via Certificate Transparency</div>
+      <h3>Find Domains Without Touching Anything</h3>
+      <p>Certificate Transparency (CT) logs are public records of every SSL certificate issued for a domain. Tools that query CT logs can reveal subdomains and internal hostnames you'd never guess existed — without sending a single DNS request.</p>
+      <p>Look for patterns: <code>api.yoursite.com</code>, <code>admin.yoursite.com</code>, <code>internal.yoursite.com</code>, <code>v1.yoursite.com</code>, <code>dev.yoursite.com</code> — these are the most likely to expose sensitive functionality.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 2 — JavaScript File Analysis</div>
+      <h3>The Endpoint Treasure Map</h3>
+      <p>Every web app's JavaScript is a goldmine of API intelligence. Endpoints get referenced in JS files as fetch() calls, axios calls, and hardcoded paths. Even when the main app requires authentication, the JS is publicly accessible.</p>
+      <p>Tools can automatically scrape JS files from a domain, extract all URL paths, and identify API endpoints — including internal APIs that shouldn't be public. Look for patterns like:</p>
+      <pre><code>fetch('/api/admin/users')
+POST /api/v2/payments
+GET /api/internal/health
+wss://api.yoursite.com/realtime</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 3 — OpenAPI/Swagger Discovery</div>
+      <h3>Documentation = Attack Surface</h3>
+      <p>If an API has OpenAPI/Swagger documentation published without authentication, it tells an attacker everything: which endpoints exist, what parameters they accept, what response formats look like, and whether auth is enforced. Common locations to check:</p>
+      <pre><code>/api/docs
+/api/swagger.json
+/api/openapi.json
+/swagger-ui.html
+/api/v1.yaml</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 4 — Path Brute-Forcing</div>
+      <h3>Guessing What Doesn't Appear in CT Logs</h3>
+      <p>Not everything gets a certificate. Path brute-forcing uses wordlists of common API endpoint patterns to find endpoints that exist but weren't discovered passively. Common API path wordlists target:</p>
+      <ul>
+        <li><code>/api</code>, <code>/api/v1</code>, <code>/api/v2</code>, <code>/api/beta</code></li>
+        <li><code>/admin</code>, <code>/administrator</code>, <code>/manage</code></li>
+        <li><code>/internal</code>, <code>/private</code>, <code>/intranet</code></li>
+        <li><code>/debug</code>, <code>/debug/pprof</code>, <code>/actuator</code></li>
+        <li>Developer utility paths: <code>/phpinfo.php</code>, <code>/.env</code>, <code>/server-status</code></li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 5 — Parameter Enumeration</div>
+      <h3>Finding Hidden Functionality</h3>
+      <p>Sometimes the endpoint is known but the parameters aren't. Adding parameters like <code>?debug=true</code>, <code>?verbose=1</code>, or <code>?format=json</code> to endpoints can reveal hidden data or change response behavior. This is how researchers find debug modes left enabled in production.</p>
+    </div>
+
+    <h2>Common High-Risk Exposed Endpoints</h2>
+
+    <table class="endpoint-table">
+      <thead>
+        <tr>
+          <th>Endpoint Pattern</th>
+          <th>Risk Level</th>
+          <th>Why It Matters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>/api/admin/*</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>Unauthenticated admin functions — user management, config changes, data deletion</td>
+        </tr>
+        <tr>
+          <td><code>/api/v1/users</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>User enumeration — email, ID, role extraction</td>
+        </tr>
+        <tr>
+          <td><code>/actuator/env</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>Spring Boot actuator — exposes environment variables, secrets, config</td>
+        </tr>
+        <tr>
+          <td><code>/swagger.json</code></td>
+          <td><span class="risk-badge risk-med">MED</span></td>
+          <td>Full API map — all endpoints, parameters, auth requirements visible</td>
+        </tr>
+        <tr>
+          <td><code>/debug/pprof</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>Go pprof — CPU profiles, heap dumps, goroutine traces exposed</td>
+        </tr>
+        <tr>
+          <td><code>/api/internal/*</code></td>
+          <td><span class="risk-badge risk-med">MED</span></td>
+          <td>Internal-only endpoints that bypass public-facing auth</td>
+        </tr>
+        <tr>
+          <td><code>/api/debug</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>Debug endpoints — often leak stack traces, configs, internal state</td>
+        </tr>
+        <tr>
+          <td><code>/.env</code></td>
+          <td><span class="risk-badge risk-high">HIGH</span></td>
+          <td>Environment file — database credentials, API keys, JWT secrets</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>What to Do If You Find Exposure</h2>
+
+    <h3>For Your Own APIs:</h3>
+    <ol>
+      <li><strong>Classify the endpoint</strong> — Is it supposed to be public? Internal? Who knows about it?</li>
+      <li><strong>Add authentication if it's missing</strong> — Even basic API key auth stops casual discovery</li>
+      <li><strong>Restrict by IP if it's internal</strong> — Firewall rules, VPN, or cloud security groups</li>
+      <li><strong>Remove documentation if it reveals too much</strong> — Swagger/OpenAPI docs should be auth-gated</li>
+      <li><strong>Check for unintended data exposure</strong> — Verbose errors, debug responses, stack traces</li>
+    </ol>
+
+    <h3>As a Pentester or Security Researcher:</h3>
+    <ol>
+      <li>Always get written authorization before testing</li>
+      <li>Document findings with timestamps and evidence</li>
+      <li>Report through the organization's security contact (security.txt at the domain root)</li>
+      <li>Give reasonable disclosure timelines — 90 days is standard</li>
+    </ol>
+
+    <div class="cta-box">
+      <h3>Discover Your API Attack Surface</h3>
+      <p>EdgeIQ's API Endpoint Discovery tool combines passive CT log analysis, JavaScript endpoint extraction, and active path brute-forcing to map your full API surface — free, no signup.</p>
+      <a href="../" class="cta-btn">Scan your domain free →</a>
+    </div>
+
+    <h2>The Bottom Line</h2>
+    <p>Most API exposure is accidental — an endpoint left public that was supposed to be internal, a documentation page that got indexed, a JS file that reveals more than it should. The good news: it's findable, it's fixable, and the fix is usually simple. Audit your APIs, find what shouldn't be public, and close the gaps before someone else finds them first.</p>
+
+    <div class="footer-cta">
+      <p style="color: var(--muted); margin-bottom: 14px;">Map your full API attack surface with EdgeIQ's free endpoint discovery tool.</p>
+      <a href="../" class="cta-btn">Get started free →</a>
+    </div>
+
+  </div>
+</body>
+</html>

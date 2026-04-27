@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — EdgeIQ Labs</title>
+  <meta name="description" content="Security insights, technique breakdowns, and practical guides from the EdgeIQ Labs team." />
+  <meta property="og:title" content="Blog — EdgeIQ Labs" />
+  <meta property="og:description" content="Security insights, technique breakdowns, and practical guides from the EdgeIQ Labs team." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121923;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --accent: #3dd9ff;
+      --border: #233142;
+      --ok: #70f0a8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+    nav {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(11,15,20,0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+    .nav-active { color: var(--accent) !important; }
+
+    .blog-header { padding: 64px 0 48px; }
+    .blog-header h1 { font-size: 2.4rem; margin-bottom: 12px; }
+    .blog-header p { color: var(--muted); font-size: 1.05rem; max-width: 560px; }
+
+    .post-list { display: flex; flex-direction: column; gap: 24px; padding-bottom: 80px; }
+    .post-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .post-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .post-meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .post-card h2 { font-size: 1.35rem; margin-bottom: 10px; color: var(--text); }
+    .post-card .excerpt { color: var(--muted); font-size: 0.93rem; margin-bottom: 16px; }
+    .post-card .read-more { color: var(--accent); font-size: 0.88rem; font-weight: 700; }
+    .tag { display: inline-block; background: rgba(61,217,255,0.08); border: 1px solid rgba(61,217,255,0.2); color: var(--accent); font-size: 0.7rem; border-radius: 5px; padding: 3px 8px; margin-right: 6px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../" class="nav-brand">
+          <img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" />
+          <div class="nav-wordmark">
+            <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+            <div class="nav-brand-tag">Security Intelligence</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="../">Tools</a>
+          <a href="../#pricing">Pricing</a>
+          <a href="./" class="nav-active">Blog</a>
+          <a href="../#contact">Contact</a>
+          <a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="blog-header">
+      <h1>Security Intelligence Blog</h1>
+      <p>Practical guides, attack technique breakdowns, and security insights for developers, pentesters, and small security teams.</p>
+    </div>
+
+    <div class="post-list">
+
+      <a href="top-10-subdomain-takeover-attacks.html" class="post-card">
+        <div class="post-meta">April 27, 2026 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; <span class="tag">Subdomain Takeover</span><span class="tag">Attack Surface</span></div>
+        <h2>Top 10 Subdomain Takeover Attacks and How to Prevent Them</h2>
+        <p class="excerpt">Subdomain takeovers are one of the most overlooked — and most exploitable — attack vectors targeting small businesses and enterprise alike. Here's what they are, how attackers find them, and how to lock yours down.</p>
+        <span class="read-more">Read article →</span>
+      </a>
+
+      <a href="how-to-find-exposed-api-endpoints.html" class="post-card">
+        <div class="post-meta">April 27, 2026 &nbsp;·&nbsp; 7 min read &nbsp;·&nbsp; <span class="tag">API Security</span><span class="tag">OSINT</span></div>
+        <h2>How to Find Exposed API Endpoints: A Practical Guide</h2>
+        <p class="excerpt">Misconfigured APIs leak data, expose admin panels, and create attack surfaces that scanners miss. Here's the reconnaissance workflow security researchers use to find them — and how you can protect yours.</p>
+        <span class="read-more">Read article →</span>
+      </a>
+
+    </div>
+  </div>
+</body>
+</html>
