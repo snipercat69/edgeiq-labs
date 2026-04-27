@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTTP Security Headers: What Most Sites Get Wrong in 2026 — EdgeIQ Labs</title>
+  <meta name="description" content="CSP too permissive, HSTS max-age too short, X-Frame-Options instead of CSP frame-ancestors, nosniff missing, Referrer-Policy leaking data — here's what wrong looks like vs. correct for 8 critical HTTP security headers." />
+  <meta property="og:title" content="HTTP Security Headers: What Most Sites Get Wrong in 2026" />
+  <meta property="og:description" content="The 8 HTTP security headers that most sites get wrong — and the correct configurations that actually protect users." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/http-security-headers-what-sites-get-wrong.html" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121923;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --accent: #3dd9ff;
+      --border: #233142;
+      --ok: #70f0a8;
+      --warn: #f0a83d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+    nav {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(11,15,20,0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; gap: 20px; }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-logo-img { height: 52px; width: auto; border-radius: 10px; }
+    .nav-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); }
+    .nav-brand-name span { color: var(--accent); }
+    .nav-brand-tag { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--muted); text-decoration: none; padding: 6px 12px; font-size: 0.95rem; border-radius: 8px; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 8px 16px !important; border-radius: 8px !important; }
+    .nav-cta:hover { opacity: 0.88; }
+    .article-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+    .article-header h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.2; margin-bottom: 16px; }
+    .article-meta { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; }
+    .tag { display: inline-block; background: rgba(61,217,255,0.08); border: 1px solid rgba(61,217,255,0.2); color: var(--accent); font-size: 0.7rem; border-radius: 5px; padding: 3px 8px; margin-right: 6px; font-family: monospace; }
+    .lead { font-size: 1.1rem; color: var(--text); margin-bottom: 28px; border-left: 3px solid var(--accent); padding-left: 18px; }
+    h2 { font-size: 1.5rem; margin: 36px 0 14px; }
+    h3 { font-size: 1.15rem; margin: 24px 0 10px; color: var(--accent); }
+    p { color: var(--muted); margin-bottom: 18px; }
+    ul, ol { color: var(--muted); margin: 0 0 18px 22px; }
+    li { margin-bottom: 8px; }
+    code { background: rgba(61,217,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 0.88em; color: var(--accent); }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; overflow-x: auto; margin: 18px 0; }
+    pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .step-number { font-size: 0.72rem; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .step-card h3 { margin-top: 0; color: var(--text); }
+    .header-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 18px 0; }
+    .header-wrong { background: rgba(240,80,80,0.07); border-left: 3px solid #f05050; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 8px 8px 0; }
+    .header-ok { background: rgba(112,240,168,0.06); border-left: 3px solid var(--ok); padding: 12px 16px; border-radius: 0 8px 8px 0; }
+    .header-wrong p, .header-ok p { margin-bottom: 0; font-size: 0.92rem; }
+    .header-wrong p:first-child { color: #f08080; font-weight: 600; }
+    .header-ok p:first-child { color: var(--ok); font-weight: 600; }
+    .header-wrong code, .header-ok code { font-size: 0.82rem; }
+    .cta-box {
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 28px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    .cta-box h3 { color: var(--text); font-size: 1.2rem; margin-bottom: 10px; }
+    .cta-box p { color: var(--muted); margin-bottom: 18px; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; padding: 11px 22px; border-radius: 10px; text-decoration: none; }
+    .footer-cta { padding: 48px 0; border-top: 1px solid var(--border); margin-top: 48px; text-align: center; }
+    .audit-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin: 18px 0; }
+    .audit-box pre code { font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../" class="nav-brand">
+          <img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" />
+          <div class="nav-wordmark">
+            <div class="nav-brand-name">Edge<span>IQ</span> Labs</div>
+            <div class="nav-brand-tag">Security Intelligence</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="../">Tools</a>
+          <a href="../#pricing">Pricing</a>
+          <a href="./">Blog</a>
+          <a href="../#contact">Contact</a>
+          <a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 27, 2026 &nbsp;·&nbsp; 8 min read &nbsp;·&nbsp; <span class="tag">security-headers</span><span class="tag">web-security</span><span class="tag">hardening</span></div>
+      <h1>HTTP Security Headers: What Most Sites Get Wrong in 2026</h1>
+      <p class="lead">Eight HTTP security headers exist specifically to make browsers enforce protections against XSS, clickjacking, MIME sniffing, and data leaks. Most sites set them wrong — or don't set them at all. Here's what "wrong" actually looks like versus what you should be doing instead.</p>
+    </div>
+
+    <p>HTTP security headers are a browser-enforced layer of defense. When configured correctly, they tell the browser to block certain attacks automatically — without requiring application-level code changes. When configured wrong, they either do nothing or create operational problems. Most sites are in the second category.</p>
+
+    <p>Let's go through the eight headers that matter most, what "wrong" looks like, and how to get them right.</p>
+
+    <h2>1. Content-Security-Policy (CSP)</h2>
+    <p>CSP is the strongest defense against cross-site scripting (XSS). It tells the browser which sources of content are allowed to execute on your page. If an attacker injects a script, CSP blocks it — assuming the policy is strict enough.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Too permissive</p>
+        <p><code>Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com; frame-ancestors 'self'</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>'unsafe-inline'</code> allows inline scripts (including injected ones). A broad CDN trust chain means any compromise of that CDN breaks your CSP entirely. No <code>report-uri</code> means violations go unseen.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'sha256-abc123...'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; report-uri /__csp-report</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Start with <code>Content-Security-Policy-Report-Only</code> in monitor mode to catch violations before enforcement. Enforce nonce-based or hash-based inline script allowlisting instead of <code>'unsafe-inline'</code>.</p>
+      </div>
+    </div>
+
+    <p>Common CSP mistakes in 2026:</p>
+    <ul>
+      <li><code>default-src *</code> or <code>default-src 'self'</code> — too broad without specific overrides</li>
+      <li><code>'unsafe-inline'</code> in script-src — defeats the XSS protection purpose</li>
+      <li><code>script-src https://*</code> — allows any HTTPS CDN, not just yours</li>
+      <li>Missing <code>frame-ancestors</code> — leaves clickjacking attack surface</li>
+      <li>No <code>report-uri</code> or <code>report-to</code> — violations are invisible</li>
+    </ul>
+
+    <h2>2. Strict-Transport-Security (HSTS)</h2>
+    <p>HSTS tells browsers to only connect to your site over HTTPS — no plain HTTP allowed, ever. It's the header that prevents SSL-stripping attacks on subsequent visits.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Max-age too short, no subdomains</p>
+        <p><code>Strict-Transport-Security: max-age=300</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">300 seconds is five minutes. That's essentially meaningless. After a 5-minute visit, the browser forgets HSTS is set and will happily allow an HTTP connection on the next visit. No <code>includeSubDomains</code> means subdomain visits aren't protected.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>Strict-Transport-Security: max-age=63072000; includeSubDomains; preload</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">63072000 seconds = 2 years. This is the minimum you want for real protection. <code>includeSubDomains</code> extends protection to every subdomain. <code>preload</code> submits your domain to the HSTS preload list (chrome://net-internals/#hsts) — but only do this when you're certain you never need HTTP on any subdomain.</p>
+      </div>
+    </div>
+
+    <h2>3. X-Frame-Options (and why CSP frame-ancestors is better)</h2>
+    <p>X-Frame-Options prevents your site from being embedded in iframes — stopping clickjacking attacks. The problem: it's deprecated in favor of CSP's <code>frame-ancestors</code>, which is more capable.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Using X-Frame-Options</p>
+        <p><code>X-Frame-Options: DENY</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>X-Frame-Options</code> works but is not supported in CSP Report-Only mode, can't be relaxed for specific origins, and isn't part of the Feature-Policy standard. If you need to allow specific domains to embed you (for integrations), you're stuck.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct — Use CSP frame-ancestors</p>
+        <p><code>Content-Security-Policy: frame-ancestors 'none'</code> (blocks all embedding)</p>
+        <p>or for specific allowed origins:</p>
+        <p><code>Content-Security-Policy: frame-ancestors 'self' https://partner.example.com</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>frame-ancestors</code> replaces X-Frame-Options. Use it as part of your CSP policy. <code>'none'</code> blocks all. <code>'self'</code> allows your own domain. Specific origins allow controlled embedding.</p>
+      </div>
+    </div>
+
+    <h2>4. X-Content-Type-Options</h2>
+    <p>This header tells browsers not to MIME-sniff responses. Without it, a browser might execute a response as HTML even when the server says it's JavaScript — enabling attacks where uploaded files are tricked into executing as scripts.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Header not set</p>
+        <p><em>(header absent entirely)</em></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">No <code>X-Content-Type-Options</code> header means browsers will MIME-sniff and might execute content types that don't match what the server declared. This is how some upload-based XSS attacks succeed.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>X-Content-Type-Options: nosniff</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">That's it. One value, one header. If the declared content type doesn't match what the browser thinks it should be, it's blocked from executing. Set it on all responses, not just HTML pages.</p>
+      </div>
+    </div>
+
+    <h2>5. Referrer-Policy</h2>
+    <p>Every time your site links to an external site, the browser sends a Referrer header telling the destination where the user came from. If you don't control this, you're leaking full URL paths — including query parameters with IDs, tokens, and sensitive data — to third parties.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — No policy or too loose</p>
+        <p><code>Referrer-Policy: no-referrer-when-downgrade</code> (default, often leaky)</p>
+        <p>or no header at all (browser default varies)</p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>no-referrer-when-downgrade</code> sends the full URL when going from HTTPS to HTTPS (same-security). Many sites link to third parties on the same security level, leaking full path + query strings. No header at all means the browser's default kicks in — often <code>no-referrer-when-downgrade</code> or <code>unsafe-url</code> in some contexts.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>Referrer-Policy: strict-origin-when-cross-origin</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Sends the full URL only for same-origin requests. For cross-origin requests, only sends the origin (scheme + host + port) — never the full path or query string. This prevents leaking sensitive URL parameters to third parties.</p>
+      </div>
+    </div>
+
+    <h2>6. Permissions-Policy</h2>
+    <p>Permissions-Policy (formerly Feature-Policy) controls what browser features your page can access — camera, microphone, geolocation, payment handler, USB devices, web sharing, and more. If your site doesn't need these features, you should disable them.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Header not set</p>
+        <p><em>(all browser features remain accessible)</em></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Without a Permissions-Policy, any page on your site can request camera, microphone, geolocation, and other sensitive APIs. Third-party scripts embedded on your page inherit these capabilities. If a script gets compromised, it has full access to whatever features you've left enabled.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct — Disable what you don't need</p>
+        <p><code>Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Empty parentheses disable the feature entirely. <code>interest-cohort=()</code> disables FLoC tracking. Only enable features where your application genuinely needs them — and only on the specific origins that need them.</p>
+      </div>
+    </div>
+
+    <h2>7. Cross-Origin-Opener-Policy (COOP)</h2>
+    <p>COOP controls whether your browsing context can be opened by cross-origin documents. It's specifically designed to prevent popup-based attacks where a malicious site opens your site in a popup and uses the relationship to access your page's information.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Not set, or unsafe value</p>
+        <p><code>Cross-Origin-Opener-Policy: unsafe-origin-allow-popups</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">No COOP header means any cross-origin page can open your site in a popup and potentially access its browsing context group — enabling cross-origin attacks like Spectre. The <code>unsafe-origin-allow-popups</code> value undoes most of the protection.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>Cross-Origin-Opener-Policy: same-origin</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>same-origin</code> ensures your browsing context is isolated from cross-origin documents. Only documents with the same origin can open your page in a way that shares the browsing context group. This prevents cross-origin attackers from using popup windows to reach your context.</p>
+      </div>
+    </div>
+
+    <h2>8. Cross-Origin-Resource-Policy (CORP)</h2>
+    <p>CORP controls whether other origins can include your resources. It's a defense against side-channel attacks (like Spectre variants) and cross-origin resource loading attacks. It prevents other sites from loading your resources in ways that could leak their contents through speculative execution attacks.</p>
+
+    <div class="header-box">
+      <div class="header-wrong">
+        <p>❌ Wrong — Not set (allows all cross-origin loading)</p>
+        <p><em>(no CORP header — any site can embed your resources)</em></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Without CORP, your resources can be loaded by any website via script tags, iframes, or other embedding mechanisms. While browsers have other protections, CORP adds a defense-in-depth layer specifically against side-channel attacks that exploit speculative execution.</p>
+      </div>
+      <div class="header-ok">
+        <p>✓ Correct</p>
+        <p><code>Cross-Origin-Resource-Policy: same-origin</code></p>
+        <p>or for resources that should be loadable by your own site only:</p>
+        <p><code>Cross-Origin-Resource-Policy: same-site</code></p>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;"><code>same-origin</code> — only same-origin documents can load the resource. <code>same-site</code> — same-site origins can load it. <code>cross-origin</code> — explicitly allows everyone (use for CDN resources that need to be embedded). Choose based on what the resource actually needs.</p>
+      </div>
+    </div>
+
+    <h2>Quick Audit: Check Your Own Headers</h2>
+    <p>Run this curl command against your site (or any site) to see all eight headers at once:</p>
+
+    <div class="audit-box">
+      <pre><code>curl -sI https://example.com \
+  -H "Accept: text/html" \
+  | grep -iE "(content-security-policy|strict-transport|x-frame|x-content-type|referrer-policy|permissions-policy|cross-origin-opener|cross-origin-resource)"</code></pre>
+    </div>
+
+    <p>For a full response header dump including the values:</p>
+
+    <div class="audit-box">
+      <pre><code>curl -sI https://example.com -H "Accept: text/html" \
+  | grep -iE "^(content-security-policy|strict-transport|x-frame|x-content-type|referrer-policy|permissions-policy|cross-origin-opener|cross-origin-resource):"</code></pre>
+    </div>
+
+    <p>Look for each of the eight headers. If one is missing, that's a gap. If the value looks permissive or uses a weak setting, that's a finding.</p>
+
+    <h2>The Configuration Stack</h2>
+    <p>Most frameworks and web servers let you set security headers globally — no per-page code required. For Apache, add to your <code>.htaccess</code> or vhost config:</p>
+
+    <pre><code>Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'sha256-...'; img-src 'self' data:; frame-ancestors 'none'; report-uri /__csp-report"
+Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+Header set X-Content-Type-Options "nosniff"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+Header set Cross-Origin-Opener-Policy "same-origin"
+Header set Cross-Origin-Resource-Policy "same-origin"</code></pre>
+
+    <p>For Nginx:</p>
+
+    <pre><code>add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; report-uri /__csp-report" always;
+add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()" always;
+add_header Cross-Origin-Opener-Policy "same-origin" always;
+add_header Cross-Origin-Resource-Policy "same-origin" always;</code></pre>
+
+    <div class="cta-box">
+      <h3>Audit Your Security Headers with EdgeIQ</h3>
+      <p>EdgeIQ's HTTP Header Scanner analyzes all eight security headers on any domain, scores your configuration, and tells you exactly what's missing and what's set too loose — free, no signup required.</p>
+      <a href="../" class="cta-btn">Scan your headers free →</a>
+    </div>
+
+    <h2>The Bottom Line</h2>
+    <p>Security headers are a defense-in-depth layer — they don't fix broken application code, but they stop entire classes of attacks from working even when vulnerabilities exist. The eight headers above cover the most impactful protections: XSS prevention (CSP), protocol enforcement (HSTS), clickjacking prevention (frame-ancestors), MIME sniffing prevention (X-Content-Type-Options), referrer leakage prevention (Referrer-Policy), feature access control (Permissions-Policy), cross-origin context isolation (COOP), and side-channel attack mitigation (CORP).</p>
+    <p>Set them correctly. Monitor them with report-uri. Review them quarterly.</p>
+
+    <div class="footer-cta">
+      <p style="color: var(--muted); margin-bottom: 14px;">Test your site's security headers with EdgeIQ's free scanner.</p>
+      <a href="../" class="cta-btn">Get started free →</a>
+    </div>
+
+  </div>
+</body>
+</html>
