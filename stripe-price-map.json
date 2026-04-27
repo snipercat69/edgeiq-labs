@@ -243,16 +243,16 @@
       "product_id": "prod_UOFZbujJsgwJuX",
       "lifetime": {
         "price_id": "price_1TQ8PlRC1NZ20yDT9n7JJ2JB",
-        "amount": 3900,
+        "amount": 7900,
         "currency": "usd",
-        "lookup_key": "report_lifetime",
+        "lookup_key": "report_bundle5",
         "checkout_url": "https://buy.stripe.com/report_lifetime"
       },
       "monthly": {
         "price_id": "price_1TQ8QKRC1NZ20yDTrHchOUlG",
-        "amount": 700,
+        "amount": 1900,
         "currency": "usd",
-        "lookup_key": "report_monthly",
+        "lookup_key": "report_single",
         "checkout_url": "https://buy.stripe.com/report_monthly"
       }
     }
