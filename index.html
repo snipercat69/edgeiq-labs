@@ -1220,6 +1220,25 @@
   var form = document.getElementById('ssl-scan-form');
   if (!form) return;
 
+  // Pre-fill from ?url= query param (browser extension)
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var prefillUrl = params.get('url');
+    if (prefillUrl) {
+      var input = document.getElementById('scan-url');
+      if (input) {
+        input.value = prefillUrl;
+        // Auto-switch to scanner section and trigger scan after a short delay
+        var scannerSection = document.getElementById('scanner');
+        if (scannerSection) scannerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(function() {
+          var evt = new Event('submit', { bubbles: true, cancelable: true });
+          form.dispatchEvent(evt);
+        }, 600);
+      }
+    }
+  })();
+
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     var url = document.getElementById('scan-url').value.trim();
