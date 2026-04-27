@@ -1,5 +1,5 @@
 {
-  "note": "Real Stripe Payment Link URLs created 2026-04-25 — these are the actual buy.stripe.com URLs",
+  "note": "Real Stripe Payment Link URLs created 2026-04-25 \u2014 these are the actual buy.stripe.com URLs",
   "lookup_keys": {
     "xss_lifetime": "https://buy.stripe.com/14AfZjcuf30V8Ec4ko7wA0O",
     "xss_monthly": "https://buy.stripe.com/00w28t2TF30V5s0eZ27wA15",
@@ -27,7 +27,10 @@
     "lead_monthly": "https://buy.stripe.com/dRm8wR79V9pj7A89EI7wA12",
     "listing_lifetime": "https://buy.stripe.com/7sYcN79i3fNHaMkg367wA0N",
     "listing_monthly": "https://buy.stripe.com/cNi8wR3XJgRL3jSdUY7wA1e",
-    "report_lifetime": "https://buy.stripe.com/3cI8wR51N6d7g6EdUY7wA0W",
-    "report_monthly": "https://buy.stripe.com/28EfZj9i35938EcbMQ7wA14"
+    "report_lifetime": "https://buy.stripe.com/4gM5kF1PB1WR8Ec5os7wA1t",
+    "report_monthly": "https://buy.stripe.com/aFabJ3fGreJD1bKg367wA1s",
+    "report_single": "https://buy.stripe.com/aFabJ3fGreJD1bKg367wA1s",
+    "report_bundle5": "https://buy.stripe.com/4gM5kF1PB1WR8Ec5os7wA1t",
+    "report_bundle10": "https://buy.stripe.com/6oUaEZam744ZdYw0487wA1u"
   }
 }
