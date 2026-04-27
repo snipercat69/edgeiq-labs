@@ -429,6 +429,7 @@
           <button class="scan-tab" onclick="showScannerTab('xss')" id="tab-btn-xss">💉 XSS Quick Scan</button>
           <button class="scan-tab" onclick="showScannerTab('sub')" id="tab-btn-sub">🔗 Subdomains</button>
           <button class="scan-tab" onclick="showScannerTab('dns')" id="tab-btn-dns">🌐 DNS Lookup</button>
+          <button class="scan-tab" onclick="showScannerTab('whois')" id="tab-btn-whois">📋 WHOIS Lookup</button>
         </div>
         <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
@@ -613,6 +614,29 @@
       <div id="dns-results" style="display:none;margin-top:28px;text-align:left;"></div>
       <div id="dns-error" class="scan-error" style="display:none;">
         <p id="dns-error-msg">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+
+    <!-- WHOIS Lookup — Free Tool #6 -->
+    <div id="whois-panel" class="scan-panel" style="display:none;">
+      <form id="whois-scan-form" class="scan-form">
+        <div class="scan-input-row">
+          <input
+            type="text"
+            id="whois-domain"
+            placeholder="Enter a domain (e.g. google.com)"
+            style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 16px;font-size:0.95rem;"
+          />
+          <button type="submit" class="btn btn-primary scan-btn" id="whois-scan-submit">
+            <span id="whois-label">Lookup WHOIS</span>
+            <span id="whois-loading" style="display:none;">⟳</span>
+          </button>
+        </div>
+        <p class="scan-note">Free lookup — registrar, expiry, nameservers, DNSSEC status</p>
+      </form>
+      <div id="whois-results" style="display:none;margin-top:28px;text-align:left;"></div>
+      <div id="whois-error" class="scan-error" style="display:none;">
+        <p id="whois-error-msg">Something went wrong. Please try again.</p>
       </div>
     </div>
 
@@ -1298,15 +1322,15 @@
   // Tab switching
   window.showScannerTab = function(tab) {
     // Panel + form IDs for each tab
-    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel' };
-    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form' };
-    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns'];
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel', whois: 'whois-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form', whois: 'whois-scan-form' };
+    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns', 'whois'];
 
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
       var form  = document.getElementById(formMap[t]);
-      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : (t === 'sub' ? 'sub-results' : 'dns-results')));
-      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : (t === 'sub' ? 'sub-error' : 'dns-error')));
+      var resultsId = t === 'ssl' ? 'scan-results' : (t === 'headers' ? 'headers-results' : (t === 'xss' ? 'xss-quick-results' : (t === 'sub' ? 'sub-results' : (t === 'dns' ? 'dns-results' : 'whois-results'))));
+      var errId     = t === 'ssl' ? 'scan-error'     : (t === 'headers' ? 'headers-error'     : (t === 'xss' ? 'xss-quick-error' : (t === 'sub' ? 'sub-error' : (t === 'dns' ? 'dns-error' : 'whois-error'))));
       var r = document.getElementById(resultsId);
       var e = document.getElementById(errId);
       var tabBtn = document.getElementById('tab-btn-' + t);
@@ -1721,6 +1745,77 @@
         results.style.display = 'block';
       } catch(err) {
         document.getElementById('dns-error-msg').textContent = 'DNS lookup failed: ' + err.message;
+        errDiv.style.display = 'block';
+      } finally {
+        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
+      }
+    });
+  }
+
+  // ── WHOIS Lookup ───────────────────────────────────────────────────────
+  var whoisForm = document.getElementById('whois-scan-form');
+  if (whoisForm) {
+    whoisForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var domain = document.getElementById('whois-domain').value.trim();
+      if (!domain) return;
+      var btn = document.getElementById('whois-scan-submit');
+      var lbl = document.getElementById('whois-label');
+      var ldg = document.getElementById('whois-loading');
+      var results = document.getElementById('whois-results');
+      var errDiv = document.getElementById('whois-error');
+
+      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
+      results.style.display = 'none'; errDiv.style.display = 'none';
+
+      try {
+        var resp = await fetch('https://edgeiq-whois-lookup.gpalmieri21.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ domain: domain })
+        });
+
+        if (!resp.ok) throw new Error('WHOIS lookup failed (status ' + resp.status + ')');
+
+        var data = await resp.json();
+        var html = '<div style="margin-bottom:8px;font-size:1.05rem;font-weight:700;">WHOIS Record for <span style="color:var(--accent)">' + domain + '</span></div>';
+
+        if (data.error && !data.found) {
+          html += '<div class="finding info"><span class="finding-icon">ℹ</span><span>' + data.error + '</span></div>';
+        } else if (data.found) {
+          html += '<div style="display:grid;gap:10px;">';
+          function whoisRow(label, value, color) {
+            if (!value) return '';
+            return '<div class="finding info"><span class="finding-icon" style="color:var(--muted);min-width:120px;">' + label + '</span><span style="color:' + (color||'var(--text)') + ';font-weight:600;">' + value + '</span></div>';
+          }
+          if (data.handle) html += whoisRow('Handle:', data.handle);
+          if (data.registrar) html += whoisRow('Registrar:', data.registrar, 'var(--accent)');
+          if (data.name) html += whoisRow('Registrant:', data.name);
+          if (data.dates) {
+            if (data.dates.registered) html += whoisRow('Registered:', data.dates.registered.split('T')[0]);
+            if (data.dates.expires) {
+              var expColor = new Date(data.dates.expires) < new Date() ? '#ff5252' : 'var(--ok)';
+              html += whoisRow('Expires:', data.dates.expires.split('T')[0], expColor);
+            }
+            if (data.dates.updated) html += whoisRow('Updated:', data.dates.updated.split('T')[0]);
+          }
+          if (data.nameServers && data.nameServers.length > 0) {
+            html += '<div class="finding info"><span class="finding-icon" style="color:var(--muted);min-width:120px;">Name Servers:</span><span>' + data.nameServers.slice(0,4).join(', ') + '</span></div>';
+          }
+          if (data.dnssec) html += whoisRow('DNSSEC:', 'Signed ✓', 'var(--ok)');
+          if (data.abuseContact && (data.abuseContact.email || data.abuseContact.phone)) {
+            html += whoisRow('Abuse Contact:', data.abuseContact.email || data.abuseContact.phone, 'var(--warn)');
+          }
+          if (data.status && data.status.length > 0) html += whoisRow('Status:', data.status.slice(0,3).join(', '));
+          html += '</div>';
+        } else {
+          html += '<div class="finding info"><span class="finding-icon">ℹ</span><span>No WHOIS record found for this domain.</span></div>';
+        }
+
+        results.innerHTML = html;
+        results.style.display = 'block';
+      } catch(err) {
+        document.getElementById('whois-error-msg').textContent = 'WHOIS lookup failed: ' + err.message;
         errDiv.style.display = 'block';
       } finally {
         lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
