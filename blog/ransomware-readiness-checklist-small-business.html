@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ransomware Readiness Checklist for Small Businesses — EdgeIQ Labs</title>
+  <meta name="description" content="A practical ransomware readiness checklist for small businesses: backups, MFA, endpoint controls, and recovery planning." />
+  <meta property="og:title" content="Ransomware Readiness Checklist for Small Businesses" />
+  <meta property="og:description" content="The controls that matter most before a ransomware incident hits." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/ransomware-readiness-checklist-small-business.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,0.08); border:1px solid rgba(61,217,255,0.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 28, 2026 &nbsp;·&nbsp; 7 min read &nbsp;·&nbsp; <span class="tag">Ransomware</span><span class="tag">Small Business</span><span class="tag">Preparedness</span></div>
+      <h1>Ransomware Readiness Checklist for Small Businesses</h1>
+      <p class="lead">Ransomware response starts long before an incident. This checklist focuses on controls that actually reduce downtime and recovery cost.</p>
+    </div>
+
+    <div class="check"><h3>1) Backup strategy <span class="badge">Critical</span></h3><p>Use 3-2-1 backups with at least one immutable/offline copy. Test restores monthly.</p></div>
+    <div class="check"><h3>2) MFA everywhere <span class="badge">Critical</span></h3><p>Enforce MFA on email, VPN, cloud admin, and remote access tools. No exceptions for admin accounts.</p></div>
+    <div class="check"><h3>3) Endpoint hardening <span class="badge">High</span></h3><p>Block unsigned scripts, disable unnecessary macros, and enforce least privilege on endpoints.</p></div>
+    <div class="check"><h3>4) Patch cadence <span class="badge">High</span></h3><p>Prioritize internet-facing systems and remote access software first.</p></div>
+    <div class="check"><h3>5) Recovery playbook <span class="badge">High</span></h3><p>Define who decides containment, comms, legal outreach, and business continuity in first 24 hours.</p></div>
+
+    <h2>Fast validation test</h2>
+    <ul>
+      <li>Can you restore critical systems from backup in under 4 hours?</li>
+      <li>Can a single stolen password access admin panels without MFA?</li>
+      <li>Do you have current contact paths for incident escalation?</li>
+    </ul>
+
+    <div class="cta-box">
+      <h2 style="margin-top:0;">Turn this into a monthly routine</h2>
+      <p>EdgeIQ monitoring + reporting helps keep backup, exposure, and phishing controls on a repeatable schedule.</p>
+      <a href="../#pricing" class="cta-btn">View plans →</a>
+    </div>
+  </div>
+</body>
+</html>

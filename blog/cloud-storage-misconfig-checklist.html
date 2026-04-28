@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Storage Misconfiguration Checklist — EdgeIQ Labs</title>
+  <meta name="description" content="A practical checklist for cloud bucket/object storage misconfigurations: public ACLs, weak IAM, stale objects, and logging gaps." />
+  <meta property="og:title" content="Cloud Storage Misconfiguration Checklist" />
+  <meta property="og:description" content="The cloud storage mistakes that leak data and how to fix them." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/cloud-storage-misconfig-checklist.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,0.08); border:1px solid rgba(61,217,255,0.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .item { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .item h3 { color:var(--text); margin-bottom:8px; }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 28, 2026 &nbsp;·&nbsp; 6 min read &nbsp;·&nbsp; <span class="tag">Cloud Security</span><span class="tag">Storage</span><span class="tag">Hardening</span></div>
+      <h1>Cloud Storage Misconfiguration Checklist</h1>
+      <p class="lead">Misconfigured object storage still causes avoidable data leaks. Use this checklist to find high-impact issues quickly.</p>
+    </div>
+
+    <div class="item"><h3>1) Public access controls</h3><p>Block public ACLs and bucket policies unless explicitly required and approved.</p></div>
+    <div class="item"><h3>2) Least-privilege IAM</h3><p>Service identities should only access required buckets/prefixes and actions.</p></div>
+    <div class="item"><h3>3) Encryption defaults</h3><p>Enable at-rest encryption and verify key-management settings are consistent.</p></div>
+    <div class="item"><h3>4) Logging and audit trails</h3><p>Turn on object access logging and alert on unusual download spikes or cross-region access.</p></div>
+    <div class="item"><h3>5) Lifecycle and stale data</h3><p>Expire outdated objects and remove old snapshots/backups that no longer need retention.</p></div>
+
+    <h2>High-value weekly checks</h2>
+    <ul>
+      <li>Newly public buckets or policy changes</li>
+      <li>New principals with write/delete access</li>
+      <li>Large outbound object transfers</li>
+      <li>Unexpected bucket replication targets</li>
+    </ul>
+
+    <div class="cta-box">
+      <h2 style="margin-top:0;">Keep storage risk visible</h2>
+      <p>Pair exposure checks with monthly reporting to catch drift before it becomes a breach.</p>
+      <a href="../report.html" class="cta-btn">Run report workflow →</a>
+    </div>
+  </div>
+</body>
+</html>
