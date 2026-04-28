@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incident Response Checklist: The First 24 Hours — EdgeIQ Labs</title>
+  <meta name="description" content="A practical first-24-hours incident response checklist for small teams: contain, preserve evidence, communicate, and recover safely." />
+  <meta property="og:title" content="Incident Response Checklist: The First 24 Hours" />
+  <meta property="og:description" content="What small teams should do in the first 24 hours of a security incident." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/incident-response-checklist-first-24-hours.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,0.08); border:1px solid rgba(61,217,255,0.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .phase { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .phase h3 { color:var(--text); margin-bottom:8px; }
+    .warn { color:var(--warn); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 28, 2026 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; <span class="tag">Incident Response</span><span class="tag">Playbook</span><span class="tag">Ops</span></div>
+      <h1>Incident Response Checklist: The First 24 Hours</h1>
+      <p class="lead">The first day after detecting an incident decides whether you contain damage—or multiply it. This checklist keeps small teams focused under pressure.</p>
+    </div>
+
+    <div class="phase"><h3>Hour 0–2: Confirm + contain</h3><ul><li>Validate alert with evidence (logs, endpoint behavior, account activity)</li><li>Isolate affected systems/accounts without wiping evidence</li><li>Revoke exposed credentials and force key/session rotation</li></ul></div>
+    <div class="phase"><h3>Hour 2–6: Preserve evidence</h3><ul><li>Capture logs, timestamps, and relevant snapshots</li><li>Document all actions taken (who/what/when)</li><li>Avoid “quick cleanup” that destroys investigation trail</li></ul></div>
+    <div class="phase"><h3>Hour 6–12: Scope impact</h3><ul><li>Identify affected assets, users, and data classes</li><li>Map entry path and lateral movement signs</li><li>Prioritize recovery sequence by business criticality</li></ul></div>
+    <div class="phase"><h3>Hour 12–24: Communicate + recover</h3><ul><li>Publish internal status cadence (even if brief)</li><li>Apply fixes with validation checkpoints</li><li>Plan customer/legal notifications where required</li></ul></div>
+
+    <h2 class="warn">What not to do</h2>
+    <ul>
+      <li>Don’t silently restart everything and hope it disappears</li>
+      <li>Don’t delete compromised accounts before evidence capture</li>
+      <li>Don’t send speculative root-cause updates as facts</li>
+    </ul>
+
+    <div class="cta-box">
+      <h2 style="margin-top:0;">Build your lightweight IR routine</h2>
+      <p>EdgeIQ monitoring + reporting can reduce mean time to detection and give you cleaner response data when incidents hit.</p>
+      <a href="../#pricing" class="cta-btn">See monitoring plans →</a>
+    </div>
+  </div>
+</body>
+</html>
