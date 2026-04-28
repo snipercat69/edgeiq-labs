@@ -11,8 +11,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime
 
 # ── config ──────────────────────────────────────────────────────────────────────
-PORT       = int(os.getenv("SMB_DASHBOARD_PORT", "8113"))
-SAMPLE_DIR = Path("/home/guy/.openclaw/workspace/apps/edgeiq-security-report-generator/sample-data")
+PORT       = int(os.getenv("PORT", "8113"))
+SAMPLE_DIR = Path(Path(__file__).resolve().parents[1] / "sample-data")
 DATA_FILE  = Path(__file__).resolve().parents[1] / "data" / "sample_summary.json"
 
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
@@ -217,6 +217,22 @@ class Handler(BaseHTTPRequestHandler):
         return domains[0]
 
     # ── routes ──────────────────────────────────────────────────────────────────
+
+    def do_HEAD(self):
+        import urllib.parse
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+
+        if path in ("/", "/health"):
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+
+        self.send_response(404)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_GET(self):
         import urllib.parse

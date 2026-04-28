@@ -533,6 +533,18 @@ class Handler(BaseHTTPRequestHandler):
     # Public GET routes
     # -------------------------------------------------------------------------
 
+    def do_HEAD(self):
+        if self.path in ("/", "/demo", "/health"):
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+
+        self.send_response(404)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_GET(self):
         # Demo UI
         if self.path in ("/", "/demo"):
