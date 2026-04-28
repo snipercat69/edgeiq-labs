@@ -24,18 +24,195 @@ RISK_LEVELS = {
     ( 0,  39): ("critical", "Critical Risk"),
 }
 
-HTML_TMPL = """<!doctype html><html><head><meta charset='utf-8'><title>SMB Dashboard</title></head>
-<body style='background:#0b0f14;color:#e8eef7;font-family:Inter,Arial,sans-serif;padding:24px'>
-<h1>{business} — Security Dashboard</h1>
-<p>Security Score: <b style='color:#3dd9ff'>{score}/100</b></p>
-<ul>
-<li>SSL: {ssl}</li>
-<li>Uptime (24h): {uptime}% ({uptime_status})</li>
-<li>Domain expiry: {domain_expiry_days} days ({domain_expiry_status})</li>
-<li>Breach alerts: {breach_count} new ({breach_status})</li>
-</ul>
-<p style='color:#9fb0c7'>Updated: {updated}</p>
-</body></html>"""
+HTML_TMPL = """<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>EdgeIQ SMB Security Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111827;
+      --panel-2: #0f172a;
+      --text: #e8eef7;
+      --muted: #9fb0c7;
+      --line: #243142;
+      --accent: #3dd9ff;
+      --ok: #4ade80;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 18px; }
+    h1 { margin: 0; font-size: 1.4rem; }
+    .muted { color: var(--muted); }
+    .search {
+      display:flex; gap:10px; margin-bottom:16px; flex-wrap: wrap;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .search input {
+      flex: 1;
+      min-width: 260px;
+      background: #0b1220;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .search button {
+      background: var(--accent);
+      color: #071018;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .grid { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-bottom:12px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .k { color: var(--muted); font-size: .82rem; margin-bottom: 6px; }
+    .v { font-size: 1.2rem; font-weight: 700; }
+    .v.small { font-size: .95rem; font-weight: 600; }
+    .row { display:grid; grid-template-columns: 1.3fr 1fr; gap:12px; margin-top:12px; }
+    .list { margin:0; padding-left: 18px; }
+    .sev { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .pill { border:1px solid var(--line); border-radius:999px; padding:3px 9px; font-size:.78rem; }
+    .critical { color:#fecaca; border-color:#7f1d1d; }
+    .high { color:#fca5a5; border-color:#991b1b; }
+    .medium { color:#fde68a; border-color:#854d0e; }
+    .low { color:#bbf7d0; border-color:#14532d; }
+    .info { color:#bfdbfe; border-color:#1e3a8a; }
+    @media (max-width: 940px) {
+      .grid { grid-template-columns: repeat(2,1fr); }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class='wrap'>
+    <div class='topbar'>
+      <div>
+        <h1>SMB Security Dashboard</h1>
+        <div class='muted'>Live posture view powered by EdgeIQ scan APIs</div>
+      </div>
+      <div id='last-updated' class='muted'>Ready</div>
+    </div>
+
+    <div class='search'>
+      <input id='domain' value='example.com' placeholder='Enter domain (example.com)'>
+      <button id='run'>Analyze Domain</button>
+    </div>
+
+    <div class='grid'>
+      <div class='card'><div class='k'>Security Score</div><div class='v' id='score'>-</div></div>
+      <div class='card'><div class='k'>Risk Level</div><div class='v' id='risk'>-</div></div>
+      <div class='card'><div class='k'>Open Ports</div><div class='v' id='ports'>-</div></div>
+      <div class='card'><div class='k'>Active Alerts</div><div class='v' id='alerts'>-</div></div>
+    </div>
+
+    <div class='card'>
+      <div class='k'>Severity Breakdown</div>
+      <div class='sev'>
+        <span class='pill critical'>Critical: <b id='sev-critical'>0</b></span>
+        <span class='pill high'>High: <b id='sev-high'>0</b></span>
+        <span class='pill medium'>Medium: <b id='sev-medium'>0</b></span>
+        <span class='pill low'>Low: <b id='sev-low'>0</b></span>
+        <span class='pill info'>Info: <b id='sev-info'>0</b></span>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='card'>
+        <div class='k'>Top Recommendations</div>
+        <ol class='list' id='recs'></ol>
+      </div>
+      <div class='card'>
+        <div class='k'>Alerts</div>
+        <ul class='list' id='alerts-list'></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function setText(id, val) { $(id).textContent = val == null ? '-' : String(val); }
+
+    async function loadDashboard() {
+      const domain = ($('domain').value || 'example.com').trim();
+      if (!domain) return;
+      $('last-updated').textContent = `Loading ${domain}...`;
+
+      const [summary, score, recs, alerts] = await Promise.all([
+        fetch(`/api/summary?domain=${encodeURIComponent(domain)}`).then(r => r.json()),
+        fetch(`/api/score?domain=${encodeURIComponent(domain)}`).then(r => r.json()),
+        fetch(`/api/recommendations?domain=${encodeURIComponent(domain)}`).then(r => r.json()),
+        fetch(`/api/alerts?domain=${encodeURIComponent(domain)}`).then(r => r.json())
+      ]);
+
+      setText('score', `${score.score ?? '-'} / 100`);
+      setText('risk', (score.risk_level || '-').toUpperCase());
+      setText('ports', summary.network?.open_ports_count ?? '-');
+      setText('alerts', summary.breach_alerts?.new_findings ?? '-');
+
+      const sev = score.severity_breakdown || {};
+      setText('sev-critical', sev.critical ?? 0);
+      setText('sev-high', sev.high ?? 0);
+      setText('sev-medium', sev.medium ?? 0);
+      setText('sev-low', sev.low ?? 0);
+      setText('sev-info', sev.info ?? 0);
+
+      const recWrap = $('recs');
+      recWrap.innerHTML = '';
+      (recs.recommendations || []).slice(0, 8).forEach(r => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '6px';
+        li.textContent = `[${(r.severity || 'info').toUpperCase()}] ${r.title}`;
+        recWrap.appendChild(li);
+      });
+      if (!recs.recommendations || recs.recommendations.length === 0) {
+        recWrap.innerHTML = '<li>No recommendations found.</li>';
+      }
+
+      const alertsWrap = $('alerts-list');
+      alertsWrap.innerHTML = '';
+      (alerts.alerts || []).slice(0, 8).forEach(a => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '6px';
+        li.textContent = `[${(a.severity || 'info').toUpperCase()}] ${a.title}`;
+        alertsWrap.appendChild(li);
+      });
+      if (!alerts.alerts || alerts.alerts.length === 0) {
+        alertsWrap.innerHTML = '<li>No alerts found.</li>';
+      }
+
+      $('last-updated').textContent = `Updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    $('run').addEventListener('click', loadDashboard);
+    $('domain').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loadDashboard();
+    });
+    loadDashboard();
+  </script>
+</body>
+</html>"""
 
 
 # ── data loading helpers ────────────────────────────────────────────────────────
@@ -244,19 +421,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"ok": True, "service": "smb-security-dashboard"})
 
         if path == "/":
-            d = self._load_sample()
-            html = HTML_TMPL.format(
-                business=d.get("business", "Business"),
-                score=d.get("security_score", "-"),
-                ssl=d.get("ssl", {}).get("status", "unknown"),
-                uptime=d.get("uptime", {}).get("last_24h", "-"),
-                uptime_status=d.get("uptime", {}).get("status", "unknown"),
-                domain_expiry_days=d.get("domain_expiry", {}).get("expires_in_days", "-"),
-                domain_expiry_status=d.get("domain_expiry", {}).get("status", "unknown"),
-                breach_count=d.get("breach_alerts", {}).get("new_findings", "-"),
-                breach_status=d.get("breach_alerts", {}).get("status", "unknown"),
-                updated=d.get("updated_at", "-"),
-            ).encode()
+            html = HTML_TMPL.encode()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(html)))
