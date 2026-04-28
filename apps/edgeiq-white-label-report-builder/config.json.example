@@ -1,0 +1,5 @@
+{
+  "port": 8111,
+  "default_brand": "EdgeIQ Partner",
+  "allow_origins": ["*"]
+}
