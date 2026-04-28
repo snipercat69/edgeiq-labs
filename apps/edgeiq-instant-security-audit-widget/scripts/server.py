@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlencode, urlparse
 
-PORT = int(os.getenv("WIDGET_PORT", "8112"))
+PORT = int(os.getenv("PORT", "8112"))
 CTA_URL = os.getenv("WIDGET_CTA_URL", "https://edgeiqlabs.com/#pricing")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "data"))
