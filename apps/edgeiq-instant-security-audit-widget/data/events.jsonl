@@ -1,0 +1,4 @@
+{"ts_utc":"2026-04-28T17:50:16Z","event_type":"widget_load","partner":"demo-partner","domain":null,"score":null,"cta_url":null,"request_ip":"127.0.0.1","ua":"curl/8.5.0"}
+{"ts_utc":"2026-04-28T17:50:16Z","event_type":"score_check","partner":"demo-partner","domain":"example.com","score":null,"cta_url":null,"request_ip":"127.0.0.1","ua":"curl/8.5.0"}
+{"ts_utc":"2026-04-28T17:50:16Z","event_type":"score_result","partner":"demo-partner","domain":"example.com","score":77,"cta_url":"https://edgeiqlabs.com/?ref=demo-partner&domain=example.com","request_ip":"127.0.0.1","ua":"curl/8.5.0"}
+{"ts_utc":"2026-04-28T17:50:16Z","event_type":"cta_click","partner":"demo-partner","domain":"example.com","score":77,"cta_url":"https://edgeiqlabs.com/?ref=demo-partner&domain=example.com","request_ip":"127.0.0.1","ua":"curl/8.5.0"}
