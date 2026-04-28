@@ -118,6 +118,9 @@
     .hero p { color: var(--muted); max-width: 700px; margin: 0 auto 24px; }
     .hero-audience-ctas { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 8px; }
     .hero-audience-note { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+    .hero-proof-strip { margin: 18px auto 0; max-width: 920px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    .hero-proof-item { background: rgba(18,25,35,0.85); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; text-align: left; font-size: 0.86rem; color: var(--muted); }
+    .hero-proof-item strong { color: var(--text); display:block; margin-bottom: 2px; font-size: 0.9rem; }
     .btn {
       display: inline-block;
       border-radius: 10px;
@@ -401,18 +404,24 @@
         <span class="badge badge-new">New</span>
         <span class="badge" style="background:#0f2535;border-color:#1e4060;color:#7ab8d0;">✨ Subdomain Scanner Now Live</span>
       </div>
-      <h1>Security That Works for Business Owners and Security Pros</h1>
+      <h1>Protect Your Business Before Attackers Find the Gaps</h1>
       <p>
-        Whether you’re protecting a small business or running technical assessments, EdgeIQ gives you a faster path to results.
-        Start with the lane that fits you best, then scale into reports, monitoring, and remediation support.
+        EdgeIQ gives you practical, business-first security monitoring with clear next steps — not noisy dashboards.
+        Start in minutes, see risk fast, and improve security every week.
       </p>
 
       <div class="hero-audience-ctas">
-        <a class="btn btn-primary" href="#services">Protect My Business</a>
-        <a class="btn btn-secondary" href="#scanner">Security Tools for Pros</a>
+        <a class="btn btn-primary" href="#pricing">Start SMB Protection</a>
+        <a class="btn btn-secondary" href="#scanner">Try Free Scanner</a>
       </div>
-      <p class="hero-audience-note">Need help choosing? We’ll point you to the right setup in minutes.</p>
+      <p class="hero-audience-note">Simple onboarding. Real support. Clear priorities.</p>
       <a class="btn btn-secondary" href="https://discord.gg/PaP7nsFUJT" target="_blank" rel="noopener">Talk to Support</a>
+
+      <div class="hero-proof-strip">
+        <div class="hero-proof-item"><strong>Live monthly plans</strong>Instant Stripe checkout for SMB Essentials and Plus.</div>
+        <div class="hero-proof-item"><strong>Action-focused reporting</strong>Monthly summaries with prioritized fixes, not alert spam.</div>
+        <div class="hero-proof-item"><strong>Built for small teams</strong>Security coverage without needing a full SOC.</div>
+      </div>
 
       <div class="hero-terminal" id="hero-terminal">
         <div class="terminal-line"><span class="terminal-prompt">›</span><span class="terminal-output" id="terminal-line-1"></span><span class="terminal-cursor"></span></div>
