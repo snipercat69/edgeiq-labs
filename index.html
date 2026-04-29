@@ -371,7 +371,28 @@
     .severity-medium { color: #ffc400; font-weight: 700; }
     .severity-low { color: #76ff03; }
     .severity-info { color: var(--muted); }
-  </style>
+  
+    .app-row {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .app-row::-webkit-scrollbar { height: 6px; }
+    .app-row::-webkit-scrollbar-track { background: var(--border); border-radius: 3px; }
+    .app-row::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 3px; }
+    .app-row .card {
+      flex: 0 0 300px;
+      scroll-snap-align: start;
+    }
+    .app-row .card h3 { margin-bottom: 8px; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .app-row .card p { font-size: 0.82rem; line-height: 1.5; }
+    .app-row .card .btn, .app-row .card .btn-primary, .app-row .card .btn-secondary {
+      font-size: 0.75rem; padding: 6px 10px;
+    }
+</style>
   <!-- Cloudflare Web Analytics — privacy-first, no cookie consent needed -->
   <script defer src="https://static.cloudflareinsights.com/static/cf-uar.js"></script>
 </head>
@@ -735,7 +756,7 @@
       <section id="live-apps" style="padding:52px 0 40px;">
         <h2>Live EdgeIQ Apps</h2>
         <p class="section-sub">All three production MVP apps are now live. Use them directly or share with clients.</p>
-        <div class="pricing">
+        <div class="app-row">
           <article class="card anim-card">
             <h3>⚡ Instant Security Audit Widget</h3>
             <p>Embeddable lead-gen widget for MSPs and consultants. Visitors run a free snapshot scan, then click through for full reporting and conversion tracking.</p>
