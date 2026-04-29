@@ -25,6 +25,11 @@ REPORT_PDF_SERVICE_URL = os.getenv(
 )
 REPORT_PDF_TIMEOUT_SECONDS = int(os.getenv("REPORT_PDF_TIMEOUT_SECONDS", "90"))
 
+# Public demo guardrails
+DEMO_RATE_LIMIT_PER_HOUR = int(os.getenv("DEMO_RATE_LIMIT_PER_HOUR", "25"))
+DEMO_WINDOW_SECONDS = int(os.getenv("DEMO_WINDOW_SECONDS", "3600"))
+DEMO_RATE_STATE = {}
+
 # Stripe
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
@@ -453,6 +458,71 @@ def _build_report(brand, domain, contact_email, scan_dir):
     }
 
 
+def _client_ip(handler):
+    forwarded = handler.headers.get("X-Forwarded-For", "").strip()
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    if getattr(handler, "client_address", None):
+        return handler.client_address[0]
+    return "unknown"
+
+
+def _demo_rate_allowed(handler):
+    now = datetime.now(timezone.utc).timestamp()
+    ip = _client_ip(handler)
+    bucket = DEMO_RATE_STATE.get(ip, [])
+    bucket = [ts for ts in bucket if now - ts < DEMO_WINDOW_SECONDS]
+    if len(bucket) >= DEMO_RATE_LIMIT_PER_HOUR:
+        DEMO_RATE_STATE[ip] = bucket
+        return False
+    bucket.append(now)
+    DEMO_RATE_STATE[ip] = bucket
+    return True
+
+
+def _build_demo_payload(handler):
+    data = handler._read_body()
+    if not data:
+        return None, {"error": "invalid_json"}
+
+    brand = (data.get("brand") or "EdgeIQ Demo Client").strip()
+    domain = (data.get("domain") or "example.com").strip()
+    contact_email = (data.get("contact_email") or "demo@edgeiqlabs.com").strip()
+
+    if not domain:
+        return None, {"error": "domain_required"}
+
+    report = _build_report(brand, domain, contact_email, DEFAULT_SCAN_DIR)
+    return report, None
+
+
+def _handle_demo_report_generate(handler):
+    if not _demo_rate_allowed(handler):
+        return handler._send(429, {"error": "demo_rate_limited", "message": "Please try again in a bit."})
+
+    report, err = _build_demo_payload(handler)
+    if err:
+        return handler._send(400, err)
+
+    if handler.path == "/api/demo/report/generate-pdf":
+        try:
+            pdf_bytes = _request_pdf_bytes(
+                report,
+                session_id="white-label-demo",
+                recipient_email=report.get("contact_email") or "",
+                delivery_token="",
+            )
+            filename_domain = (report.get("domain") or "demo").replace("/", "_").replace(":", "_")
+            return handler._send_pdf(pdf_bytes, f"edgeiq-white-label-demo-{filename_domain}.pdf")
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", errors="ignore") if hasattr(e, "read") else str(e)
+            return handler._send(502, {"error": "pdf_backend_failed", "detail": detail[:800]})
+        except Exception as e:
+            return handler._send(502, {"error": "pdf_generation_failed", "detail": str(e)})
+
+    return handler._send(200, report)
+
+
 def _request_pdf_bytes(report_payload, session_id="", recipient_email="", delivery_token=""):
     req_payload = {
         "scan_data": report_payload["pdf_scan_data"],
@@ -607,6 +677,13 @@ class Handler(BaseHTTPRequestHandler):
         # Login
         if self.path == "/api/auth/login":
             return self._handle_login()
+
+        # Public demo report generation (unauthenticated, rate-limited, sample-data only)
+        if self.path in (
+            "/api/demo/report/generate",
+            "/api/demo/report/generate-pdf",
+        ):
+            return _handle_demo_report_generate(self)
 
         # Report generation (authenticated)
         if self.path in (
@@ -891,12 +968,12 @@ DEMO_HTML = """<!doctype html>
     };
   }
   async function preview(){
-    const r = await fetch('/api/report/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload())});
+    const r = await fetch('/api/demo/report/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload())});
     const j = await r.json();
     document.getElementById('out').textContent = JSON.stringify({ok:j.ok, score:j.security_score, risk:j.risk_level, severity:j.severity, top_critical:j.critical_findings, coverage:j.coverage}, null, 2);
   }
   async function downloadPdf(){
-    const r = await fetch('/api/report/generate-pdf', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload())});
+    const r = await fetch('/api/demo/report/generate-pdf', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload())});
     if(!r.ok){
       const t = await r.text();
       document.getElementById('out').textContent = 'PDF error: ' + t;
