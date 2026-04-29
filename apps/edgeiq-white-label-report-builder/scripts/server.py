@@ -940,7 +940,7 @@ DEMO_HTML = """<!doctype html>
     <div class='row'>
       <div>
         <label>Brand</label>
-        <input id='brand' value='Cypher Security' />
+        <input id='brand' value='EdgeIQ Labs' />
       </div>
       <div>
         <label>Domain</label>
