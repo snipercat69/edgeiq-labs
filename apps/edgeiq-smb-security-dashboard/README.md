@@ -1,31 +1,90 @@
 # EdgeIQ SMB Security Dashboard
 
-Single-pane dashboard for non-technical SMB owners — backed by real scan data.
+Single-pane dashboard for SMB owners with a **free score preview** and **paid dashboard unlock**.
+
+## Free vs Paid
+
+### Free teaser mode
+Available without auth:
+- `/` dashboard UI
+- `/health`
+- `/api/score`
+
+The homepage always loads the free score + risk preview.
+
+### Paid unlock
+Protected endpoints:
+- `/api/summary`
+- `/api/alerts`
+- `/api/recommendations`
+
+If a request does not include valid paid auth, the API returns HTTP `402`:
+
+```json
+{
+  "error": "paid_required",
+  "message": "This panel is part of the paid SMB dashboard. Upgrade for full summary, alerts, and remediation guidance.",
+  "upgrade_url": "https://edgeiqlabs.com/#pricing"
+}
+```
+
+The frontend detects that response and shows locked panels with upgrade CTAs.
+
+## Auth
+
+Set a paid token with the `DASHBOARD_PRO_TOKEN` environment variable.
+
+```bash
+export DASHBOARD_PRO_TOKEN='your-secret-pro-token'
+```
+
+You can pass the token either way:
+
+### Bearer token
+```bash
+curl -H "Authorization: Bearer your-secret-pro-token" \
+  "http://localhost:8113/api/summary?domain=example.com"
+```
+
+### Query parameter
+```bash
+curl "http://localhost:8113/api/summary?domain=example.com&token=your-secret-pro-token"
+```
+
+The dashboard UI also includes an optional token input so paid customers can unlock the panels live in-browser.
 
 ## Run
+
 ```bash
 cd apps/edgeiq-smb-security-dashboard
 python3 scripts/server.py
 ```
-Server: `http://localhost:8113`
+
+Render-compatible port binding is enabled through `PORT`.
+
+Server:
+- local default: `http://localhost:8113`
+- Render: `http://0.0.0.0:$PORT`
 
 ## Routes
 
 ### Dashboard
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/` | Dashboard HTML page |
+| GET | `/` | Dashboard HTML page with free teaser + paid unlock UI |
+| HEAD | `/` | Lightweight health/load-balancer probe |
 | GET | `/health` | Health check |
+| HEAD | `/health` | Health check probe |
 
 ### API Endpoints
 All endpoints accept an optional `?domain=<domain>` query param (defaults to `example.com`).
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/summary` | Aggregate security posture from all scan types |
-| GET | `/api/alerts` | Active (unacknowledged) alerts for the domain |
-| GET | `/api/score` | Aggregate score (0–100), risk level, and severity breakdown |
-| GET | `/api/recommendations` | Top remediation items sorted by severity |
+| Method | Path | Access | Description |
+|--------|------|--------|-------------|
+| GET | `/api/score` | Free | Aggregate score (0–100), risk level, and severity breakdown |
+| GET | `/api/summary` | Paid | Aggregate security posture from all scan types |
+| GET | `/api/alerts` | Paid | Active (unacknowledged) alerts for the domain |
+| GET | `/api/recommendations` | Paid | Top remediation items sorted by severity |
 
 ## API Examples
 
@@ -33,25 +92,24 @@ All endpoints accept an optional `?domain=<domain>` query param (defaults to `ex
 # Health check
 curl http://localhost:8113/health
 
-# Security posture summary
-curl "http://localhost:8113/api/summary?domain=example.com"
-
-# Active alerts
-curl "http://localhost:8113/api/alerts?domain=example.com"
-
-# Aggregate security score
+# Free score preview (no token required)
 curl "http://localhost:8113/api/score?domain=example.com"
 
-# Prioritized remediation items
-curl "http://localhost:8113/api/recommendations?domain=example.com"
+# Paid summary without token -> 402
+curl -i "http://localhost:8113/api/summary?domain=example.com"
+
+# Paid summary with token -> 200
+curl -H "Authorization: Bearer your-secret-pro-token" \
+  "http://localhost:8113/api/summary?domain=example.com"
 ```
 
 ## Data Model
 
 The dashboard aggregates from four scan types located in:
-```
-apps/edgeiq-security-report-generator/sample-data/
-  ├── xss_<domain>.json      XSS scanner findings
+
+```text
+apps/edgeiq-smb-security-dashboard/sample-data/
+  ├── xss_<domain>.json       XSS scanner findings
   ├── network_<domain>.json   Open ports + CVE list
   ├── ssl_<domain>.json       SSL certificate + cipher issues
   └── alert_<domain>.json     Alerting system events
@@ -61,13 +119,10 @@ The **security score** is derived from the combined severity breakdown of all fi
 - `critical` → −40 pts per finding
 - `high`     → −25 pts per finding
 - `medium`   → −10 pts per finding
-- `low`      → −3  pts per finding
+- `low`      → −3 pts per finding
 
-Score 80–100 = low risk, 60–79 = moderate, 40–59 = high, 0–39 = critical.
-
-## MVP Goals
-- ✅ Show SSL status, uptime, domain expiry, breach flags, and summary risk score
-- ✅ Aggregate real scan data (XSS, network, SSL, alerts) via `/api/*`
-- ✅ Compute severity breakdown from actual JSON scan files
-- ✅ Prioritized remediation recommendations sorted by severity
-- ✅ Simple daily-updated JSON data model; minimal auth can be added next
+Score mapping:
+- `80–100` → low risk
+- `60–79` → moderate risk
+- `40–59` → high risk
+- `0–39` → critical risk
