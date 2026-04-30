@@ -45,95 +45,6 @@
     .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 7px 14px !important; border-radius: 8px !important; white-space: nowrap; flex-shrink: 0; }
     .nav-cta:hover { opacity: 0.88; }
 
-    /* ── Audience Navigation ── */
-    .audience-nav {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 65px;
-      z-index: 9;
-      padding: 10px 0;
-    }
-    .audience-pills {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .audience-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 16px;
-      border-radius: 20px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      background: transparent;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-    .audience-pill:hover, .audience-pill.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(61,217,255,0.08);
-    }
-    .audience-pill svg { width: 14px; height: 14px; flex-shrink: 0; }
-    /* Pricing section dividers */
-    .pricing-section-header {
-      padding: 14px 0 8px;
-      border-top: 1px solid var(--border);
-      margin-top: 4px;
-    }
-    .pricing-section-header:first-child { border-top: none; margin-top: 0; }
-    .pricing-section-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.85;
-    }
-    /* Audience final CTA grid */
-    .audience-final-cta {
-      border-top: 1px solid var(--border);
-      padding: 52px 0;
-    }
-    .audience-cta-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .audience-cta-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .audience-cta-card h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0;
-    }
-    .audience-cta-card p {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin: 0;
-      flex: 1;
-    }
-    .audience-cta-card .btn { text-align: center; }
-    @media (max-width: 700px) {
-      .audience-cta-grid { grid-template-columns: 1fr; }
-    }
-
-
     .hero { padding: 72px 0 50px; text-align: center; }
     .hero-terminal {
       max-width: 600px;
@@ -486,29 +397,6 @@
       </div>
     </div>
   </nav>
-  <div class="audience-nav">
-    <div class="container">
-      <div class="audience-pills">
-        <a href="#scanner" class="audience-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Free Tools
-        </a>
-        <a href="#for-business" class="audience-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          For Business Owners
-        </a>
-        <a href="#for-pros" class="audience-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          For Security Pros
-        </a>
-        <a href="#for-builders" class="audience-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          For Builders &amp; Devs
-        </a>
-      </div>
-    </div>
-  </div>
-
 
   <main class="container">
     <section class="hero">
@@ -860,7 +748,7 @@
             </div>
           </article>
           <article class="card anim-card">
-            <div id="for-business"></div><div class="pricing-section-header"><span class="pricing-section-label">🛡️ SMB &amp; Business Bundles</span></div><h3>📊 SMB Security Dashboard</h3>
+            <h3>📊 SMB Security Dashboard</h3>
             <p>Free score preview. Full dashboard with alerts and recommendations unlocks with paid access.</p>
             <ul style="margin:6px 0 8px 18px;color:var(--muted);font-size:0.85rem;">
               <li>Free: score + risk preview</li>
@@ -897,7 +785,7 @@
       <div class="pricing">
 
         <article class="card anim-card">
-          <div id="for-pros"></div><div class="pricing-section-header"><span class="pricing-section-label">🔐 Security Pro Tools</span></div><h3>🔍 XSS Scanner Pro</h3>
+          <h3>🔍 XSS Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/14AfZjcuf30V8Ec4ko7wA0O" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39</a>
             <a class="btn btn-secondary" href="https://buy.stripe.com/00w28t2TF30V5s0eZ27wA15" target="_blank" rel="noopener" style="font-size:0.8rem;">or $7/mo</a>
@@ -2116,56 +2004,5 @@
   }
 })();
 </script>
-
-<div class="audience-final-cta">
-  <div class="container">
-    <div class="audience-cta-grid">
-      <div class="audience-cta-card" id="cta-business">
-        <h4>🛡️ For Business Owners</h4>
-        <p>Get the full SMB security bundle — dashboards, phishing training, SSL monitoring, and monthly reports.</p>
-        <a class="btn btn-primary" href="#pricing">View SMB Plans →</a>
-        <a class="btn btn-secondary" href="#contact">Talk to Support</a>
-      </div>
-      <div class="audience-cta-card" id="cta-pros">
-        <h4>🔐 For Security Professionals</h4>
-        <p>Pick individual pro tools — XSS, Network Scanner, SSL Watcher. Lifetime or monthly, your call.</p>
-        <a class="btn btn-primary" href="#pricing">View All Tools →</a>
-      </div>
-      <div class="audience-cta-card" id="cta-builders">
-        <h4>🦞 For Builders &amp; Devs</h4>
-        <p>Set up OpenClaw on your own VPS or let us manage it. Self-hosted automation that runs on your infrastructure.</p>
-        <a class="btn btn-primary" href="#pricing">Start with OpenClaw →</a>
-        <a class="btn btn-secondary" href="#contact">Ask a Question</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-(function() {
-  var pills = document.querySelectorAll('.audience-pill');
-  var sections = [
-    { id: 'scanner', pill: '#scanner' },
-    { id: 'for-business', pill: '#for-business' },
-    { id: 'for-pros', pill: '#for-pros' },
-    { id: 'for-builders', pill: '#for-builders' }
-  ];
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        pills.forEach(function(p) { p.classList.remove('active'); });
-        var target = document.querySelector('[href="#' + entry.target.id + '"]');
-        if (target) target.classList.add('active');
-      }
-    });
-  }, { threshold: 0.3 });
-  sections.forEach(function(s) {
-    var el = document.getElementById(s.id);
-    if (el) observer.observe(el);
-  });
-})();
-</script>
-
 </body>
 </html>
