@@ -57,6 +57,14 @@
     .cta-box p { margin-bottom: 14px; }
     .cta-btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
     .footer-cta { padding: 40px 0; border-top: 1px solid var(--border); margin-top: 40px; text-align: center; }
+    .footer-newsletter { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin: 28px 0 0; }
+    .footer-newsletter h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .footer-newsletter p { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; }
+    .footer-newsletter-form { display: flex; gap: 8px; max-width: 400px; margin: 0 auto 10px; }
+    .footer-newsletter-form input[type="email"] { flex: 1; background: #0d1420; border: 1px solid #233142; border-radius: 8px; color: var(--text); padding: 9px 12px; font-size: 0.9rem; outline: none; }
+    .footer-newsletter-form input[type="email"]::placeholder { color: var(--muted); }
+    .footer-newsletter-form button { background: var(--accent); color: #071018; border: none; border-radius: 8px; padding: 9px 14px; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+    .footer-newsletter-note { color: var(--muted); font-size: 0.78rem; }
     .tool-anchor { scroll-margin-top: 80px; }
     .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
     .tool-card h3 { margin-top: 0; color: var(--text); }
@@ -1094,6 +1102,16 @@ openclaw run edgeiq-ssl-watcher --domain example.com --alert</code></pre>
       <h3>Start Scanning for Free — Right Now</h3>
       <p>No account, no download, no commitment. Try the free web scanners or download a terminal tool.</p>
       <a href="../" class="cta-btn">Browse free tools →</a>
+    </div>
+
+    <div class="footer-newsletter">
+      <h3>Get The Edge Brief — Weekly security intel</h3>
+      <p>Top CVEs, breach stories in plain English, and actionable tips. Free forever. 500+ subscribers.</p>
+      <form class="footer-newsletter-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="your@email.com" required />
+        <button type="submit">Subscribe →</button>
+      </form>
+      <p class="footer-newsletter-note">Free forever. No spam. Unsubscribe anytime.</p>
     </div>
 
     <div class="footer-cta">

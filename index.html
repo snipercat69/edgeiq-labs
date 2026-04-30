@@ -441,6 +441,69 @@
     }
     .faq-item.open .faq-answer { display: block; }
 
+    /* ── Newsletter Section ── */
+    #newsletter {
+      padding: 52px 0 40px;
+    }
+    .newsletter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .newsletter-card h2 {
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+    }
+    .newsletter-sub {
+      color: var(--muted);
+      font-size: 0.93rem;
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto 12px;
+    }
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      background: #0d1420;
+      border: 1px solid #233142;
+      border-radius: 10px;
+      color: var(--text);
+      padding: 11px 14px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .newsletter-form input[type="email"]::placeholder { color: var(--muted); }
+    .newsletter-form input[type="email"]:focus { border-color: var(--accent); }
+    .newsletter-form button {
+      white-space: nowrap;
+      background: var(--accent);
+      color: #071018;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .newsletter-form button:hover { opacity: 0.88; }
+    .newsletter-note {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    @media (max-width: 480px) {
+      .newsletter-form { flex-direction: column; }
+      .newsletter-card { padding: 28px 20px; }
+    }
+
 </style>
   <!-- Cloudflare Web Analytics — privacy-first, no cookie consent needed -->
   <script defer src="https://static.cloudflareinsights.com/static/cf-uar.js"></script>
@@ -1379,9 +1442,23 @@
       </div>
     </section>
 
-    
+    <!-- Newsletter Signup -->
+    <section id="newsletter">
+      <div class="container">
+        <div class="newsletter-card">
+          <h2>Get The Edge Brief — Weekly security intel, no jargon</h2>
+          <p class="newsletter-sub">Top CVEs, breach stories in plain English, and actionable tips. Free forever. 500+ subscribers.</p>
+          <!-- TODO: wire up form action — Formspree endpoint or custom handler -->
+          <form class="newsletter-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+            <!-- Industry/type dropdown can be added here in future iteration -->
+            <button type="submit">Subscribe →</button>
+          </form>
+          <p class="newsletter-note">Free forever. No spam. Unsubscribe anytime.</p>
+        </div>
+      </div>
+    </section>
 
-    
     <section id="faq" class="faq-section">
       <div class="container">
         <h2>Frequently Asked Questions</h2>
