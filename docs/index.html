@@ -312,6 +312,682 @@ python3 edgeiq-credential-checker.py --email your@email.com</code></pre>
       </div>
     </div>
 
+    <div class="tool-card" id="sql-injection">
+      <h3>💉 SQL Injection Scanner Pro — Find SQL injection vulnerabilities in web forms and URLs</h3>
+      <p>Tests websites for SQL injection flaws by injecting safe test payloads into forms, URL parameters, and API endpoints.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-sql-injection-scanner.py -o edgeiq-sql-injection-scanner.py
+python3 edgeiq-sql-injection-scanner.py --target "https://example.com/product?id=1"</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A target URL</strong> — any website you have permission to test (never scan sites without authorization)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal (Search "Terminal" on Mac or "cmd" on Windows)</li>
+        <li>Copy the curl command above and paste it into the terminal, then press Enter</li>
+        <li>Wait for the file to download — you'll see a blinking cursor again when it's done</li>
+        <li>Copy the python3 command above, paste it in, and press Enter</li>
+        <li>The scan will start automatically and print results to your screen</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Run a basic scan by pointing it at a URL with a parameter (like <code>?id=1</code>):</p>
+      <pre><code>python3 edgeiq-sql-injection-scanner.py --target "https://example.com/page?id=2"</code></pre>
+      <p>Scan an entire website by pointing it at a sitemap:</p>
+      <pre><code>python3 edgeiq-sql-injection-scanner.py --target "https://example.com" --scan-all</code></pre>
+      <p>Save results to a file:</p>
+      <pre><code>python3 edgeiq-sql-injection-scanner.py --target "https://example.com" --output report.json</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>20 SQL injection payload tests</li>
+          <li>Scan forms and URL parameters</li>
+          <li>Basic vulnerability summary in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>100+ payloads including time-based and union-based injection</li>
+          <li>Full website crawl + scan all pages</li>
+          <li>WAF (firewall) detection and bypass techniques</li>
+          <li>Screenshot evidence of vulnerabilities</li>
+          <li>JSON and HTML report export</li>
+          <li>Priority scan speed</li>
+        </ul>
+      </div>
+      <p><em>⚠️ Only scan websites you own or have written permission to test. Unauthorized scanning is illegal.</em></p>
+    </div>
+
+    <div class="tool-card" id="oauth">
+      <h3>🔐 OAuth Security Checker Pro — Test OAuth 2.0 authentication for vulnerabilities</h3>
+      <p>Checks if OAuth login systems (Google, Facebook logins etc.) are securely configured and resistant to common attacks.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-oauth-checker.py -o edgeiq-oauth-checker.py
+python3 edgeiq-oauth-checker.py --target "https://example.com/auth/login"</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>OAuth endpoint URL</strong> — the login page that uses Google, Facebook, or another OAuth provider</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command above and press Enter to download the tool</li>
+        <li>Paste the python3 command above, substituting <code>--target</code> with your website's OAuth login URL</li>
+        <li>Results appear directly in your terminal when the scan finishes</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Test a site's OAuth login flow:</p>
+      <pre><code>python3 edgeiq-oauth-checker.py --target "https://example.com/oauth/login"</code></pre>
+      <p>Run a deep check including state token validation:</p>
+      <pre><code>python3 edgeiq-oauth-checker.py --target "https://example.com/oauth/login" --deep</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>Basic OAuth flow analysis</li>
+          <li>Redirect URI validation check</li>
+          <li>State token presence check</li>
+          <li>Results in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Full authorization code flow test</li>
+          <li>Token leakage detection</li>
+          <li>CSRF protection verification</li>
+          <li>Redirect URI enum/allowlist check</li>
+          <li>Access token lifetime validation</li>
+          <li>JSON and PDF report export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="api-discovery">
+      <h3>🔎 API Endpoint Discovery Pro — Find hidden API endpoints and documentation</h3>
+      <p>Discovers undocumented API endpoints, Swagger/UML files, and developer portals that may be accidentally exposed.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-api-discovery.py -o edgeiq-api-discovery.py
+python3 edgeiq-api-discovery.py --target "https://api.example.com"</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A domain or API base URL</strong> — for example, <code>example.com</code> or <code>api.example.com</code></li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Paste the python3 command, replacing the target with your domain or API URL</li>
+        <li>Press Enter — the tool will scan and list every endpoint it finds</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Find all endpoints on a domain:</p>
+      <pre><code>python3 edgeiq-api-discovery.py --target "https://example.com"</code></pre>
+      <p>Focus on a specific API subdomain:</p>
+      <pre><code>python3 edgeiq-api-discovery.py --target "https://api.example.com" --deep</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>Common endpoint wordlist scan (50 endpoints)</li>
+          <li>Swagger/API doc detection</li>
+          <li>Basic results list in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>10,000+ endpoint wordlist</li>
+          <li>Parameter fuzzing for each endpoint</li>
+          <li>OpenAPI/Swagger full specification extraction</li>
+          <li>HTTP method enumeration (GET, POST, PUT, DELETE, etc.)</li>
+          <li>Authentication requirement detection</li>
+          <li>JSON and CSV export of all discovered endpoints</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="phishing-kit">
+      <h3>🎭 Phishing Kit Detector Pro — Detect phishing kits hosted on your domain</h3>
+      <p>Scans your domain to find phishing pages that impersonate your brand, helping you take them down faster.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-phishing-kit-detector.py -o edgeiq-phishing-kit-detector.py
+python3 edgeiq-phishing-kit-detector.py --domain example.com</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Your domain name</strong> — for example, <code>yourcompany.com</code></li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Paste the python3 command with your domain substituted in</li>
+        <li>The tool checks public breach records and threat intelligence feeds</li>
+        <li>Results list any phishing kits found targeting your brand</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Scan your domain for phishing kits:</p>
+      <pre><code>python3 edgeiq-phishing-kit-detector.py --domain "yourcompany.com"</code></pre>
+      <p>Get details on each kit found:</p>
+      <pre><code>python3 edgeiq-phishing-kit-detector.py --domain "yourcompany.com" --verbose</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>1 domain scan per month</li>
+          <li>Basic phishing kit detection</li>
+          <li>Kit URL listing in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited domain scans</li>
+          <li>Brand logo and asset imitation detection</li>
+          <li>Phishing kit source code analysis</li>
+          <li>Automatic takedown request generation</li>
+          <li>Weekly monitoring with email alerts</li>
+          <li>JSON and PDF report with IOCs (Indicators of Compromise)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="email-header">
+      <h3>📧 Email Header Analyzer Pro — Analyze email headers for fraud and spoofs</h3>
+      <p>Paste an email's raw headers and the tool checks for SPF, DKIM, DMARC failures, route anomalies, and signs of spoofing.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-email-header-analyzer.py -o edgeiq-email-header-analyzer.py
+python3 edgeiq-email-header-analyzer.py --headers "Received: from mail.example.com..."</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Email headers</strong> — copy the "raw headers" from an email (in Gmail, click the three dots → Show original; in Outlook, File → Properties → Internet Headers)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Open your email client and find an email whose headers you want to analyze</li>
+        <li>Copy the full headers (everything above the email body)</li>
+        <li>Paste the python3 command with your headers substituted in (use quotes if the headers span multiple lines)</li>
+        <li>The analysis will print to your terminal</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Analyze headers from a file:</p>
+      <pre><code>python3 edgeiq-email-header-analyzer.py --file headers.txt</code></pre>
+      <p>Check a single email header inline:</p>
+      <pre><code>python3 edgeiq-email-header-analyzer.py --headers "From: sender@example.com..."</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>10 email header analyses per month</li>
+          <li>SPF, DKIM, DMARC check</li>
+          <li>Basic route analysis</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited header analyses</li>
+          <li>Full header chain reconstruction</li>
+          <li>IP geolocation for each hop</li>
+          <li>Reputation scoring for sending servers</li>
+          <li>Forgery/fraud probability rating</li>
+          <li>JSON and PDF report export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="malware">
+      <h3>🦠 Malware Signature Scanner Pro — Detect known malware signatures in files</h3>
+      <p>Scans files or URLs against a database of known malware signatures and hash-based threat intelligence.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-malware-scanner.py -o edgeiq-malware-scanner.py
+python3 edgeiq-malware-scanner.py --file suspicious.exe</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A file to scan</strong> — a program, script, document, or any file you want to check</li>
+        <li><strong>Internet connection</strong> — needed to check against the threat database</li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Place the file you want to scan in an easy-to-find location (like your Desktop)</li>
+        <li>Paste the python3 command, replacing <code>suspicious.exe</code> with the path to your file</li>
+        <li>Results appear in your terminal showing whether any matches were found</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Scan a specific file:</p>
+      <pre><code>python3 edgeiq-malware-scanner.py --file "/path/to/your/file.exe"</code></pre>
+      <p>Scan a URL (to check a file before downloading):</p>
+      <pre><code>python3 edgeiq-malware-scanner.py --url "https://example.com/downloads/software.exe"</code></pre>
+      <p>Scan an entire folder:</p>
+      <pre><code>python3 edgeiq-malware-scanner.py --folder "/path/to/downloads"</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>5 file/URL scans per month</li>
+          <li>MD5 and SHA256 hash matching</li>
+          <li>Basic threat category detection</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited scans</li>
+          <li>YARA rule scanning (advanced pattern matching)</li>
+          <li>PE (Windows executable) static analysis</li>
+          <li>IP and URL threat intelligence lookup</li>
+          <li>Sandbox behavior simulation summary</li>
+          <li>JSON and PDF report with full IOCs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="lead-researcher">
+      <h3>📋 Lead Researcher Pro — Find business leads and contact info from a domain</h3>
+      <p>Enter a company domain and get back employee names, titles, LinkedIn profiles, and email addresses.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-lead-researcher.py -o edgeiq-lead-researcher.py
+python3 edgeiq-lead-researcher.py --domain example.com</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A company domain</strong> — for example, <code>acme.com</code></li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Paste the python3 command, substituting your target company's domain</li>
+        <li>The tool queries public data sources and returns a list of contacts</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Find all leads from a company domain:</p>
+      <pre><code>python3 edgeiq-lead-researcher.py --domain "acme.com"</code></pre>
+      <p>Filter to only people with a specific job title:</p>
+      <pre><code>python3 edgeiq-lead-researcher.py --domain "acme.com" --title "marketing"</code></pre>
+      <p>Export leads to CSV:</p>
+      <pre><code>python3 edgeiq-lead-researcher.py --domain "acme.com" --output leads.csv</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>10 domain searches per month</li>
+          <li>Basic name and title data</li>
+          <li>Results in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited domain searches</li>
+          <li>Verified work email addresses</li>
+          <li>LinkedIn profile URLs</li>
+          <li>Department and seniority filtering</li>
+          <li>Deduplication and data enrichment</li>
+          <li>CSV and JSON export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="business-listing">
+      <h3>🏪 Business Listing Aggregator Pro — Build local business lead lists by location</h3>
+      <p>Search for all businesses in a city or zip code — great for local marketing, B2B outreach, and market research.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-business-listing.py -o edgeiq-business-listing.py
+python3 edgeiq-business-listing.py --city "New York" --state NY</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A city and state</strong> — for example, <code>"Austin"</code> and <code>TX</code></li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Paste the python3 command, substituting your city and state</li>
+        <li>The tool searches business directories and compiles a list</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Find all businesses in a city:</p>
+      <pre><code>python3 edgeiq-business-listing.py --city "Austin" --state TX</code></pre>
+      <p>Filter by business category:</p>
+      <pre><code>python3 edgeiq-business-listing.py --city "Austin" --state TX --category "restaurants"</code></pre>
+      <p>Save results to a file:</p>
+      <pre><code>python3 edgeiq-business-listing.py --city "Austin" --state TX --output austin_businesses.csv</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>3 city searches per month</li>
+          <li>Business name and address</li>
+          <li>Results in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited city and zip code searches</li>
+          <li>Phone numbers and website URLs</li>
+          <li>Category and industry filtering</li>
+          <li>Radius search (within X miles of an address)</li>
+          <li>Deduplication and data enrichment</li>
+          <li>CSV and JSON export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="report-generator">
+      <h3>📊 Security Report Generator Pro — Create professional pentest and security audit reports</h3>
+      <p>Combines results from multiple EdgeIQ tools into a polished PDF report with executive summary, technical findings, and remediation steps.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-report-generator.py -o edgeiq-report-generator.py
+python3 edgeiq-report-generator.py --scan-results ./scan-output/ --output report.pdf</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Scan results</strong> — JSON or text output from other EdgeIQ tools (run a scan first, then feed the results here)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal</li>
+        <li>Paste the curl command and press Enter to download the tool</li>
+        <li>Run one or more other EdgeIQ tools (like the XSS Scanner or Network Scanner) and save the output</li>
+        <li>Paste the python3 command, pointing to your saved scan results and choosing a filename for the report</li>
+        <li>The PDF report will be created and saved to the location you specified</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Generate a report from scan results:</p>
+      <pre><code>python3 edgeiq-report-generator.py --scan-results ./my-scan-results/ --output security-report.pdf</code></pre>
+      <p>Include your company name and logo:</p>
+      <pre><code>python3 edgeiq-report-generator.py --scan-results ./my-scan-results/ --company "Acme Corp" --logo ./logo.png --output report.pdf</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>3 reports per month</li>
+          <li>Basic PDF format</li>
+          <li>Technical findings list</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited reports</li>
+          <li>Executive summary with risk ratings</li>
+          <li>Remediation step-by-step guidance</li>
+          <li>Branded report with your logo and colors</li>
+          <li>CVSS scoring for each finding</li>
+          <li>PDF and HTML export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="alerting">
+      <h3>🔔 Alerting System Pro — Get notified instantly when scans find critical issues</h3>
+      <p>Connects EdgeIQ scan results to Discord, Slack, Telegram, or email so you never miss a critical vulnerability.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-alerting-system.py -o edgeiq-alerting-system.py
+python3 edgeiq-alerting-system.py --configure --channel discord</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Webhook URL</strong> — from Discord, Slack, or Telegram (instructions below)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal and download the tool with the curl command above</li>
+        <li><strong>For Discord:</strong> Go to your Discord server → Server Settings → Integrations → Webhooks → New Webhook → Copy the URL</li>
+        <li><strong>For Slack:</strong> Go to your Slack workspace → Apps → Incoming Webhooks → Add New Webhook → Copy the URL</li>
+        <li><strong>For Telegram:</strong> Create a bot via @BotFather, get your bot token and chat ID, then use the Telegram webhook format</li>
+        <li>Run the configure command with your channel choice and paste the webhook URL when prompted</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Configure Discord alerts:</p>
+      <pre><code>python3 edgeiq-alerting-system.py --configure --channel discord</code></pre>
+      <p>Test the alert system:</p>
+      <pre><code>python3 edgeiq-alerting-system.py --test</code></pre>
+      <p>Connect to a specific EdgeIQ scan:</p>
+      <pre><code>python3 edgeiq-xss-scanner.py --target "https://example.com" --alert --config edgeiq-alerting-system.json</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>Discord or email alerts</li>
+          <li>Basic alert formatting</li>
+          <li>1 alert channel</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>All channels: Discord, Slack, Telegram, SMS, email</li>
+          <li>Severity-based filtering (critical only, warning only, etc.)</li>
+          <li>Custom alert templates with your branding</li>
+          <li>Scheduled digest (daily or weekly summary instead of per-scan alerts)</li>
+          <li>Alert history and status dashboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="market-watch">
+      <h3>📈 Market Watch Bot Pro — Monitor competitor pricing and product changes automatically</h3>
+      <p>Tracks competitor websites and alerts you when prices change, products are added or removed, or landing pages are updated.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-market-watch.py -o edgeiq-market-watch.py
+python3 edgeiq-market-watch.py --configure</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Competitor URLs</strong> — the pages you want to monitor (product pages, pricing pages)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal and download the tool</li>
+        <li>Run the configure command to set up your first watch target</li>
+        <li>Enter the competitor URL and your alert preferences</li>
+        <li>The tool will take a snapshot and compare it each time it runs</li>
+        <li>Set up a cron job (see scheduling section) to run the check daily</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Configure a new competitor watch:</p>
+      <pre><code>python3 edgeiq-market-watch.py --configure</code></pre>
+      <p>Manually run a check right now:</p>
+      <pre><code>python3 edgeiq-market-watch.py --check "https://competitor.com/pricing"</code></pre>
+      <p>View change history:</p>
+      <pre><code>python3 edgeiq-market-watch.py --history --domain competitor.com</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>3 competitor URLs monitored</li>
+          <li>Daily check frequency</li>
+          <li>Price change alerts via email</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited competitor URLs</li>
+          <li>Hourly or real-time monitoring</li>
+          <li>Product add/remove tracking</li>
+          <li>Landing page content change detection</li>
+          <li>Discord, Slack, and Telegram alerts</li>
+          <li>CSV and JSON export of price history</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="price-intelligence">
+      <h3>💰 Competitor Price Intelligence Pro — Track and analyze competitor pricing strategy</h3>
+      <p>Scrapes competitor pricing data across multiple sites, organizes it into a comparison table, and calculates market positioning.</p>
+      <pre><code>curl -sL https://edgeiqlabs.com/dl/edgeiq-price-intelligence.py -o edgeiq-price-intelligence.py
+python3 edgeiq-price-intelligence.py --target "https://competitor.com/pricing"</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Competitor pricing page URL</strong> — a page that lists products and prices</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Open your terminal and download the tool</li>
+        <li>Point it at a competitor's pricing page URL</li>
+        <li>The tool scrapes all products and prices it finds</li>
+        <li>Results appear in your terminal and can be exported to a file</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Scrape a competitor's pricing page:</p>
+      <pre><code>python3 edgeiq-price-intelligence.py --target "https://competitor.com/pricing"</code></pre>
+      <p>Compare multiple competitors:</p>
+      <pre><code>python3 edgeiq-price-intelligence.py --targets competitor1.csv competitor2.csv --compare</code></pre>
+      <p>Export to spreadsheet:</p>
+      <pre><code>python3 edgeiq-price-intelligence.py --target "https://competitor.com" --output pricing-analysis.csv</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free — What's Included</div>
+        <ul class="checklist">
+          <li>5 competitor URL scans per month</li>
+          <li>Basic product and price extraction</li>
+          <li>Results in terminal</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited competitor scans</li>
+          <li>Cross-competitor price comparison table</li>
+          <li>Average pricing by category analysis</li>
+          <li>Discount and promotion detection</li>
+          <li>Price positioning index (how your pricing compares)</li>
+          <li>CSV and PDF export</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="phishsim">
+      <h3>🎓 PhishSim Training — phishing awareness training for your team</h3>
+      <p>PhishSim sends realistic phishing test emails to your employees and tracks who clicks, reports, or falls for them — so you know exactly who needs more training.</p>
+      <pre><code># Download the PhishSim dashboard installer
+curl -sL https://edgeiqlabs.com/dl/edgeiq-phishsim-setup.py -o edgeiq-phishsim-setup.py
+python3 edgeiq-phishsim-setup.py --install</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>Email list of your team</strong> — a CSV with names and email addresses</li>
+        <li><strong>SMTP server or email provider</strong> — to send the phishing test emails (Gmail, Outlook, or any SMTP service)</li>
+        <li><strong>Internet connection</strong></li>
+      </ul>
+      <h4>Step-by-Step Setup (Starter)</h4>
+      <ol>
+        <li>Download the setup script using the curl command above</li>
+        <li>Prepare your employee list as a CSV file with two columns: <code>name</code> and <code>email</code></li>
+        <li>Run <code>python3 edgeiq-phishsim-setup.py --install</code></li>
+        <li>Enter your company name, the SMTP settings for your email provider, and the path to your CSV</li>
+        <li>Choose which phishing template to use (password expiration, package delivery, IT support request)</li>
+        <li>Set the launch date and time for the campaign</li>
+        <li>PhishSim automatically sends the test emails and starts tracking results</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Launch a phishing campaign from the dashboard:</p>
+      <pre><code>python3 edgeiq-phishsim-setup.py --launch --campaign "Q2 Security Test"</code></pre>
+      <p>View campaign results:</p>
+      <pre><code>python3 edgeiq-phishsim-setup.py --report --campaign "Q2 Security Test"</code></pre>
+      <p>Add a new phishing template:</p>
+      <pre><code>python3 edgeiq-phishsim-setup.py --add-template</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Starter — What's Included</div>
+        <ul class="checklist">
+          <li>1 phishing campaign per month</li>
+          <li>Up to 25 employee emails</li>
+          <li>3 pre-built phishing templates</li>
+          <li>Basic click and report tracking</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro — Everything in Starter, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited campaigns</li>
+          <li>Up to 500 employee emails</li>
+          <li>15+ phishing templates</li>
+          <li>Scheduled recurring campaigns</li>
+          <li>Detailed per-employee risk scoring</li>
+          <li>Custom phishing template builder</li>
+          <li>PDF training report per employee and org-wide</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Agency — Everything in Pro, Plus</div>
+        <ul class="checklist pro">
+          <li>Unlimited employees and campaigns</li>
+          <li>Multi-client management dashboard</li>
+          <li>Client-branded reports with your logo</li>
+          <li>API access for integration with your existing tools</li>
+          <li>White-label portal for your clients to view results</li>
+          <li>Dedicated account manager</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card" id="dashboard">
+      <h3>🖥️ Dashboard Pro & Agency — Central hub for all your EdgeIQ tools and reports</h3>
+      <p>The Dashboard gives you a single place to run all tools, see all results, manage subscriptions, and access reports — no terminal required.</p>
+      <pre><code># Download and run the Dashboard
+curl -sL https://edgeiqlabs.com/dl/edgeiq-dashboard.py -o edgeiq-dashboard.py
+python3 edgeiq-dashboard.py</code></pre>
+      <h4>What You Need</h4>
+      <ul>
+        <li><strong>Python 3</strong> — <a href="https://python.org">Download from python.org</a> if you don't have it</li>
+        <li><strong>A web browser</strong> — Chrome, Firefox, Edge, or Safari</li>
+        <li><strong>Internet connection</strong></li>
+        <li><strong>Your EdgeIQ Pro license key</strong> — sent to you after purchase (check your email)</li>
+      </ul>
+      <h4>Step-by-Step Setup</h4>
+      <ol>
+        <li>Download the Dashboard using the curl command above</li>
+        <li>Run the Dashboard with <code>python3 edgeiq-dashboard.py</code></li>
+        <li>Open your web browser and go to <code>http://localhost:8050</code></li>
+        <li>Enter your Pro license key when prompted (found in your purchase confirmation email)</li>
+        <li>The Dashboard will load and you can start running tools from the web interface</li>
+      </ol>
+      <h4>How to Run</h4>
+      <p>Start the Dashboard:</p>
+      <pre><code>python3 edgeiq-dashboard.py</code></pre>
+      <p>Access from any device on your network (for Pro/Agency multi-seat):</p>
+      <pre><code>python3 edgeiq-dashboard.py --host 0.0.0.0 --port 8050</code></pre>
+      <p>Connect your API key for cloud-synced results:</p>
+      <pre><code>python3 edgeiq-dashboard.py --api-key YOUR_API_KEY_HERE</code></pre>
+      <div class="tier-box tier-free">
+        <div class="tier-label">✓ Free Dashboard — What's Included</div>
+        <ul class="checklist">
+          <li>Access to all free tier tools</li>
+          <li>Local scan history (stored on your computer)</li>
+          <li>Basic reporting</li>
+          <li>Run up to 3 scans simultaneously</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Pro Dashboard — Everything in Free, Plus</div>
+        <ul class="checklist pro">
+          <li>All Pro tools included</li>
+          <li>Unlimited concurrent scans</li>
+          <li>Cloud sync of all scan history</li>
+          <li>PDF and JSON report generation from the UI</li>
+          <li>Team collaboration (share results with up to 5 users)</li>
+          <li>Alerting integration (Discord, Slack, Telegram)</li>
+        </ul>
+      </div>
+      <div class="tier-box tier-pro">
+        <div class="tier-label">★ Agency Dashboard — Everything in Pro, Plus</div>
+        <ul class="checklist pro">
+          <li>Multi-client management (unlimited clients)</li>
+          <li>White-label reporting (use your branding)</li>
+          <li>Unlimited team members per organization</li>
+          <li>API access for client integrations</li>
+          <li>Priority support and onboarding call</li>
+          <li>Billing and subscription management built in</li>
+        </ul>
+      </div>
+    </div>
+
     <h3>Optional: Install Tools with pip (Easier Updates)</h3>
     <p>If you prefer, install tools via pip so you can update them easily:</p>
     <pre><code># Install all tools at once
