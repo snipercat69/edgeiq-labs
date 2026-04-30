@@ -407,7 +407,41 @@
     .severity-medium { color: #ffc400; font-weight: 700; }
     .severity-low { color: #76ff03; }
     .severity-info { color: var(--muted); }
-  </style>
+  
+    /* ── FAQ Section ── */
+    .faq-section { padding: 52px 0 40px; }
+    .faq-grid { display: flex; flex-direction: column; gap: 8px; }
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      font-family: inherit;
+      gap: 16px;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-question svg { flex-shrink: 0; width: 18px; height: 18px; transition: transform 0.2s ease; }
+    .faq-item.open .faq-question svg { transform: rotate(180deg); }
+    .faq-item.open .faq-question { color: var(--accent); }
+    .faq-answer {
+      display: none;
+      padding: 0 20px 18px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+</style>
   <!-- Cloudflare Web Analytics — privacy-first, no cookie consent needed -->
   <script defer src="https://static.cloudflareinsights.com/static/cf-uar.js"></script>
 </head>
@@ -1347,7 +1381,81 @@
 
     
 
-    <section id="contact" class="contact">
+    
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-sub">Honest answers to the questions we get most.</p>
+        <div class="faq-grid">
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Is my data safe?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">We run read-only scans against your own infrastructure — no credentials are stored, no data leaves your network. Scan results are yours. We don't sell, share, or publicize any findings from your scans. Full privacy policy available on request.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Do I need technical knowledge to use this?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">No. Our tools are built to surface clear, prioritized findings — not raw log files. The SMB dashboard in particular is designed for business owners who are technically literate but don't have a security team. If you can read a spreadsheet, you can act on these reports.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>What happens after I buy?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">Lifetime purchases receive access credentials and a welcome walkthrough within 24–48 hours. For subscription plans, you get instant Stripe checkout and dashboard access. Managed service clients receive onboarding scheduling. All purchases include documentation and setup support — no extra charge.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Can I cancel anytime?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">Yes. Monthly subscriptions can be cancelled before the next billing cycle with no penalties. Lifetime purchases are one-time — no renewal, no hidden fees. We're confident enough in the product to make this easy.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Do you store my scan results?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">Results are available in your dashboard for the duration of your active subscription. If you cancel a monthly plan, your data is retained for 30 days after cancellation then deleted. Lifetime plan data is retained for 12 months from purchase then archived. You can request deletion at any time.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>How is this different from hiring a security firm?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">A security firm typically charges $5K-$30K/month for ongoing monitoring. EdgeIQ gives you the same toolset — scanners, dashboards, SSL monitoring, phishing simulations — at a fraction of that cost. The tradeoff is you manage it yourself. For teams that want enterprise-grade findings without the enterprise price tag, that's where we win.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Are these tools safe to run against my own infrastructure?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">Yes — but only scan infrastructure you own or have explicit written permission to test. Unauthorized scanning is illegal and we don't support it. Our tools are designed for internal security assessment, third-party vendor monitoring, and your own public-facing assets. Running these against systems you don't own is a violation of the terms.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>Is there a free trial?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">We offer free scanner tools on the main site — SSL checker, headers analyzer, WHOIS lookup, DNS lookup, CVE lookup — no account required. These give you a real preview of what a paid scan looks like. The free tools are intentionally limited so the paid tools remain worth the investment.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section id="contact" class="contact">
       <h2>Contact</h2>
       <p class="section-sub">Need onboarding or support?</p>
       <div class="card">
