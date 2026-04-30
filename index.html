@@ -45,6 +45,42 @@
     .nav-cta { background: var(--accent); color: #071018 !important; font-weight: 700; padding: 7px 14px !important; border-radius: 8px !important; white-space: nowrap; flex-shrink: 0; }
     .nav-cta:hover { opacity: 0.88; }
 
+    .audience-nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 65px;
+      z-index: 9;
+      padding: 10px 0;
+    }
+    .audience-pills {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .audience-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    .audience-pill:hover, .audience-pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(61,217,255,0.08);
+    }
+    .audience-pill svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+
     .hero { padding: 72px 0 50px; text-align: center; }
     .hero-terminal {
       max-width: 600px;
@@ -397,6 +433,17 @@
       </div>
     </div>
   </nav>
+  <div class=audience-nav>
+    <div class=container>
+      <div class=audience-pills>
+        <a href="#scanner" class="audience-pill">Free Tools</a>
+        <a href="#services" class="audience-pill">For Business Owners</a>
+        <a href="#pricing" class="audience-pill">For Security Pros</a>
+        <a href="#pricing" class="audience-pill">For Builders &amp; Devs</a>
+      </div>
+    </div>
+  </div>
+
 
   <main class="container">
     <section class="hero">
