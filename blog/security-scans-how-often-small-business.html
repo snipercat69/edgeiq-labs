@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Your Business Needs Regular Security Scans (And How Often) — EdgeIQ Labs</title>
+  <meta name="description" content="Security scans catch misconfigurations and exposed assets before attackers do. Here's how often to run them and which types matter most for small businesses." />
+  <meta property="og:title" content="Why Your Business Needs Regular Security Scans (And How Often)" />
+  <meta property="og:description" content="A practical guide to security scanning cadence: external scans, vulnerability scans, and configuration audits, mapped to business risk." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/security-scans-how-often-small-business.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,0.08); border:1px solid rgba(61,217,255,0.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+    .schedule-table { width:100%; border-collapse:collapse; margin:20px 0; }
+    .schedule-table th, .schedule-table td { text-align:left; padding:10px 14px; border:1px solid var(--border); color:var(--muted); }
+    .schedule-table th { background:var(--card); color:var(--text); font-size:0.85rem; }
+    .schedule-table td { font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">April 30, 2026 &nbsp;·&nbsp; 7 min read &nbsp;·&nbsp; <span class="tag">Security Ops</span><span class="tag">Scanning</span><span class="tag">Small Business</span></div>
+      <h1>Why Your Business Needs Regular Security Scans (And How Often)</h1>
+      <p class="lead">Your attack surface changes every time you deploy new infrastructure, add a third-party tool, or spin up a test environment. Security scans keep up with that change — before attackers do.</p>
+    </div>
+
+    <p>Something changed in your environment last week. Maybe you spun up a new cloud instance. Maybe a vendor added a webhook to your CRM. Maybe someone left a test server running over a long weekend and forgot about it. These things happen. The problem is that each of those changes potentially opened a new door — and if you're not scanning regularly, you won't know it's open until someone walks through it.</p>
+
+    <p>Security scans are automated tools that probe your external-facing systems, looking for the same weaknesses an attacker would look for. They're not penetration tests — they're the automated first pass that catches the obvious problems before a human tester needs to dig deeper.</p>
+
+    <h2>What Security Scans Actually Find</h2>
+
+    <p>Most small businesses think of vulnerability scanners as tools that find "bugs in code." That's partly true, but the majority of what scanners find is infrastructure-level exposure:</p>
+
+    <ul>
+      <li>Open ports on internet-facing servers that shouldn't be accessible</li>
+      <li>Admin panels, debug endpoints, and internal dashboards exposed without authentication</li>
+      <li>Outdated software with known CVEs running on public IPs</li>
+      <li>Expired or misconfigured TLS certificates</li>
+      <li>Cloud storage buckets with public access enabled</li>
+      <li>Exposed .git directories, backup files, and configuration files</li>
+      <li>Subdomains pointing to decommissioned infrastructure (subdomain takeovers)</li>
+    </ul>
+
+    <p>Every one of these is a real finding that has resulted in real breaches. The 2019 Capital One breach happened because a misconfigured firewall allowed access to the AWS metadata API. The 2023 LastPass breach had roots in a developer's environment that had an unpatched Plex media server. Scanning would have caught both.</p>
+
+    <h2>The Three Types of Scans Your Business Needs</h2>
+
+    <h3>External Attack Surface Scan (Weekly)</h3>
+
+    <p>This scans everything publicly reachable from the internet — your public IPs, domains, subdomains, cloud endpoints, and SaaS integrations. It finds exposed services, misconfigurations, and assets you forgot you had. This is the most important scan for small businesses because the attack surface is entirely internet-facing and changes constantly.</p>
+
+    <h3>Internal Vulnerability Scan (Monthly)</h3>
+
+    <p>Inside your network, you have servers, workstations, and devices that external scanners can't reach. Monthly internal scans catch outdated software, missing patches, insecure configurations, and service drift on your internal infrastructure. Even if attackers can't reach your internal network directly, any compromised laptop or infected employee device can become a pivot point.</p>
+
+    <h3>Configuration Audit (Quarterly)</h3>
+
+    <p>Configuration drift — the gradual accumulation of small changes that push systems away from their hardened baseline — is how secure environments become insecure over time. Quarterly configuration audits against hardening benchmarks (CIS, STIGs) catch drift before it becomes exploitable.</p>
+
+    <h2>How Often Should You Actually Scan?</h2>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Scan Type</th>
+          <th>Minimum Frequency</th>
+          <th>Recommended Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>External attack surface (internet-facing)</td>
+          <td>Monthly</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td>Cloud storage & IAM permissions</td>
+          <td>Monthly</td>
+          <td>Weekly</td>
+        </tr>
+        <tr>
+          <td>Internal vulnerability scan</td>
+          <td>Quarterly</td>
+          <td>Monthly</td>
+        </tr>
+        <tr>
+          <td>Configuration hardening audit</td>
+          <td>Annually</td>
+          <td>Quarterly</td>
+        </tr>
+        <tr>
+          <td>Full penetration test</td>
+          <td>Annually</td>
+          <td>Bi-annually</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The minimum column is what you should do if resource-constrained. The recommended column is what provides meaningful risk reduction. If you're accepting credit card data, handling healthcare information, or operating in a regulated industry, the recommended frequency isn't optional — it's probably required.</p>
+
+    <h2>What to Do With Scan Results</h2>
+
+    <p>Running a scan and ignoring the results is almost worse than not scanning at all — it creates a false sense of security. Here's the process:</p>
+
+    <div class="check">
+      <h3>1. Triage findings by severity</h3>
+      <p>Prioritize findings that are externally accessible and remotely exploitable. An exposed admin panel on port 443 with no authentication is critical. A minor TLS cipher preference is low.</p>
+    </div>
+
+    <div class="check">
+      <h3>2. Remediate within SLA windows</h3>
+      <p>Define SLAs for each severity level. Critical findings: 72 hours. High: 7 days. Medium: 30 days. Low: 90 days. Document the reasoning for any finding you accept rather than remediated.</p>
+    </div>
+
+    <div class="check">
+      <h3>3. Verify fixes</h3>
+      <p>After remediating, re-scan to confirm the finding is actually closed. Many organizations fix a finding and move on without verifying — and the fix itself sometimes introduces a new issue.</p>
+    </div>
+
+    <div class="check">
+      <h3>4. Track trends over time</h3>
+      <p>Use a tracking system — even a spreadsheet — to log findings, remediation dates, and verification results. This creates accountability and shows you whether your security posture is improving or degrading over time.</p>
+    </div>
+
+    <h2>Free and Low-Cost Scanning Options</h2>
+
+    <ul>
+      <li><strong>Shodan</strong> — Free external scan of your public IPs; shows open ports, services, and known vulnerabilities</li>
+      <li><strong>CloudEnum</strong> — Free tool to find publicly accessible AWS, Azure, and GCP resources</li>
+      <li><strong>Nuclei</strong> — Open-source template-based scanner for exposed services and known CVEs</li>
+      <li><strong>SSL Labs</strong> — Free TLS configuration test for any public web server</li>
+      <li><strong>EdgeIQ</strong> — Automated weekly external attack surface monitoring</li>
+    </ul>
+
+    <div class="cta-box">
+      <h2 style="margin-top:0;">Automated weekly scans across your entire attack surface</h2>
+      <p>EdgeIQ continuously monitors your external infrastructure for exposed services, misconfigurations, and new assets — and alerts you the moment something appears that shouldn't be there.</p>
+      <a href="../#pricing" class="cta-btn">View plans →</a>
+    </div>
+
+  </div>
+</body>
+</html>
