@@ -205,7 +205,62 @@
       margin-top: 26px;
       font-size: 0.9rem;
     }
-  </style>
+  
+    /* Pricing section dividers */
+    .pricing-section-header {
+      padding: 14px 0 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .pricing-section-header:first-child { border-top: none; margin-top: 0; }
+    .pricing-section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.85;
+    }
+
+
+    /* Audience final CTA grid */
+    .audience-final-cta {
+      border-top: 1px solid var(--border);
+      padding: 52px 0;
+    }
+    .audience-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .audience-cta-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .audience-cta-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .audience-cta-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+      flex: 1;
+    }
+    .audience-cta-card .btn { text-align: center; }
+    @media (max-width: 700px) {
+      .audience-cta-grid { grid-template-columns: 1fr; }
+    }
+
+</style>
 </head>
 <body>
   <nav>
@@ -324,6 +379,7 @@
       <p class="section-sub">Simple monthly plans plus one-time setup services. Cancel subscriptions anytime. Skills still include free tiers where available.</p>
       <div class="pricing">
         <article class="card">
+          <div class="pricing-section-header" data-audience="pros"><span class="pricing-section-label">🔐 Security Pro Tools</span></div>
           <h3>XSS Pro</h3>
           <div class="price">$19 <span>/month</span></div>
           <ul>
@@ -396,6 +452,7 @@
           </div>
         </article>
         <article class="card">
+          <div class="pricing-section-header" data-audience="builders"><span class="pricing-section-label">🦞 OpenClaw — Automation Platform</span></div>
           <h3>OpenClaw Starter</h3>
           <div class="price">$99 <span>/one-time</span></div>
           <ul>
@@ -468,6 +525,7 @@
           </div>
         </article>
         <article class="card highlight">
+          <div class="pricing-section-header" data-audience="business"><span class="pricing-section-label">🛡️ SMB & Business Bundles</span></div>
           <h3>Bundle — All 7 Skills</h3>
           <div class="price">$39 <span>/month</span></div>
           <ul>
@@ -640,5 +698,59 @@
   <footer>
     © 2026 EdgeIQ Labs · Monitoring and authorized security services.
   </footer>
+
+<script>
+(function() {
+  var pills = document.querySelectorAll('.audience-pill');
+  var sections = [
+    { id: 'scanner', pill: '#scanner' },
+    { id: 'for-business', pill: '#for-business' },
+    { id: 'for-pros', pill: '#for-pros' },
+    { id: 'for-builders', pill: '#for-builders' }
+  ];
+
+  // IntersectionObserver sets active pill when section enters viewport
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        var target = document.querySelector('[href="#' + entry.target.id + '"]');
+        if (target) target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(function(s) {
+    var el = document.getElementById(s.id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+
+
+<div class="audience-final-cta">
+  <div class="container">
+    <div class="audience-cta-grid">
+      <div class="audience-cta-card" id="cta-business">
+        <h4>🛡️ For Business Owners</h4>
+        <p>Get the full SMB security bundle — dashboards, phishing training, SSL monitoring, and monthly reports.</p>
+        <a class="btn btn-primary" href="https://buy.stripe.com/aFabJ3am79pjg6E18c7wA02" target="_blank" rel="noopener">Buy All 7 Skills Bundle →</a>
+        <a class="btn btn-secondary" href="#request">Talk to Support</a>
+      </div>
+      <div class="audience-cta-card" id="cta-pros">
+        <h4>🔐 For Security Professionals</h4>
+        <p>Pick individual pro tools — XSS, Network Scanner, SSL Watcher. Lifetime or monthly, your call.</p>
+        <a class="btn btn-primary" href="#pricing">View Pricing →</a>
+      </div>
+      <div class="audience-cta-card" id="cta-builders">
+        <h4>🦞 For Builders & Devs</h4>
+        <p>Set up OpenClaw on your own VPS or let us manage it. Self-hosted automation that runs on your infrastructure.</p>
+        <a class="btn btn-primary" href="https://buy.stripe.com/dRmeVfeCn9pj7A8bMQ7wA06" target="_blank" rel="noopener">Start with OpenClaw →</a>
+        <a class="btn btn-secondary" href="#contact">Ask a Question</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
