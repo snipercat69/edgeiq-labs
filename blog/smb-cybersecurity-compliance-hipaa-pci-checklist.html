@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMB Cybersecurity Compliance: HIPAA and PCI-DSS Without the Enterprise Budget — EdgeIQ Labs</title>
+  <meta name="description" content="If you handle health data or accept card payments, compliance isn't optional. Here's the practical path for small businesses without a team of lawyers." />
+  <meta property="og:title" content="SMB Cybersecurity Compliance: HIPAA and PCI-DSS Without the Enterprise Budget" />
+  <meta property="og:description" content="HIPAA and PCI-DSS compliance for small business — practical path without the enterprise budget." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/smb-cybersecurity-compliance-hipaa-pci-checklist.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; --danger:#ff4d4d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,.08); border:1px solid rgba(61,217,255,.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge-danger { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--danger); border:1px solid rgba(255,77,77,.35); background:rgba(255,77,77,.12); }
+    .badge-warn { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+    code { background:rgba(61,217,255,.1); color:var(--accent); padding:2px 6px; border-radius:4px; font-size:0.9em; }
+    .warning-box { background:rgba(255,77,77,.08); border:1px solid rgba(255,77,77,.3); border-radius:10px; padding:18px; margin:20px 0; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">May 2, 2026 &nbsp;·&nbsp; 10 min read &nbsp;·&nbsp; <span class="tag">Compliance</span><span class="tag">HIPAA</span><span class="tag">PCI-DSS</span></div>
+      <h1>SMB Cybersecurity Compliance: HIPAA and PCI-DSS Without the Enterprise Budget</h1>
+      <p class="lead">If you handle health data or accept card payments, compliance isn't optional. Here's the plain-language breakdown of what HIPAA and PCI-DSS actually require from small businesses — and the cheapest path to getting there.</p>
+    </div>
+
+    <p>You run a small business. You heard compliance is complicated and expensive. Maybe you've heard horror stories about HIPAA audits or PCI-DSS penalties. Here's the truth: compliance doesn't have to be a $50,000 enterprise project. For most small businesses, the core requirements are manageable with the right approach.</p>
+
+    <p>This guide covers what you actually need to do — not the theoretical framework, not the enterprise implementation, just the practical steps that actually satisfy the requirements.</p>
+
+    <h2>First: Do You Actually Need HIPAA or PCI-DSS Compliance?</h2>
+
+    <div class="check">
+      <h3>HIPAA applies if you:</h3>
+      <ul>
+        <li>Are a covered entity (healthcare provider, health plan, health clearinghouse) or a business associate of one</li>
+        <li>Create, receive, store, or transmit Protected Health Information (PHI) — which includes patient names, medical records, billing information, insurance data, anything that could identify a patient in connection with health services</li>
+        <li>A simple test: if you have patient names and email addresses in the same database, you likely have PHI</li>
+      </ul>
+    </div>
+
+    <div class="check">
+      <h3>PCI-DSS applies if you:</h3>
+      <ul>
+        <li>Accept, process, transmit, or store credit card data — even one transaction per year puts you in scope</li>
+        <li>Whether you use a payment processor (Stripe, Square) or accept cards directly, if card data touches your systems, you're in scope</li>
+        <li>The key distinction: if you use a compliant payment processor and card data never touches your servers, your PCI scope is dramatically reduced (SAQ-A)</li>
+      </ul>
+    </div>
+
+    <h2>HIPAA: What Small Businesses Actually Need to Do</h2>
+
+    <p>HIPAA has three main rules: Privacy Rule, Security Rule, and Breach Notification Rule. For most SMBs, the Security Rule is where the work happens — it's the technical and administrative safeguards for electronic PHI (ePHI).</p>
+
+    <div class="check">
+      <h3>Administrative safeguards</h3>
+      <ul>
+        <li>Designate a security official (can be a role, not necessarily a dedicated person at small scale)</li>
+        <li>Conduct a risk assessment — identify where ePHI is stored, how it's accessed, what threats exist</li>
+        <li>Have a workforce security policy — minimum necessary access, meaning employees only see the data they need to do their jobs</li>
+        <li>Have a business associate agreement with any third party that handles your ePHI (your email provider, cloud storage, billing service)</li>
+      </ul>
+    </div>
+
+    <div class="check">
+      <h3>Technical safeguards</h3>
+      <ul>
+        <li>Access control — unique logins for every employee, not shared accounts</li>
+        <li>Encryption — ePHI at rest (stored) and in transit (transmitted over network) must be encrypted</li>
+        <li>Audit logs — track who accessed what data and when</li>
+        <li>Transmission security — ensure any ePHI transmitted over network uses encryption (HTTPS, TLS)</li>
+      </ul>
+    </div>
+
+    <div class="check">
+      <h3>Physical safeguards</h3>
+      <ul>
+        <li>Workstation and device security — laptops with full-disk encryption, password-protected, automatic screen lock</li>
+        <li>Facility access controls — physical access to servers and workstations should be limited to authorized personnel</li>
+        <li>Data disposal — when ePHI is no longer needed, proper disposal (shredding for physical, secure deletion for digital)</li>
+      </ul>
+    </div>
+
+    <h2>PCI-DSS: What Small Businesses Actually Need to Do</h2>
+
+    <div class="warning-box">
+      <strong>The compliance level question:</strong> Most small businesses using Stripe, Square, or PayPal for payments qualify for PCI DSS SAQ-A (Self-Assessment Questionnaire A). This is the simplest version — 22 questions, no external scan required. If you're using a payment gateway and card data never touches your server, SAQ-A is almost certainly what you need.
+    </div>
+
+    <div class="check">
+      <h3>SAQ-A requirements (simplest path for small businesses)</h3>
+      <ul>
+        <li>Cardholder data is only accepted via phone, mail, or iframe from a PCI-compliant payment processor — no direct card processing on your server</li>
+        <li>Your website doesn't capture or store card data — it redirects to a compliant processor's hosted page</li>
+        <li>You don't store card data in any form (no local storage, no database, no logs)</li>
+        <li>Your external facing systems are managed by a compliant payment processor</li>
+      </ul>
+      <p>If this describes your setup, your PCI burden is mostly confirming your payment processor is compliant (which they are) and attesting to your own security practices.</p>
+    </div>
+
+    <div class="check">
+      <h3>If you process cards directly or store card data (higher scope)</h3>
+      <p>If you have a merchant account and handle card data directly on your servers, you fall into higher PCI scopes (SAQ-D or full QSA audit). This is where costs escalate and the requirements get serious. The practical advice: migrate to a payment processor that handles the card data for you — the cost of PCI compliance at higher levels easily exceeds the transaction fees you'd pay to a payment processor.</p>
+    </div>
+
+    <h2>The Common Threads: Both Require the Same Foundation</h2>
+
+    <p>Whether you're working toward HIPAA or PCI-DSS (or both), the base requirements overlap significantly:</p>
+
+    <ul>
+      <li><strong>Unique user accounts:</strong> No shared logins, no generic admin accounts</li>
+      <li><strong>Encryption at rest and in transit:</strong> HTTPS everywhere, encrypted storage on all devices</li>
+      <li><strong>Access logging:</strong> Know who accessed what and when</li>
+      <li><strong>Regular risk assessment:</strong> Understand where your sensitive data is and what the threats are</li>
+      <li><strong>Incident response plan:</strong> Know what to do when something goes wrong</li>
+      <li><strong>Vendor management:</strong> If third parties handle your sensitive data, have agreements in place</li>
+    </ul>
+
+    <h2>Affordable Tools for Small Business Compliance</h2>
+
+    <ul>
+      <li><strong>1Password Teams</strong> ($5/user/mo) — solves unique accounts, access control, and audit trails for credentials. Most compliance frameworks require a password manager, and 1Password is the standard for SMB.</li>
+      <li><strong>Cloudflare (free tier)</strong> — HTTPS enforcement, DDoS protection, and DNS-level security — satisfies many technical requirements for data transmission security.</li>
+      <li><strong>Google Workspace or Microsoft 365 Business</strong> — encrypted email, access controls, audit logs built into the platform.</li>
+      <li><strong>AWS/GCP/Azure (managed services)</strong> — if you host infrastructure, their compliance certifications (SOC2, HIPAA, PCI) transfer to you via Business Associate Agreements.</li>
+      <li><strong>Vanta or Drata</strong> — automated compliance monitoring at $100-200/mo if you need formal compliance documentation for HIPAA.</li>
+    </ul>
+
+    <h2>What to Do Right Now</h2>
+
+    <ol>
+      <li>Determine your compliance scope: do you handle health data (HIPAA), card data (PCI-DSS), or both?</li>
+      <li>If you use Stripe, Square, or any iframe-based payment processor and don't store card data — document this, you're likely SAQ-A eligible</li>
+      <li>Get a password manager in place (1Password Teams) — this solves multiple compliance requirements at once</li>
+      <li>Enable full-disk encryption on every device that touches sensitive data (BitLocker/FileVault)</li>
+      <li>Set up access logging for any system that handles sensitive data</li>
+      <li>Conduct a quick risk assessment: where is sensitive data, who has access, what's the threat model?</li>
+      <li>If HIPAA is in scope, sign Business Associate Agreements with any vendor that handles your ePHI</li>
+    </ol>
+
+    <p>Compliance is not a one-time project. It's a continuous practice. But the foundation — access control, encryption, monitoring, risk assessment — is the same foundation that makes your business more secure regardless of compliance requirements. Start there, layer on the compliance-specific requirements, and you'll get to compliance without needing an enterprise budget to do it.</p>
+
+    <div class="cta-box">
+      <p style="color:var(--muted);margin-bottom:12px;">Compliance isn't just about avoiding fines — it's proof you take security seriously.</p>
+      <a href="https://edgeiqlabs.com/" class="cta-btn">Start with a Security Audit →</a>
+    </div>
+
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:36px 0;margin-top:60px;text-align:center;color:var(--muted);font-size:0.82rem;">
+    <div class="container">
+      <p>© 2026 EdgeIQ Labs · <a href="../" style="color:var(--accent);">edgeiqlabs.com</a> · Security intelligence for the teams who can't wait for the SOC</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Detect a Phishing Kit Using Your Domain (Before It Costs You Customers) — EdgeIQ Labs</title>
+  <meta name="description" content="Someone could be phishing your customers right now using your own domain name. Here's how to find out and shut it down." />
+  <meta property="og:title" content="How to Detect a Phishing Kit Using Your Domain (Before It Costs You Customers)" />
+  <meta property="og:description" content="Brand impersonation phishing uses your own domain. Here's how to find out if it's happening." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/detect-phishing-kit-on-my-domain.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; --danger:#ff4d4d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,.08); border:1px solid rgba(61,217,255,.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge-danger { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--danger); border:1px solid rgba(255,77,77,.35); background:rgba(255,77,77,.12); }
+    .badge-warn { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+    code { background:rgba(61,217,255,.1); color:var(--accent); padding:2px 6px; border-radius:4px; font-size:0.9em; }
+    .warning-box { background:rgba(255,77,77,.08); border:1px solid rgba(255,77,77,.3); border-radius:10px; padding:18px; margin:20px 0; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">May 2, 2026 &nbsp;·&nbsp; 8 min read &nbsp;·&nbsp; <span class="tag">Phishing</span><span class="tag">Brand Protection</span><span class="tag">DMARC</span></div>
+      <h1>How to Detect a Phishing Kit Using Your Domain (Before It Costs You Customers)</h1>
+      <p class="lead">Someone could be phishing your customers right now using your own domain name — and your legitimate email infrastructure is helping them. Here's how to find out and shut it down.</p>
+    </div>
+
+    <p>Here's how phishing works in 2026: an attacker sets up a convincing login page that looks exactly like your app. They buy a domain that looks almost like yours — <code>yourcompany-support.com</code> or <code>yourco-auth.net</code>. They email your customers from an address that appears to be yours. Your customers see your domain in the sender field and trust it completely.</p>
+
+    <p>Now imagine the same attack, but the attacker is using your exact domain — not a lookalike. The email comes from <code>support@yourcompany.com</code> and the phishing page is at <code>yourcompany.com-support.top</code>. This is brand impersonation via your own infrastructure, and it happens when email authentication is missing or misconfigured.</p>
+
+    <h2>How Attackers Use Your Domain Without Breaking In</h2>
+
+    <p>Most businesses don't realize that without proper email authentication (SPF, DKIM, DMARC), anyone can send email that appears to come from your domain. The receiving mail server has no way to verify that the email actually came from you.</p>
+
+    <p>What attackers do: they look up your domain, see you're missing DMARC (or have a weak policy), and start sending emails from servers you don't own but that claim to be you. These emails land in inboxes with your domain as the sender — because the receiving servers can't tell the difference.</p>
+
+    <div class="warning-box">
+      <strong>The DMARC gap:</strong> If your domain doesn't have a DMARC record, attackers can send phishing emails that appear to come from your domain to your own customers. Your legitimate email infrastructure doesn't block it. Your customers have no reason to suspect it. And if your support team is CC'd on those phishing threads, you'll never know until a customer flags it.
+    </div>
+
+    <h2>How to Check If Your Domain Is Being Used for Phishing</h2>
+
+    <div class="check">
+      <h3>1. Check your DMARC, SPF, and DKIM records</h3>
+      <p>Go to your DNS provider and check for these records:</p>
+      <ul>
+        <li><code>TXT</code> record for <code>_dmarc.yourdomain.com</code> — should exist and have a policy of <code>reject</code> or <code>quarantine</code>, not <code>none</code></li>
+        <li><code>TXT</code> record for <code>_spf.yourdomain.com</code> or your main domain — should list only the servers you actually send email from</li>
+        <li><code>DKIM</code> record (usually a <code>CNAME</code> or <code>TXT</code> record for a selector like <code>selector._domainkey.yourdomain.com</code>)</li>
+      </ul>
+      <p>If DMARC shows <code>v=DMARC1; p=none</code>, your domain is being spoofed right now and you have no protection.</p>
+    </div>
+
+    <div class="check">
+      <h3>2. Search for phishing pages using your brand name</h3>
+      <p>Search Google for: <code>site:yourdomain.com phishing</code> (this won't find everything but can surface known phishing sites using your brand). Also search for your domain in phishing databases like PhishTank and OpenPhish — free to search, updated daily.</p>
+    </div>
+
+    <div class="check">
+      <h3>3. Monitor Certificate Transparency logs</h3>
+      <p>Attackers often use SSL certificates on phishing sites to appear more legitimate. Search crt.sh for your domain name and any similar variants — look for certificates issued to domains that look like yours (yourco-login.com, yourco-auth.net, etc.). You'll find phishing infrastructure before it's used against your customers if you check regularly.</p>
+    </div>
+
+    <div class="check">
+      <h3>4. Check for lookalike domains registered recently</h3>
+      <p>Domain registrars won't give you a full list, but you can check newly registered domains that contain your brand name using services like DomainTools or similar OSINT tools. If a domain that looks like yours was registered in the last 30 days and is resolving to a server in a suspicious country, that's a threat to investigate.</p>
+    </div>
+
+    <h2>What to Do When You Find a Phishing Kit Using Your Brand</h2>
+
+    <ol>
+      <li><strong>Document everything:</strong> Screenshot the phishing page, capture the full URL, note the sending domain and email addresses used, record the target audience if known</li>
+      <li><strong>Report to the registrar:</strong> File an abuse report with the domain registrar for the phishing domain — most registrars have an abuse contact and take brand impersonation seriously</li>
+      <li><strong>Report to Google Safe Browsing:</strong> Submit the phishing URL at <code>safeweb.norton.com</code> or Google's Safe Browsing reporting page — they'll add it to blocklists that protect other users</li>
+      <li><strong>Report to the hosting provider:</strong> If the phishing site is hosted on a known provider (Cloudflare, AWS, DigitalOcean), file an abuse report — Cloudflare especially has a strong anti-phishing policy and often takes down phishing sites within hours</li>
+      <li><strong>Report to email providers:</strong> Forward the phishing email (with full headers) to <code>reportphishing@apwg.org</code> or the anti-phishing team at the major email providers (Microsoft, Google, Yahoo)</li>
+      <li><strong>Inform your customers:</strong> If customers were targeted, send a clear, direct email alerting them — include the actual signs of the real vs fake communication</li>
+    </ol>
+
+    <h2>How to Prevent Your Domain From Being Used in Future Phishing</h2>
+
+    <p>The only real solution is properly configured email authentication:</p>
+
+    <ul>
+      <li><strong>DMARC with reject policy:</strong> This tells receiving mail servers to reject any email claiming to come from your domain that doesn't pass SPF and DKIM checks. It takes time to implement correctly (you need to monitor before enforcing), but it's the most effective protection against domain spoofing.</li>
+      <li><strong>SPF strictness:</strong> Your SPF record should list only the specific servers that send email on your behalf — not <code>include:_spf.google.com</code> plus vague includes. Audit it regularly.</li>
+      <li><strong>DKIM signing:</strong> Ensure all outbound email from your domain is DKIM-signed so receiving servers can verify it hasn't been tampered with.</li>
+      <li><strong>Monitor your domain reputation:</strong> Services like Google Postmaster Tools tell you if your domain is being flagged for spam or phishing — high flag rates can affect your legitimate email delivery.</li>
+    </ul>
+
+    <h2>What to Do Right Now</h2>
+
+    <ol>
+      <li>Check your DMARC record at <code>_dmarc.yourdomain.com</code> — if it doesn't exist or says <code>p=none</code>, that's your highest-priority fix</li>
+      <li>Set up DMARC monitoring (p=quarantine) for 30 days before switching to p=reject</li>
+      <li>Search crt.sh for your domain and look for suspicious lookalike domains in the results</li>
+      <li>Submit any phishing infrastructure you find to the relevant abuse teams</li>
+    </ol>
+
+    <p>Brand impersonation phishing doesn't require the attacker to compromise your systems — they just need your domain to not be protected. That gap is fixable, and the fix is free. The cost of not fixing it is your customers' trust.</p>
+
+    <div class="cta-box">
+      <p style="color:var(--muted);margin-bottom:12px;">Brand impersonation phishing uses your own domain to betray your customers' trust.</p>
+      <a href="https://edgeiqlabs.com/" class="cta-btn">Check If Your Domain Is Being Spoofed →</a>
+    </div>
+
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:36px 0;margin-top:60px;text-align:center;color:var(--muted);font-size:0.82rem;">
+    <div class="container">
+      <p>© 2026 EdgeIQ Labs · <a href="../" style="color:var(--accent);">edgeiqlabs.com</a> · Security intelligence for the teams who can't wait for the SOC</p>
+    </div>
+  </footer>
+</body>
+</html>

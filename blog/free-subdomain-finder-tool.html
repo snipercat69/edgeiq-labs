@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Subdomain Finder: How to Map Your Entire Attack Surface Before Attackers Do — EdgeIQ Labs</title>
+  <meta name="description" content="Development servers, staging environments, old admin panels — your subdomains are an attack surface you probably didn't know you had. Here's how to find all of them, for free." />
+  <meta property="og:title" content="Free Subdomain Finder: How to Map Your Entire Attack Surface Before Attackers Do" />
+  <meta property="og:description" content="Every forgotten subdomain is a potential entry point. Here's how to find all of yours before attackers do." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/free-subdomain-finder-tool.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; --danger:#ff4d4d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,.08); border:1px solid rgba(61,217,255,.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge-danger { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--danger); border:1px solid rgba(255,77,77,.35); background:rgba(255,77,77,.12); }
+    .badge-warn { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+    code { background:rgba(61,217,255,.1); color:var(--accent); padding:2px 6px; border-radius:4px; font-size:0.9em; }
+    .warning-box { background:rgba(255,77,77,.08); border:1px solid rgba(255,77,77,.3); border-radius:10px; padding:18px; margin:20px 0; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">May 2, 2026 &nbsp;·&nbsp; 8 min read &nbsp;·&nbsp; <span class="tag">Subdomain</span><span class="tag">Recon</span><span class="tag">Attack Surface</span></div>
+      <h1>Free Subdomain Finder: How to Map Your Entire Attack Surface Before Attackers Do</h1>
+      <p class="lead">Development servers, staging environments, old admin panels — your subdomains are an attack surface you probably didn't know you had. Here's how to find all of them, for free.</p>
+    </div>
+
+    <p>Your main website is locked down. HTTPS, security headers, patched software, maybe a WAF. Good. Now here's what attackers see when they look at you: your primary domain — and everything else you've forgotten about.</p>
+
+    <p>Subdomains are everywhere. The dev environment your agency spun up two years ago and forgot about. The staging server that has the same credentials as production. The legacy admin panel at admin.yourdomain.com that nobody uses but nobody deletes. Every one of them is a potential entry point. Most small businesses have no idea how many they have.</p>
+
+    <p>This is the recon step attackers run first. Let's do it before them.</p>
+
+    <h2>Why Subdomains Are Attackers' Favorite Hunting Ground</h2>
+
+    <p>The main domain gets attention. Security patches, monitoring, proper configuration — it all tends to happen on the primary domain. But subdomains are often forgotten:</p>
+
+    <ul>
+      <li>Development and staging environments rarely get the same security treatment as production</li>
+      <li>Old subdomains from projects that ended often stay live with no monitoring</li>
+      <li>Third-party integrations and embedded tools get their own subdomains with minimal oversight</li>
+      <li>Cloud services (AWS, Azure, GCP) create subdomains automatically for infrastructure few people track</li>
+    </ul>
+
+    <p>In 2021, a security researcher found that a Fortune 500 company's test environment at <code>test.fortune500company.com</code> was still connected to the same internal network as production. The subdomain had been sitting exposed for three years. This pattern is more common than you'd think.</p>
+
+    <h2>How Subdomain Enumeration Actually Works</h2>
+
+    <p>Attackers and security researchers use three primary techniques to find subdomains at scale:</p>
+
+    <div class="check">
+      <h3>1. Certificate Transparency Logs (fastest, most comprehensive)</h3>
+      <p>Every publicly issued SSL certificate gets logged in the Certificate Transparency (CT) system. These logs are public and searchable. An attacker can query crt.sh or similar services to find every subdomain that had a certificate issued for it — including development domains, internal-sounding names, and forgotten infrastructure. This method alone often finds 2-10x more subdomains than the company knows about.</p>
+      <p>To do this yourself: go to <code>crt.sh</code> and search for your domain. Sort by date and look at everything issued in the last 12 months.</p>
+    </div>
+
+    <div class="check">
+      <h3>2. DNS Enumeration (brute-force approach)</h3>
+      <p>Tools like Amass, Subfinder, or massdns can take common subdomain prefixes — dev, staging, test, admin, api, app, beta, uat, prod — and DNS-resolve them against your domain. If <code>staging.yourdomain.com</code> resolves to an IP, it's a live subdomain. This catches subdomains that were registered but never got certificates.</p>
+    </div>
+
+    <div class="check">
+      <h3>3. Web Archive and Search Engine Discovery</h3>
+      <p>Wayback Machine, Censys, and SHODAN all expose subdomains that were live at some point. Sometimes you find infrastructure that no longer resolves via DNS but still exists in archived records — useful for finding long-abandoned subdomains that might still be accessible.</p>
+    </div>
+
+    <h2>Free Tools for Subdomain Enumeration</h2>
+
+    <ul>
+      <li><strong>Amass:</strong> The gold standard for passive subdomain enumeration. <code>amass enum -passive -d yourdomain.com</code> pulls from dozens of sources including CT logs, DNS records, and web archives. Free and runs in about 5 minutes.</li>
+      <li><strong>Subfinder:</strong> Faster than Amass, focuses on passive sources. Good for quick enumeration: <code>subfinder -d yourdomain.com</code></li>
+      <li><strong>crt.sh:</strong> Direct Certificate Transparency search at crt.sh — no tool needed, just enter your domain</li>
+      <li><strong>Assetfinder:</strong> A lightweight wrapper that runs Amass and Subfinder together. Simple: <code>assetfinder yourdomain.com</code></li>
+      <li><strong>EdgeIQ Subdomain Hunter:</strong> Browser-based option for quick checks without installing anything</li>
+    </ul>
+
+    <h2>What Attackers Do With the Subdomains They Find</h2>
+
+    <div class="warning-box">
+      <strong>The pattern:</strong> Find a forgotten staging server → notice it's running outdated software with known exploits → use it as a pivot point to access the internal network → laterally move to production database. This is the most common SMB breach chain, and it starts with one subdomain nobody remembered to secure.
+    </div>
+
+    <p>Once attackers have a list of subdomains, they run automated scans against all of them looking for:</p>
+    <ul>
+      <li>Default credentials on admin panels and internal tools</li>
+      <li>Outdated software with known CVEs</li>
+      <li>Misconfigured cloud storage (S3 buckets, open Azure blob storage)</li>
+      <li>Exposed git repositories (.git/config, /wp-admin on forgotten WordPress installs)</li>
+      <li>Internal API documentation left publicly accessible</li>
+    </ul>
+
+    <h2>What to Do Right Now</h2>
+
+    <ol>
+      <li>Run an Amass passive scan on your domain: <code>amass enum -passive -d yourdomain.com</code></li>
+      <li>Also check crt.sh for your domain — note any subdomains you don't recognize</li>
+      <li>For every subdomain you find, ask: "Do we still use this? Who owns it? Is it patched and monitored?"</li>
+      <li>Any subdomain you can't account for — treat as a security risk until proven otherwise. Take it offline or bring it under the same security policy as your main domain.</li>
+      <li>If you have cloud infrastructure (AWS, GCP, Azure), audit all running instances and DNS entries — cloud consoles often expose things that DNS enumeration finds.</li>
+    </ol>
+
+    <p>Every forgotten subdomain is a potential incident. Find them first.</p>
+
+    <div class="cta-box">
+      <p style="color:var(--muted);margin-bottom:12px;">Every forgotten subdomain is a potential entry point.</p>
+      <a href="https://edgeiqlabs.com/" class="cta-btn">Find All Your Subdomains →</a>
+    </div>
+
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:36px 0;margin-top:60px;text-align:center;color:var(--muted);font-size:0.82rem;">
+    <div class="container">
+      <p>© 2026 EdgeIQ Labs · <a href="../" style="color:var(--accent);">edgeiqlabs.com</a> · Security intelligence for the teams who can't wait for the SOC</p>
+    </div>
+  </footer>
+</body>
+</html>

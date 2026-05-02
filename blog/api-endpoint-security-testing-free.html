@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Endpoint Security Testing: Free Tools and Techniques That Actually Work — EdgeIQ Labs</title>
+  <meta name="description" content="APIs are the hidden attack surface in modern web apps. Here's how to find exposed API endpoints, test for common vulnerabilities, and fix what you find — without spending a dime." />
+  <meta property="og:title" content="API Endpoint Security Testing: Free Tools and Techniques That Actually Work" />
+  <meta property="og:description" content="APIs are the most exposed attack surface in modern web apps. Here's how to find and test them for free." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="canonical" href="https://edgeiqlabs.com/blog/api-endpoint-security-testing-free.html" />
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --warn:#f0a83d; --danger:#ff4d4d; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .container { max-width:740px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(11,15,20,0.92); backdrop-filter:blur(6px); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:10px 0; gap:20px; }
+    .nav-brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .nav-logo-img { height:52px; width:auto; border-radius:10px; }
+    .nav-wordmark { display:flex; flex-direction:column; line-height:1.1; }
+    .nav-brand-name { font-weight:800; font-size:1.15rem; color:var(--text); }
+    .nav-brand-name span { color:var(--accent); }
+    .nav-brand-tag { font-size:0.68rem; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-links a { color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:8px; }
+    .nav-cta { background:var(--accent); color:#071018 !important; font-weight:700; padding:8px 16px !important; border-radius:8px !important; }
+    .article-header { padding:64px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+    .article-meta { font-size:0.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:20px; }
+    h1 { font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.2; margin-bottom:16px; }
+    .tag { display:inline-block; background:rgba(61,217,255,.08); border:1px solid rgba(61,217,255,.2); color:var(--accent); font-size:0.7rem; border-radius:5px; padding:3px 8px; margin-right:6px; font-family:monospace; }
+    .lead { font-size:1.1rem; border-left:3px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+    h2 { font-size:1.5rem; margin:34px 0 14px; }
+    p, li { color:var(--muted); }
+    p { margin-bottom:16px; }
+    ul { margin:0 0 18px 22px; }
+    .check { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin:12px 0; }
+    .check h3 { color:var(--text); margin-bottom:8px; }
+    .badge-danger { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--danger); border:1px solid rgba(255,77,77,.35); background:rgba(255,77,77,.12); }
+    .badge-warn { display:inline-block; font-size:.72rem; border-radius:999px; padding:2px 8px; margin-left:8px; color:var(--warn); border:1px solid rgba(240,168,61,.35); background:rgba(240,168,61,.12); }
+    .cta-box { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:26px; margin:36px 0; text-align:center; }
+    .cta-btn { display:inline-block; background:var(--accent); color:#071018; font-weight:700; padding:11px 22px; border-radius:10px; text-decoration:none; }
+    code { background:rgba(61,217,255,.1); color:var(--accent); padding:2px 6px; border-radius:4px; font-size:0.9em; }
+    .warning-box { background:rgba(255,77,77,.08); border:1px solid rgba(255,77,77,.3); border-radius:10px; padding:18px; margin:20px 0; }
+  </style>
+</head>
+<body>
+  <nav><div class="container"><div class="nav-inner"><a href="../" class="nav-brand"><img src="../logo-edgeiq-selected.png" alt="EdgeIQ Labs" class="nav-logo-img" /><div class="nav-wordmark"><div class="nav-brand-name">Edge<span>IQ</span> Labs</div><div class="nav-brand-tag">Security Intelligence</div></div></a><div class="nav-links"><a href="../">Tools</a><a href="../#pricing">Pricing</a><a href="./">Blog</a><a href="../#contact">Contact</a><a href="https://buy.stripe.com/3cF7v6bCygS6c0F8gA" class="nav-cta">Get Pro</a></div></div></div></nav>
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">May 2, 2026 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; <span class="tag">API</span><span class="tag">Security Testing</span><span class="tag">Bug Bounty</span></div>
+      <h1>API Endpoint Security Testing: Free Tools and Techniques That Actually Work</h1>
+      <p class="lead">APIs are the hidden attack surface of modern web apps. Here's how to find exposed endpoints, test for common vulnerabilities, and fix what you find — without spending a dime.</p>
+    </div>
+
+    <p>You built a web app. It has a frontend that users see, and an API that powers it. You secured the frontend. The API? That's where the real action happens — data going back and forth, authentication tokens, business logic, database queries. And it's probably exposed to the internet in ways your frontend never was.</p>
+
+    <p>API vulnerabilities are consistently among the most critical risks in modern web applications. The OWASP API Security Top 10 lists broken object-level authorization, broken authentication, and excessive data exposure as the most common API-specific issues. Most of them are testable with free tools. Here's how.</p>
+
+    <h2>Finding Your API Endpoints First</h2>
+
+    <p>Before you can test an API, you need to know what endpoints exist. A modern web app might expose dozens of API endpoints that aren't visible in the navigation — they're used by the frontend JavaScript to communicate with the server.</p>
+
+    <div class="check">
+      <h3>1. Inspect your JavaScript files</h3>
+      <p>Open your browser's developer tools, go to the Network tab, filter for XHR/fetch requests, and browse your site. Capture all the API calls. Also check your JS files directly — any file at <code>/js/*.js</code> probably has API endpoint references. Look for <code>fetch(</code>, <code>axios.</code>, <code>$.ajax</code>, and URL patterns like <code>/api/</code>, <code>/v1/</code>, <code>/rest/</code>.</p>
+    </div>
+
+    <div class="check">
+      <h3>2. Check your OpenAPI/Swagger docs</h3>
+      <p>If your app uses a standard API structure, you might have a documentation endpoint at <code>/api-docs</code>, <code>/swagger.json</code>, <code>/openapi.json</code>, or <code>/api/v1/api-docs</code>. OpenAPI documentation is machine-readable — you can feed it directly into testing tools to automate security tests.</p>
+    </div>
+
+    <div class="check">
+      <h3>3. Use Wayback Machine to find old API versions</h3>
+      <p>API versions get deprecated but stay live. Check archive.org's Wayback Machine for old versions of your JavaScript files or documentation pages — they often reference API endpoints that are no longer documented but still functional.</p>
+    </div>
+
+    <h2>Testing for the Most Common API Vulnerabilities</h2>
+
+    <div class="check">
+      <h3>Broken Object-Level Authorization (BOLA)</h3>
+      <p>This is the most common and most dangerous API vulnerability. The problem: you log in as User A, and the API lets you access User B's data by changing an ID parameter. Test it: authenticate as one user, find an API call that returns user-specific data (like <code>/api/users/123/profile</code>), and try changing the ID to someone else's. If you get their data without authorization, you have BOLA. This is exploitable in most APIs that don't enforce strict authorization checks per resource.</p>
+    </div>
+
+    <div class="check">
+      <h3>Excessive Data Exposure</h3>
+      <p>APIs are supposed to return what's needed. But many return full objects and rely on the frontend to filter what it displays. This means an attacker can directly call the API and see fields that the UI never shows — SSN, internal IDs, metadata. Test: call each endpoint and examine the full response, not just what the frontend displays. Look for fields that shouldn't be there.</p>
+    </div>
+
+    <div class="check">
+      <h3>Broken Authentication</h3>
+      <p>JWT tokens, API keys, session tokens — if any of these are implemented incorrectly, authentication fails. Common mistakes: tokens signed with weak keys, tokens that don't expire, tokens that can be reused after logout, API keys that are guessable or enumerable. Test JWT tokens with the jwt_tool Python script — it checks for algorithm confusion, weak keys, missing expiration, and more.</p>
+    </div>
+
+    <div class="check">
+      <h3>Mass Assignment</h3>
+      <p>API responses often include more fields than the frontend uses. But some of those fields might be settable by the client — like <code>is_admin: false</code>. If the API accepts client-supplied field values without validation, an attacker can modify fields they shouldn't be able to. Test: examine API responses for interesting fields (role, status, admin, created_at), then try submitting those fields with new values in a POST/PUT request.</p>
+    </div>
+
+    <h2>Free Tools for API Security Testing</h2>
+
+    <ul>
+      <li><strong>Burp Suite Community:</strong> The industry's standard web proxy. Capture API traffic, replay requests, modify parameters, test authorization issues. The community edition is limited but functional.</li>
+      <li><strong>Postman:</strong> Great for manual API exploration. Save requests, modify parameters, test auth scenarios. Also useful for building a map of all your API endpoints.</li>
+      <li><strong>OWASP ZAP:</strong> Free and open-source. Has active scan modes that find common API issues. Also does API-specific passive scanning.</li>
+      <li><strong>Metasploit:</strong> Has API testing modules, particularly for authentication bypass and injection testing.</li>
+      <li><strong>httpx + nuclei:</strong> Fast scanning for API-specific vulnerabilities using community-contributed nuclei templates.</li>
+    </ul>
+
+    <h2>Manual Testing That Tools Miss</h2>
+
+    <p>Automated scanners find known patterns. Manual testing finds business logic flaws — the vulnerabilities that are specific to how YOUR API works.</p>
+
+    <div class="warning-box">
+      <strong>The ID enumeration test:</strong> For any endpoint that takes an ID parameter (user ID, order ID, record ID), try: (1) accessing other users' records by changing the ID, (2) accessing non-existent records with unusual ID values, (3) accessing records with negative IDs or string IDs where integers are expected. This single test finds the most common high-severity API vulnerabilities.
+    </div>
+
+    <h2>What to Do Right Now</h2>
+
+    <ol>
+      <li>Find all your API endpoints: browse your site with dev tools open, capture all XHR/fetch requests</li>
+      <li>Test BOLA: authenticate as yourself, find an endpoint that returns your data, change the ID to someone else's and see what happens</li>
+      <li>Examine full API responses — not just what the frontend shows — for fields that shouldn't be exposed</li>
+      <li>Check your JWT implementation with jwt_tool — look for weak keys, missing expiration, algorithm confusion</li>
+      <li>If you're building an API: implement rate limiting, enforce authorization at every endpoint, validate all input server-side</li>
+    </ol>
+
+    <p>APIs get exploited because nobody's watching them. Most of the vulnerabilities are fixable with proper access control and input validation — the problem is that teams don't test for these issues until after a breach. Don't wait for that.</p>
+
+    <div class="cta-box">
+      <p style="color:var(--muted);margin-bottom:12px;">APIs get exploited because nobody's watching them.</p>
+      <a href="https://edgeiqlabs.com/" class="cta-btn">Scan Your API Endpoints →</a>
+    </div>
+
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:36px 0;margin-top:60px;text-align:center;color:var(--muted);font-size:0.82rem;">
+    <div class="container">
+      <p>© 2026 EdgeIQ Labs · <a href="../" style="color:var(--accent);">edgeiqlabs.com</a> · Security intelligence for the teams who can't wait for the SOC</p>
+    </div>
+  </footer>
+</body>
+</html>
