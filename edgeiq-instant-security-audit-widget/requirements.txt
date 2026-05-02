@@ -1,1 +1,0 @@
-# stdlib-only app; no external dependencies required

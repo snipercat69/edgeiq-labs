@@ -1,9 +1,0 @@
-{
-  "business": "Acme Bakery",
-  "security_score": 78,
-  "ssl": {"status": "ok", "expires_in_days": 41},
-  "uptime": {"status": "degraded", "last_24h": 99.1},
-  "domain_expiry": {"status": "warning", "expires_in_days": 27},
-  "breach_alerts": {"status": "ok", "new_findings": 0},
-  "updated_at": "2026-04-28T17:10:00Z"
-}
