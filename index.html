@@ -504,6 +504,71 @@
       .newsletter-card { padding: 28px 20px; }
     }
 
+    /* ── Billing Toggle ─────────────────────────────── */
+    .billing-toggle-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .billing-toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .billing-toggle-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s;
+    }
+    .billing-toggle-label.active {
+      color: var(--text);
+    }
+    .billing-toggle {
+      width: 52px;
+      height: 28px;
+      border-radius: 14px;
+      background: #1e4060;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .billing-toggle[aria-checked="true"] {
+      background: var(--ok, #70f0a8);
+    }
+    .billing-toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 0.2s;
+      pointer-events: none;
+    }
+    .billing-toggle[aria-checked="true"] .billing-toggle-thumb {
+      transform: translateX(24px);
+    }
+    .save-badge {
+      background: rgba(112,240,168,0.15);
+      color: var(--ok, #70f0a8);
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .billing-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
 </style>
   <!-- Cloudflare Web Analytics — privacy-first, no cookie consent needed -->
   <script defer src="https://static.cloudflareinsights.com/static/cf-uar.js"></script>
@@ -706,7 +771,7 @@
             <div class="scan-cta" id="xss-quick-cta">
               <p>Want deep XSS testing with real payloads, reflected parameter detection, and exploit verification?</p>
               <a href="https://clawhub.ai/EdgeIQ-Labs/edgeiq-xss-scanner" target="_blank" class="btn btn-secondary">Get XSS Scanner Pro →</a>
-              <a href="https://buy.stripe.com/6oU6oJ51N7hb1bK7wA7wA2g" target="_blank" class="btn btn-primary" style="background:var(--ok);color:#071018;font-weight:800;">🔧 Fix It — $9/mo →</a>
+              <a href="https://buy.stripe.com/fZu9AV0LxfNH6w4dUY7wA2c" target="_blank" class="btn btn-primary" style="background:var(--ok);color:#071018;font-weight:800;">🔧 Fix It — $9/mo →</a>
             </div>
           </div>
           <div id="xss-quick-error" class="scan-error" style="display:none;">
@@ -926,6 +991,17 @@
 
 
 <section id="pricing">
+      <div class="billing-toggle-section">
+        <div class="billing-toggle-wrap">
+          <span class="billing-toggle-label active" data-billing="monthly">Monthly</span>
+          <button class="billing-toggle" id="billingToggle" aria-label="Toggle annual billing" aria-checked="false">
+            <span class="billing-toggle-thumb"></span>
+          </button>
+          <span class="billing-toggle-label" data-billing="annual">Annual <span class="save-badge">Save 20%</span></span>
+        </div>
+        <p class="billing-note" id="billingNote">Switch to annual and save on any tool — billed once, owned 12 months</p>
+      </div>
+
       <h2>Lifetime Plans — Buy Once, Own It</h2>
       <p class="section-sub">All tools available as a one-time lifetime purchase. No recurring fees, no cancellations, no surprises. Optional lower monthly plan if you prefer to rent.</p>
       <div class="pricing">
@@ -934,7 +1010,7 @@
           <h3>🔍 XSS Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/bJebJ3am70SNdYw9EI7wA1J" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/14A5kF79VeJD1bKeZ27wA1W" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/14A5kF79VeJD1bKeZ27wA1W" data-annual-link="https://buy.stripe.com/6oU6oJfGr9pjcUsbMQ7wA2i" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">40+ payloads, WAF bypass, blind XSS detection, screenshot evidence.</p>
           <ul style="margin-top:8px;"><li>40+ payloads & WAF bypass</li><li>Blind XSS detection</li><li>Security header analysis</li><li>JSON + HTML output</li><li>All Free features included</li></ul>
@@ -948,7 +1024,7 @@
           <h3>🌐 Network Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/5kQbJ39i39pjcUseZ27wA1K" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $49</a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/7sYaEZ51N0SN3jSaIM7wA13" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/7sYaEZ51N0SN3jSaIM7wA13" data-annual-link="https://buy.stripe.com/aFa28tcufbxrbQo3gk7wA2l" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Deep port scan, CVE matching, OS fingerprinting, traceroute.</p>
           <ul style="margin-top:8px;"><li>Port scan 1–65535</li><li>Service version detection</li><li>CVE matching</li><li>SSL/TLS grading</li><li>JSON + HTML reports</li></ul>
@@ -962,7 +1038,7 @@
           <h3>🎯 Subdomain Hunter Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/dRm8wRcuf7hb3jS0487wA1V" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/14A00lgKv8lf3jScQU7wA26" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/14A00lgKv8lf3jScQU7wA26" data-annual-link="https://buy.stripe.com/3cIeVf51N8lfaMk5os7wA2t" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Passive CT scan, takeover detection, DNS zone transfer checks.</p>
           <ul style="margin-top:8px;"><li>Certificate Transparency scans</li><li>Subdomain takeover detection</li><li>DNS zone transfer checks</li><li>Bruteforce wordlist</li></ul>
@@ -976,7 +1052,7 @@
           <h3>🔒 SSL Watcher Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/00wbJ3gKv30V8Ecg367wA1L" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $19 <span style='font-size:0.7em;color:var(--accent)'>( Promo )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/aFa9AV51N8lf2fOcQU7wA19" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/aFa9AV51N8lf2fOcQU7wA19" data-annual-link="https://buy.stripe.com/eVq00ldyj7hb1bK8AE7wA2m" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Certificate expiry tracking, security header analysis, WHOIS.</p>
           <ul style="margin-top:8px;"><li>Certificate expiry timeline</li><li>CSP, HSTS analysis</li><li>WHOIS domain tracking</li><li>JSON + HTML reports</li></ul>
@@ -990,7 +1066,7 @@
           <h3>💉 SQL Injection Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/28EfZj1PB0SN1bKg367wA1M" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/bJe8wR0LxcBv8Ec7wA7wA28" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/bJe8wR0LxcBv8Ec7wA7wA28" data-annual-link="https://buy.stripe.com/9B67sN51N9pj07G3gk7wA2j" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Boolean blind + time-based detection, database extraction.</p>
           <ul style="margin-top:8px;"><li>Boolean blind + time-based</li><li>UNION SELECT extraction</li><li>Multiple parameter scanning</li><li>JSON export</li></ul>
@@ -1004,7 +1080,7 @@
           <h3>🔐 OAuth Security Checker Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/9B64gB9i330VaMkbMQ7wA1N" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/14A8wRgKv8lfcUs6sw7wA1Y" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/14A8wRgKv8lfcUs6sw7wA1Y" data-annual-link="https://buy.stripe.com/8x2dRbbqbfNH2fObMQ7wA2k" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Redirect URI + state checks, PKCE detection, scope analysis.</p>
           <ul style="margin-top:8px;"><li>Redirect URI + state checks</li><li>PKCE detection</li><li>Scope permission analysis</li><li>JSON export</li></ul>
@@ -1018,7 +1094,7 @@
           <h3>🕳️ Dark Web Credential Checker Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/5kQ9AVcufbxr6w4bMQ7wA1O" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/bJe14p65RfNH9Ig0487wA1Z" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/bJe14p65RfNH9Ig0487wA1Z" data-annual-link="https://buy.stripe.com/fZubJ31PBeJD3jSeZ27wA2n" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Breach search, password hash detection, exposed data classification.</p>
           <ul style="margin-top:8px;"><li>50 email lookups/mo</li><li>Username breach search</li><li>Exposed data classification</li><li>Password hash detection</li></ul>
@@ -1032,7 +1108,7 @@
           <h3>🦠 Malware Signature Scanner Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/3cIfZj65R6d75s00487wA1P" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/3cIbJ3bqb5938Ec18c7wA20" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/3cIbJ3bqb5938Ec18c7wA20" data-annual-link="https://buy.stripe.com/aFa3cx2TFgRL3jS7wA7wA2o" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">YARA rules, PE header analysis, URL/domain reputation.</p>
           <ul style="margin-top:8px;"><li>50 file scans/mo</li><li>Full YARA ruleset (200+)</li><li>PE header + entropy analysis</li><li>String extraction</li></ul>
@@ -1046,7 +1122,7 @@
           <h3>📧 Email Header Analyzer Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/9B65kF3XJ1WR8EcaIM7wA1Q" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/4gM00ldyjbxr2fO4ko7wA21" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/4gM00ldyjbxr2fO4ko7wA21" data-annual-link="https://buy.stripe.com/5kQ5kF51NcBvcUsbMQ7wA2p" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">SPF/DKIM/DMARC analysis, from/reply-to mismatch detection.</p>
           <ul style="margin-top:8px;"><li>50 header analyses/mo</li><li>SPF/DKIM/DMARC full analysis</li><li>From/Reply-To mismatch</li><li>IP reputation lookup</li></ul>
@@ -1060,7 +1136,7 @@
           <h3>🎣 Phishing Kit Detector Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/00waEZ8dZ7hb07GeZ27wA1R" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/14AcN765R0SNf2Ag367wA22" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/14AcN765R0SNf2Ag367wA22" data-annual-link="https://buy.stripe.com/5kQ7sN51N1WRcUs8AE7wA2u" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Brand impersonation detection, JS analysis, infrastructure fingerprinting.</p>
           <ul style="margin-top:8px;"><li>50 URL/scans/mo</li><li>17 brand impersonation checks</li><li>JavaScript analysis</li><li>Stolen branding detection</li></ul>
@@ -1074,7 +1150,7 @@
           <h3>🔎 API Endpoint Discovery Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/9B67sNeCncBv8Ec3gk7wA1S" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/dRm28tbqbgRLaMkbMQ7wA23" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/dRm28tbqbgRLaMkbMQ7wA23" data-annual-link="https://buy.stripe.com/bJe5kFfGrdFzbQo5os7wA2q" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Path brute-forcing, JS endpoint extraction, Swagger discovery.</p>
           <ul style="margin-top:8px;"><li>50 target scans/mo</li><li>200+ path brute-forcing</li><li>JavaScript endpoint extraction</li><li>Swagger/OpenAPI discovery</li></ul>
@@ -1088,7 +1164,7 @@
           <h3>📡 Lead Researcher Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/8x2fZjgKv30V8Ec8AE7wA1T" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/eVq8wRam70SN7A88AE7wA24" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/eVq8wRam70SN7A88AE7wA24" data-annual-link="https://buy.stripe.com/cNi4gB51N8lf3jS0487wA2r" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Tech stack, industry, size, social links, recent news.</p>
           <ul style="margin-top:8px;"><li>50 lookups/mo</li><li>Full tech stack enrichment</li><li>Social links + contact data</li><li>CSV export</li></ul>
@@ -1102,7 +1178,7 @@
           <h3>🏪 Business Listing Aggregator Pro</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
             <a class="btn btn-primary" href="https://buy.stripe.com/5kQcN7fGrbxr3jSbMQ7wA1U" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Lifetime — $39 <span style='font-size:0.65em;color:var(--accent)'>( Promo: $19 )</span></a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/fZu00lbqbgRLbQo6sw7wA25" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
+            <a class="btn btn-secondary billing-monthly-btn" href="https://buy.stripe.com/fZu00lbqbgRLbQo6sw7wA25" data-annual-link="https://buy.stripe.com/7sY3cx9i3cBv8Ec7wA7wA2s" data-monthly-text="or $19/mo" data-annual-text="or $182/yr" target="_blank" rel="noopener" style="font-size:0.8rem;">or $19/mo</a>
           </div>
           <p style="color:var(--muted);font-size:0.88rem;">Cross-platform consistency checks, weekly reports.</p>
           <ul style="margin-top:8px;"><li>10 businesses monitored</li><li>Google Maps, Yelp, BBB, Facebook</li><li>Weekly consistency checks</li><li>JSON + HTML reports</li></ul>
@@ -1191,9 +1267,9 @@
             <li>📈 Unlimited fixes with annual plan</li>
           </ul>
           <div class="plan-actions" style="margin-top:auto;">
-            <a class="btn btn-primary" href="https://buy.stripe.com/6oU6oJ51N7hb1bK7wA7wA2g" target="_blank" rel="noopener">Get Fix-it — $9/mo →</a>
+            <a class="btn btn-primary" href="https://buy.stripe.com/fZu9AV0LxfNH6w4dUY7wA2c" target="_blank" rel="noopener">Get Fix-it — $9/mo →</a>
             <a class="btn btn-secondary" href="autopilot.html" style="font-size:0.8rem;">See How It Works →</a>
-            <a class="btn btn-secondary" href="https://buy.stripe.com/cNi6oJfGrfNHcUsaIM7wA2h" target="_blank" rel="noopener" style="font-size:0.8rem;">or $99/yr unlimited →</a>
+            <a class="btn btn-secondary" href="https://buy.stripe.com/5kQcN7dyj44ZdYw3gk7wA2d" target="_blank" rel="noopener" style="font-size:0.8rem;">or $99/yr unlimited →</a>
           </div>
         </article>
 
@@ -1556,7 +1632,7 @@
       <h2>Contact</h2>
       <p class="section-sub">Need onboarding or support?</p>
       <div class="card">
-        <p>Support: <a href="/cdn-cgi/l/email-protection#b7c4c2c7c7d8c5c3f7d2d3d0d2dec6dbd6d5c499d4d8da"><span class="__cf_email__" data-cfemail="d0a3a5a0a0bfa2a490b5b4b7b5b9a1bcb1b2a3feb3bfbd">[email&#160;protected]</span></a></p>
+        <p>Support: <a href="mailto:support@edgeiqlabs.com">support@edgeiqlabs.com</a></p>
         <p>Discord: <a href="https://discord.gg/PaP7nsFUJT" target="_blank" rel="noopener">discord.gg/PaP7nsFUJT</a></p>
         <p style="margin-top:10px;color:var(--muted);font-size:0.92rem;">Refund policy: First-time purchases are eligible for a 7-day refund window.</p>
       </div>
@@ -1605,7 +1681,7 @@
       </div>
       <p style="text-align:center;font-size:0.82rem;color:#4a5d78;margin:8px 0 0;">© 2026 EdgeIQ Labs · Monitoring and authorized security services.</p>
     </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function() {
   // Tab switching
   window.showScannerTab = function(tab) {
@@ -2193,6 +2269,67 @@
     });
   }
 })();
+
+// ── Billing Toggle ──────────────────────────────────────────────────────────
+;(function() {
+  var toggle = document.getElementById('billingToggle');
+  var labels = document.querySelectorAll('.billing-toggle-label');
+  var note   = document.getElementById('billingNote');
+  var btns   = document.querySelectorAll('.billing-monthly-btn');
+  if (!toggle) return;
+
+  var isAnnual = false;
+
+  function applyBilling() {
+    // Update toggle visual state
+    toggle.setAttribute('aria-checked', isAnnual ? 'true' : 'false');
+    labels.forEach(function(lbl) {
+      var which = lbl.getAttribute('data-billing');
+      lbl.classList.toggle('active', (isAnnual ? which === 'annual' : which === 'monthly'));
+    });
+
+    // Update note text
+    if (note) {
+      note.textContent = isAnnual
+        ? 'Annual billing — your card is charged \'182 for 12 months. Save \'46 vs monthly.'
+        : 'Switch to annual and save on any tool — billed once, owned 12 months';
+    }
+
+    // Update each monthly/annual button
+    btns.forEach(function(btn) {
+      if (isAnnual) {
+        var annLink = btn.getAttribute('data-annual-link');
+        if (annLink) btn.href = annLink;
+        var annText = btn.getAttribute('data-annual-text');
+        if (annText) btn.textContent = annText;
+      } else {
+        var monLink = btn.getAttribute('data-monthly-link');
+        if (monLink) btn.href = monLink;
+        var monText = btn.getAttribute('data-monthly-text');
+        if (monText) btn.textContent = monText;
+      }
+    });
+  }
+
+  // Store monthly hrefs before they're modified
+  btns.forEach(function(btn) {
+    btn.setAttribute('data-monthly-link', btn.href);
+  });
+
+  toggle.addEventListener('click', function() {
+    isAnnual = !isAnnual;
+    applyBilling();
+  });
+
+  // Allow clicking the labels too
+  labels.forEach(function(lbl) {
+    lbl.addEventListener('click', function() {
+      var which = lbl.getAttribute('data-billing');
+      isAnnual = (which === 'annual');
+      applyBilling();
+    });
+  });
+})();
 </script>
-<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b99e6cb0ac5c45cd9d163a490a7a4419"}'></script><!-- Cloudflare Pages Analytics --></body>
+</body>
 </html>
