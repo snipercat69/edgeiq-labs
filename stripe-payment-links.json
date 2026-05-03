@@ -33,5 +33,8 @@
   "report_lifetime": "https://buy.stripe.com/3cI8wR51N6d7g6EdUY7wA0W",
   "compliance_essential": "https://buy.stripe.com/eVq3cxam730V9Ig5os7wA2N",
   "compliance_business": "https://buy.stripe.com/3cI28tcuf6d76w42cg7wA2O",
-  "score_compliance_bundle": "https://buy.stripe.com/9B66oJ8dZcBv9Igg367wA2P"
+  "score_compliance_bundle": "https://buy.stripe.com/9B66oJ8dZcBv9Igg367wA2P",
+  "report_single": "https://buy.stripe.com/bJe4gBam70SN9IgcQU7wA2Q",
+  "report_5_bundle": "https://buy.stripe.com/7sYcN765R1WRf2A7wA7wA2R",
+  "report_10_bundle": "https://buy.stripe.com/eVqfZj79VatnbQo7wA7wA2S"
 }
