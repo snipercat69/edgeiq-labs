@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenClaw Setup — Onboarding · EdgeIQ Labs</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --ok:#70f0a8; --err:#ff5252; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .container { width: 100%; max-width: 560px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+    .logo { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+    .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+    .step-label { display: inline-block; background: rgba(61,217,255,0.1); color: var(--accent); font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .hint { font-size: 0.78rem; color: var(--muted); margin-bottom: 6px; }
+    input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; padding: 10px 12px; outline: none; transition: border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    input::placeholder, textarea::placeholder { color: #4a6080; }
+    textarea { resize: vertical; min-height: 80px; }
+    .checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+    .checkbox-item { display: flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; }
+    .checkbox-item:hover { border-color: var(--accent); }
+    .checkbox-item input[type="checkbox"] { width: auto; margin: 0; }
+    .checkbox-item.checked { border-color: var(--accent); background: rgba(61,217,255,0.08); }
+    .tier-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .tier-option { border: 2px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .tier-option:hover { border-color: var(--accent); }
+    .tier-option.selected { border-color: var(--accent); background: rgba(61,217,255,0.08); }
+    .tier-option .price { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+    .tier-option .tier-name { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent); color: #071018; font-weight: 700; font-size: 0.95rem; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; width: 100%; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.88; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); margin-top: 10px; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--text); }
+    .alert { border-radius: 8px; padding: 12px 14px; font-size: 0.85rem; margin-bottom: 20px; display: none; }
+    .alert.error { background: rgba(255,82,82,0.1); border: 1px solid rgba(255,82,82,0.3); color: #ff8080; }
+    .alert.success { background: rgba(112,240,168,0.1); border: 1px solid rgba(112,240,168,0.3); color: var(--ok); }
+    .alert.info { background: rgba(61,217,255,0.1); border: 1px solid rgba(61,217,255,0.3); color: var(--accent); }
+    #loading { display: none; text-align: center; padding: 20px; }
+    .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .field-note { font-size: 0.75rem; color: #4a6080; margin-top: 4px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .footer { text-align: center; font-size: 0.75rem; color: #4a6080; margin-top: 16px; }
+    .optional-tag { font-size: 0.7rem; background: rgba(255,255,255,0.06); color: var(--muted); padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+    .agent-name-input { margin-top: 8px; display: none; }
+    .agent-name-input.show { display: block; }
+    .progress-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 24px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .dot.active { background: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="logo">EdgeIQ Labs</div>
+    <h1>OpenClaw Setup</h1>
+    <p class="subtitle">Tell us a bit about yourself and we'll prep your config instantly.</p>
+
+    <div class="progress-dots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+      <div class="dot" id="dot3"></div>
+    </div>
+
+    <div id="form-view">
+      <div id="alert-error" class="alert error"></div>
+      <div id="alert-success" class="alert success"></div>
+
+      <!-- Step 1: Name + Contact -->
+      <div id="step1">
+        <div class="step-label">Step 1 of 3</div>
+        <div class="form-group">
+          <label>Your Name <span class="optional-tag">optional</span></label>
+          <input type="text" id="buyerName" placeholder="Ada Lovelace" />
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="buyerEmail" placeholder="ada@company.com" required />
+          <p class="field-note">Your config will be sent here immediately after payment.</p>
+        </div>
+        <button class="btn" onclick="nextStep(2)">Continue →</button>
+      </div>
+
+      <!-- Step 2: Channel Selection -->
+      <div id="step2" style="display:none;">
+        <div class="step-label">Step 2 of 3</div>
+        <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px;">Which messaging platform will you use to talk to your agent?</p>
+
+        <div class="form-group">
+          <label>Primary Channel *</label>
+          <select id="channelType" onchange="toggleChannelFields()">
+            <option value="">— Select —</option>
+            <option value="telegram">Telegram</option>
+            <option value="discord">Discord</option>
+            <option value="both">Both Telegram + Discord</option>
+          </select>
+        </div>
+
+        <div id="telegramFields" style="display:none;">
+          <div class="form-group">
+            <label>Telegram Bot Token *</label>
+            <input type="text" id="telegramBotToken" placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz" />
+            <p class="hint">Create a bot via <strong>@BotFather</strong> on Telegram. Send <code>/newbot</code>, follow prompts, copy the token.</p>
+          </div>
+          <div class="form-group">
+            <label>Your Telegram User ID <span class="optional-tag">optional</span></label>
+            <input type="text" id="telegramUserId" placeholder="123456789" />
+            <p class="hint">Find yours via <strong>@userinfobot</strong> — ensures only you can message the agent.</p>
+          </div>
+        </div>
+
+        <div id="discordFields" style="display:none;">
+          <div class="form-group">
+            <label>Discord Webhook URL *</label>
+            <input type="text" id="discordWebhook" placeholder="https://discord.com/api/webhooks/..." />
+            <p class="hint">Server Settings → Integrations → Webhooks → New Webhook → Copy URL.</p>
+          </div>
+          <div class="form-group">
+            <label>Allowed Discord Role IDs <span class="optional-tag">optional</span></label>
+            <input type="text" id="discordRoleIds" placeholder="123456789, 987654321" />
+            <p class="hint">Right-click role in Discord → Copy Role ID. Comma-separate multiple.</p>
+          </div>
+        </div>
+
+        <button class="btn" onclick="nextStep(3)">Continue →</button>
+        <button class="btn btn-outline" onclick="prevStep(1)">← Back</button>
+      </div>
+
+      <!-- Step 3: Preferences + Checkout -->
+      <div id="step3" style="display:none;">
+        <div class="step-label">Step 3 of 3</div>
+
+        <div class="form-group">
+          <label>Agent Personality <span class="optional-tag">optional</span></label>
+          <div class="checkbox-group">
+            <label class="checkbox-item" id="opt-friendly">
+              <input type="radio" name="personality" value="friendly" onchange="selectPersonality(this)" /> Friendly
+            </label>
+            <label class="checkbox-item" id="opt-professional">
+              <input type="radio" name="personality" value="professional" onchange="selectPersonality(this)" /> Professional
+            </label>
+            <label class="checkbox-item" id="opt-technical">
+              <input type="radio" name="personality" value="technical" onchange="selectPersonality(this)" /> Technical
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Skills to Include <span class="optional-tag">optional</span></label>
+          <div class="checkbox-group">
+            <label class="checkbox-item checked" id="opt-weather">
+              <input type="checkbox" checked disabled /> Weather
+            </label>
+            <label class="checkbox-item checked" id="opt-email">
+              <input type="checkbox" checked disabled /> Email
+            </label>
+            <label class="checkbox-item" id="opt-github">
+              <input type="checkbox" onchange="toggleOpt(this, 'opt-github')" /> GitHub
+            </label>
+            <label class="checkbox-item" id="opt-calendar">
+              <input type="checkbox" onchange="toggleOpt(this, 'opt-calendar')" /> Calendar
+            </label>
+            <label class="checkbox-item" id="opt-homeassistant">
+              <input type="checkbox" onchange="toggleOpt(this, 'opt-homeassistant')" /> Home Assistant
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Additional Notes <span class="optional-tag">optional</span></label>
+          <textarea id="notes" placeholder="Anything specific you need? VPN setup, specific integrations, automation workflows..."></textarea>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="tier-selector">
+          <div class="tier-option selected" id="tier-starter" onclick="selectTier('starter')">
+            <div class="price">$99</div>
+            <div class="tier-name">Starter</div>
+          </div>
+          <div class="tier-option" id="tier-pro" onclick="selectTier('pro')">
+            <div class="price">$249</div>
+            <div class="tier-name">Pro Setup</div>
+          </div>
+          <div class="tier-option" id="tier-managed" onclick="selectTier('managed')">
+            <div class="price">$49<span style="font-size:0.7rem">/mo</span></div>
+            <div class="tier-name">Managed</div>
+          </div>
+        </div>
+
+        <button class="btn" id="checkoutBtn" onclick="startCheckout()">
+          Continue to Payment →
+        </button>
+        <button class="btn btn-outline" onclick="prevStep(2)">← Back</button>
+      </div>
+    </div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      <p style="color:var(--muted);font-size:0.9rem;">Generating your config...</p>
+    </div>
+
+    <div id="success-view" style="display:none; text-align:center;">
+      <div style="font-size:3rem;margin-bottom:16px;">✅</div>
+      <h2 style="font-size:1.2rem;margin-bottom:10px;">Purchase Complete!</h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px;">
+        Your personalized OpenClaw config is on its way to <strong id="confirmEmail"></strong>.
+        <br>Check your inbox — it's usually there within a minute.
+      </p>
+      <p style="color:#4a6080;font-size:0.8rem;">
+        Didn't receive it? Check spam, or <a href="mailto:support@edgeiqlabs.com" style="color:var(--accent);">contact support</a>.
+      </p>
+    </div>
+
+    <div class="footer">
+      Secure checkout powered by Stripe · Questions? <a href="mailto:support@edgeiqlabs.com" style="color:var(--accent);">support@edgeiqlabs.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const state = {
+  step: 1,
+  tier: 'starter',
+  personality: 'friendly',
+  channel: '',
+  skills: ['weather', 'email'],
+  buyerEmail: '',
+  buyerName: '',
+  telegramBotToken: '',
+  telegramUserId: '',
+  discordWebhook: '',
+  discordRoleIds: '',
+  notes: '',
+};
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function nextStep(n) {
+  if (n === 2) {
+    const email = document.getElementById('buyerEmail').value.trim();
+    if (!email || !email.includes('@')) {
+      showError('Please enter a valid email address.');
+      return;
+    }
+    state.buyerEmail = email;
+    state.buyerName = document.getElementById('buyerName').value.trim();
+  }
+  if (n === 3) {
+    const channel = document.getElementById('channelType').value;
+    if (!channel) {
+      showError('Please select a messaging platform.');
+      return;
+    }
+    state.channel = channel;
+    state.telegramBotToken = document.getElementById('telegramBotToken').value.trim();
+    state.telegramUserId = document.getElementById('telegramUserId').value.trim();
+    state.discordWebhook = document.getElementById('discordWebhook').value.trim();
+    state.discordRoleIds = document.getElementById('discordRoleIds').value.trim();
+  }
+  showStep(n);
+}
+
+function prevStep(n) { showStep(n); }
+
+function showStep(n) {
+  state.step = n;
+  ['step1','step2','step3'].forEach((id, i) => {
+    document.getElementById(id).style.display = (i+1) === n ? 'block' : 'none';
+  });
+  document.getElementById('dot1').classList.toggle('active', n >= 1);
+  document.getElementById('dot2').classList.toggle('active', n >= 2);
+  document.getElementById('dot3').classList.toggle('active', n >= 3);
+}
+
+// ── Channel fields ─────────────────────────────────────────────────────────
+function toggleChannelFields() {
+  const channel = document.getElementById('channelType').value;
+  document.getElementById('telegramFields').style.display = (channel === 'telegram' || channel === 'both') ? 'block' : 'none';
+  document.getElementById('discordFields').style.display = (channel === 'discord' || channel === 'both') ? 'block' : 'none';
+}
+
+// ── Tier selector ───────────────────────────────────────────────────────────
+function selectTier(tier) {
+  state.tier = tier;
+  ['starter','pro','managed'].forEach(t => {
+    document.getElementById('tier-' + t).classList.toggle('selected', t === tier);
+  });
+}
+
+// ── Personality ─────────────────────────────────────────────────────────────
+function selectPersonality(el) {
+  state.personality = el.value;
+  document.querySelectorAll('[id^="opt-"]').forEach(l => l.classList.remove('checked'));
+  el.closest('.checkbox-item').classList.add('checked');
+}
+
+function toggleOpt(cb, id) {
+  document.getElementById(id).classList.toggle('checked', cb.checked);
+  const skill = id.replace('opt-', '');
+  if (cb.checked) state.skills.push(skill);
+  else state.skills = state.skills.filter(s => s !== skill);
+}
+
+// ── Checkout ─────────────────────────────────────────────────────────────────
+async function startCheckout() {
+  const btn = document.getElementById('checkoutBtn');
+  const err = document.getElementById('alert-error');
+  err.style.display = 'none';
+
+  // Validate channel fields
+  if (state.channel === 'telegram' || state.channel === 'both') {
+    if (!state.telegramBotToken) {
+      showError('Telegram bot token is required.'); return;
+    }
+  }
+  if (state.channel === 'discord' || state.channel === 'both') {
+    if (!state.discordWebhook) {
+      showError('Discord webhook URL is required.'); return;
+    }
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Processing...';
+
+  try {
+    // Step 1: Create Stripe checkout session (calls our API → creates Stripe session)
+    const resp = await fetch('https://api.edgeiqlabs.com/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tier: state.tier,
+        email: state.buyerEmail,
+        name: state.buyerName,
+        telegramBotToken: state.telegramBotToken,
+        telegramUserId: state.telegramUserId,
+        discordWebhook: state.discordWebhook,
+        discordRoleIds: state.discordRoleIds,
+        skills: state.skills,
+        notes: document.getElementById('notes').value.trim(),
+      }),
+    });
+
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.error || `Server error: ${resp.status}`);
+    }
+
+    const { checkoutUrl } = await resp.json();
+
+    // Step 2: Redirect to Stripe
+    window.location.href = checkoutUrl;
+
+  } catch (err) {
+    showError(err.message || 'Something went wrong. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Continue to Payment →';
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function showError(msg) {
+  const el = document.getElementById('alert-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// Show success view after Stripe redirect
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('success') === '1') {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('confirmEmail').textContent = urlParams.get('email') || 'your email';
+  document.getElementById('success-view').style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're all set! · EdgeIQ Labs</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#121923; --text:#e8eef7; --muted:#9fb0c7; --accent:#3dd9ff; --border:#233142; --ok:#70f0a8; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; text-align: center; max-width: 480px; width: 100%; }
+    .emoji { font-size: 4rem; margin-bottom: 20px; }
+    h1 { font-size: 1.6rem; margin-bottom: 12px; }
+    p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+    .email-highlight { background: rgba(61,217,255,0.1); border: 1px solid rgba(61,217,255,0.3); border-radius: 8px; padding: 12px 16px; color: var(--accent); font-weight: 600; margin-bottom: 20px; display: inline-block; }
+    .steps { text-align: left; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 20px 0; }
+    .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .step:last-child { margin-bottom: 0; }
+    .step-num { background: rgba(61,217,255,0.15); color: var(--accent); font-size: 0.75rem; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
+    .btn { display: inline-block; background: var(--accent); color: #071018; font-weight: 700; font-size: 0.9rem; padding: 10px 20px; border-radius: 8px; text-decoration: none; margin-top: 10px; }
+    .btn:hover { opacity: 0.88; }
+    .footer { font-size: 0.75rem; color: #4a6080; margin-top: 24px; }
+    .footer a { color: var(--accent); text-decoration: none; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .checking { animation: pulse 1.5s ease-in-out infinite; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">✅</div>
+    <h1>Payment confirmed!</h1>
+    <p>Your OpenClaw config is being prepared and will arrive at:</p>
+    <div class="email-highlight" id="confirmEmail">your inbox</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Check your email</strong> — delivery usually takes under 1 minute</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Download your config</strong> — click the link or copy the token</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Run the install</strong> — one command on your VPS or Linux machine</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Start your agent</strong> — <code>openclaw gateway start</code> and you're live</div>
+      </div>
+    </div>
+
+    <p class="checking">📧 Watching for your email...</p>
+
+    <div class="footer">
+      Didn't get it? Check your spam folder · <a href="mailto:support@edgeiqlabs.com">Contact support</a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get('email');
+    if (email) {
+      document.getElementById('confirmEmail').textContent = email;
+    }
+  </script>
+</body>
+</html>
