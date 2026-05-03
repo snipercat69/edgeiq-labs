@@ -508,26 +508,54 @@ async function startCheckout() {
   showStatus('Preparing checkout...', 'processing');
   document.getElementById('buyBtn').disabled = true;
 
-  // Store scan data in sessionStorage for retrieval after payment
-  sessionStorage.setItem('edgeiq_scan_data', JSON.stringify(data));
-  sessionStorage.setItem('edgeiq_email', email);
-  sessionStorage.setItem('edgeiq_session_pending', 'true');
+  // Call our worker API to: (1) store scan data in KV, (2) create Stripe checkout with order UUID
+  const scanTypeMap = {
+    xss: 'XSS Scan',
+    ssl: 'SSL/TLS Scan',
+    subdomain: 'Subdomain Scan',
+    dns: 'DNS Lookup',
+    cve: 'CVE Lookup',
+    mixed: 'Mixed/Multiple Scan',
+  };
+  const scanType = scanTypeMap[data.scan_type] || data.scan_type;
 
-  // Create Stripe Checkout Session
-  // Note: In production, this should call YOUR backend which creates the Stripe session
-  // and returns the URL. For now, we redirect to the direct Stripe payment link with metadata.
-  // The production flow:
-  //   1. POST /api/create-checkout-session { email, scan_type, target }
-  //   2. Backend creates Stripe session with metadata, returns { url }
-  //   3. Redirect to Stripe URL
-  //   4. Stripe redirects back to /report?session_id=xxx
-  //   5. Page verifies payment + retrieves scan data from sessionStorage → generates PDF
+  // Price IDs from Stripe:
+  const priceId = 'price_1TT3umRC1NZ20yDTIRCqCBPW'; // $19 single report
 
-  // For DEMO / MVP: redirect directly to Stripe with email in metadata
-  const stripeUrl = `https://buy.stripe.com/bJe4gBam70SN9IgcQU7wA2Q?prefilled_email=${encodeURIComponent(email)}&client_reference_id=${Date.now()}`;
+  try {
+    showStatus('Creating your order...', 'processing');
+    const resp = await fetch('https://api.edgeiqlabs.com/report/prepare', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        scanType,
+        scanResults: data.findings,
+        priceId,
+        clientName: data.client_name,
+        consultantName: data.consultant,
+        targetUrl: data.target,
+      }),
+    });
 
-  showStatus('Redirecting to Stripe checkout...', 'processing');
-  window.location.href = stripeUrl;
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      showStatus('Failed to prepare order: ' + (err.error || resp.statusText), 'error');
+      document.getElementById('buyBtn').disabled = false;
+      return;
+    }
+
+    const { orderId, checkoutUrl } = await resp.json();
+
+    // Store orderId for confirmation page reference
+    sessionStorage.setItem('edgeiq_order_id', orderId);
+
+    showStatus('Redirecting to Stripe checkout...', 'processing');
+    window.location.href = checkoutUrl;
+  } catch (err) {
+    showStatus('Network error — please try again.', 'error');
+    document.getElementById('buyBtn').disabled = false;
+  }
 }
 </script>
 </body>
