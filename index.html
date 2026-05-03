@@ -173,12 +173,9 @@
     h2 { font-size: 1.5rem; margin-bottom: 12px; }
     /* ── Scroll-triggered animations ── */
     .anim-card {
-      /* Start visible — IntersectionObserver adds .visible for scroll-triggered animation */
-      /* If JS is disabled or observer fails, cards still show */
+      /* Cards always visible — IntersectionObserver adds .visible for scroll animation */
     }
     .anim-card.visible {
-      /* IntersectionObserver adds .visible when card enters viewport */
-      /* These styles apply on scroll-in — override the initial state */
     }
     .anim-card:nth-child(1) { transition-delay: 0ms; }
     .anim-card:nth-child(2) { transition-delay: 80ms; }
@@ -584,9 +581,11 @@
       </a>
       <div class="nav-links">
         <a href="#services">Services</a>
-        <a href="score.html">Score</a>
-        <a href="compliance-check.html">Compliance</a>
         <a href="#pricing">Pricing</a>
+        <a href="autopilot.html">Fix-it</a>
+        <a href="blog/">Blog</a>
+        <a href="docs/">Docs</a>
+        <a href="report.html">Report Generator</a>
         <a href="https://github.com/EdgeIQ-Labs" target="_blank" rel="noopener">GitHub</a>
         <a class="nav-cta" href="#pricing">Get Started</a>
       </div>
@@ -597,7 +596,8 @@
       <div class=audience-pills>
         <a href="#scanner" class="audience-pill">Free Tools</a>
         <a href="#services" class="audience-pill">For Business Owners</a>
-
+        <a href="#pricing" class="audience-pill">For Security Pros</a>
+        <a href="#pricing" class="audience-pill">For Builders &amp; Devs</a>
       </div>
     </div>
   </div>
@@ -650,7 +650,6 @@
           <button class="scan-tab" onclick="showScannerTab('dns')" id="tab-btn-dns">🌐 DNS Lookup</button>
           <button class="scan-tab" onclick="showScannerTab('whois')" id="tab-btn-whois">📋 WHOIS Lookup</button>
           <button class="scan-tab" onclick="showScannerTab('cve')" id="tab-btn-cve">🔎 CVE Lookup</button>
-          <button class="scan-tab" onclick="showScannerTab('score')" id="tab-btn-score">🔬 Full Security Score</button>
         </div>
         <div id="ssl-panel" class="scan-panel">
         <form id="ssl-scan-form" class="scan-form" style="display:block;">
@@ -891,37 +890,6 @@
       </div>
     </div>
 
-    <!-- Full Security Score — Combined Score Engine -->
-    <div id="score-panel" class="scan-panel" style="display:none;">
-      <form id="score-scan-form" class="scan-form">
-        <div class="scan-input-row">
-          <input type="text" id="score-domain" name="domain" placeholder="example.com" required autocomplete="off" spellcheck="false" />
-          <button type="submit" class="btn btn-primary scan-btn" id="score-submit">
-            <span id="score-label">Run Full Scan</span>
-            <span id="score-loading" style="display:none;">Scanning...</span>
-          </button>
-        </div>
-        <p class="scan-note">Combined score from all EdgeIQ security scanners — SSL, headers, XSS, network, and more</p>
-      </form>
-      <div id="score-results" class="scan-results" style="display:none;">
-        <div class="scan-grade-wrap">
-          <div class="scan-grade" id="score-grade-badge">?</div>
-          <div class="scan-grade-info">
-            <h3 id="score-hostname">example.com</h3>
-            <p id="score-summary">Analyzing...</p>
-          </div>
-        </div>
-        <div class="scan-findings" id="score-findings"></div>
-        <div class="scan-cta" id="score-cta">
-          <p>Want continuous monitoring, alerts, and full compliance coverage?</p>
-          <a href="#compliance" class="btn btn-primary">See Compliance Plans →</a>
-        </div>
-      </div>
-      <div id="score-error" class="scan-error" style="display:none;">
-        <p id="score-error-msg">Something went wrong. Please try again.</p>
-      </div>
-    </div>
-
     <section id="services">
       <h2>What we offer</h2>
       <p class="section-sub">Security and OSINT tools, managed services, and automation infrastructure — built to work from day one.</p>
@@ -959,76 +927,16 @@
         <article class="card anim-card">
           <h3>🤖 Custom Bot &amp; Workflow Development</h3>
           <p>Community bots, alert systems, moderation helpers, and business process automation. Fast delivery, ongoing maintenance.</p>
-          <a href="#contact" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
+          <a href="#request" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
         </article>
         <article class="card anim-card">
           <h3>📊 Data Extraction &amp; Reporting</h3>
           <p>Structured extraction from public sources, automated reports delivered on schedule, and spreadsheet wrangling. Clean data, no fluff.</p>
-          <a href="#contact" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
+          <a href="#request" class="btn btn-secondary" style="margin-top:10px;font-size:0.85rem;">Request a Quote →</a>
         </article>
       </div>
     </section>
 
-    <!-- Compliance Center -->
-    <section id="compliance" style="border-top:1px solid var(--border);padding:52px 0 40px;">
-      <h2>🏅 Compliance Monitoring</h2>
-      <p class="section-sub">SOC2, GDPR, HIPAA, and PCI compliance checks mapped to your scan results. Know exactly what you need to fix before your next audit — not after.</p>
-      <div class="grid grid-3" style="margin-top:28px;">
-        <article class="card anim-card" style="border-color:#2d5e78;">
-          <h3>🛡️ SOC 2</h3>
-          <p style="color:var(--muted);font-size:0.88rem;">Trust service criteria alignment. CC6, CC7, CC8 controls mapped to your security posture.</p>
-          <div style="margin-top:10px;"><a href="compliance-check.html" class="btn btn-secondary" style="font-size:0.82rem;">Start SOC2 Check →</a></div>
-        </article>
-        <article class="card anim-card" style="border-color:#2d5e78;">
-          <h3>🔐 GDPR</h3>
-          <p style="color:var(--muted);font-size:0.88rem;">Data minimization, consent handling, right to erasure, and breach notification compliance checks.</p>
-          <div style="margin-top:10px;"><a href="compliance-check.html" class="btn btn-secondary" style="font-size:0.82rem;">Start GDPR Check →</a></div>
-        </article>
-        <article class="card anim-card" style="border-color:#2d5e78;">
-          <h3>🏥 HIPAA</h3>
-          <p style="color:var(--muted);font-size:0.88rem;">PHI protection, access controls, audit logging, and breach notification for healthcare-adjacent SMBs.</p>
-          <div style="margin-top:10px;"><a href="compliance-check.html" class="btn btn-secondary" style="font-size:0.82rem;">Start HIPAA Check →</a></div>
-        </article>
-      </div>
-      <p class="section-sub" style="margin-top:24px;">Automated compliance monitoring and reporting for SMBs. Get audit-ready in minutes, not weeks.</p>
-      <div class="grid grid-3" style="margin-top:20px;align-items:stretch;">
-        <article class="card anim-card" style="border-color:#1e4060;">
-          <h3>🛡️ Compliance Essential</h3>
-          <div class="price" style="color:var(--accent);">$49 <span style="font-size:0.85rem;color:var(--muted);">/month</span></div>
-          <ul style="margin:12px 0 16px;padding-left:18px;color:var(--muted);font-size:0.88rem;">
-            <li>SOC 2 compliance checks</li>
-            <li>Up to 10 domains monitored</li>
-            <li>Automated policy documentation</li>
-            <li>Monthly compliance digest</li>
-          </ul>
-          <a class="btn btn-primary" href="https://buy.stripe.com/eVq3cxam730V9Ig5os7wA2N" target="_blank" rel="noopener">Buy Compliance Essential</a>
-        </article>
-        <article class="card anim-card" style="border-color:#1e4060;">
-          <h3>🛡️ Compliance Business</h3>
-          <div class="price" style="color:var(--accent);">$99 <span style="font-size:0.85rem;color:var(--muted);">/month</span></div>
-          <ul style="margin:12px 0 16px;padding-left:18px;color:var(--muted);font-size:0.88rem;">
-            <li>All 4 frameworks (SOC2, GDPR, HIPAA, PCI)</li>
-            <li>Unlimited domain monitoring</li>
-            <li>Priority support</li>
-            <li>Advanced reporting and audit logs</li>
-          </ul>
-          <a class="btn btn-primary" href="https://buy.stripe.com/3cI28tcuf6d76w42cg7wA2O" target="_blank" rel="noopener">Buy Compliance Business</a>
-        </article>
-        <article class="card anim-card" style="border-color:#2a6a4a;padding:18px;">
-          <div style="background:rgba(74,222,128,0.1);border:1px solid #2a6a4a;border-radius:10px;padding:16px;">
-            <h3>📈 Score Engine + Compliance Bundle</h3>
-            <div class="price" style="color:var(--ok);">$119 <span style="font-size:0.85rem;color:var(--muted);">/month</span></div>
-            <ul style="margin:12px 0 16px;padding-left:18px;color:var(--muted);font-size:0.88rem;">
-              <li>Security Score Engine (full dashboard)</li>
-              <li>All Compliance Business features</li>
-              <li>Unlimited scans + alerts</li>
-              <li><strong style="color:var(--ok);">Save $29/mo vs separate</strong></li>
-            </ul>
-            <a class="btn btn-primary" href="https://buy.stripe.com/9B66oJ8dZcBv9Igg367wA2P" target="_blank" rel="noopener" style="background:var(--ok);color:#071018;font-weight:800;">Buy Bundle — $119/mo</a>
-          </div>
-        </article>
-      </div>
-    </section>
 
     <section id="live-apps" style="padding:52px 0 40px;">
         <h2>Live EdgeIQ Apps</h2>
@@ -1037,7 +945,11 @@
           <article class="card anim-card">
             <h3>⚡ Instant Security Audit Widget</h3>
             <p>Embeddable lead-gen widget for MSPs. Run a free scan, convert visitors to leads.</p>
-            <div style="margin-top:10px;"><a class="btn btn-primary" href="https://edgeiq-widget.onrender.com/" target="_blank" rel="noopener" style="font-size:0.85rem;">Try Live Widget →</a></div>
+            <div style="margin-top:10px;"><a class="btn btn-primary" href="https://edgeiq-widget.onrender.com/" target="_blank" rel="noopener" style="font-size:0.85rem;">Try Live Widget →</a> <a class="btn btn-secondary" href="https://edgeiq-widget.onrender.com/health" target="_blank" rel="noopener" style="font-size:0.85rem;">Widget Health</a></div>
+            <div class="plan-actions" style="margin-top:8px;">
+              <a class="btn btn-secondary" href="https://edgeiq-widget.onrender.com/widget.js?partner=edgeiq" target="_blank" rel="noopener" style="font-size:0.8rem;">Live Widget →</a>
+              <a class="btn btn-secondary" href="https://edgeiq-widget.onrender.com/health" target="_blank" rel="noopener" style="font-size:0.8rem;">Health</a>
+            </div>
           </article>
           <article class="card anim-card">
             <h3>📊 SMB Security Dashboard</h3>
@@ -1066,9 +978,10 @@
             </div>
           </article>
         </div>
-    </section>
+      </section>
 
-    <section id="pricing" style="border-top:1px solid var(--border);padding:40px 0;">
+
+<section id="pricing">
       <div class="billing-toggle-section">
         <div class="billing-toggle-wrap">
           <span class="billing-toggle-label active" data-billing="monthly">Monthly</span>
@@ -1403,16 +1316,8 @@
         <p style="margin:0;color:var(--muted);font-size:0.9rem;"><strong style="color:var(--text);">How onboarding works:</strong> checkout → we contact you → we configure your monitoring profile → first report cycle starts.</p>
       </div>
 
-      <!-- Compliance Upsell — SMB section -->
-      <div style="margin-top:28px;background:linear-gradient(135deg,rgba(61,217,255,0.06),rgba(250,204,21,0.06));border:1px solid var(--border);border-radius:14px;padding:22px;">
-        <h3 style="margin:0 0 8px;">🏅 Need compliance coverage too?</h3>
-        <p style="margin:0 0 14px;color:var(--muted);font-size:0.92rem;">SOC2, GDPR, HIPAA, and PCI compliance monitoring built on top of your scan results. Know exactly what to fix before your next audit.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a class="btn btn-primary" href="https://buy.stripe.com/eVq3cxam730V9Ig5os7wA2N" target="_blank" rel="noopener">Compliance Essential — $49/mo</a>
-          <a class="btn btn-secondary" href="#compliance" style="font-size:0.85rem;">Learn More →</a>
-        </div>
-      </div>
 
+      
       <h2 style="margin-top:40px;">SMB Security Dashboard Pro</h2>
       <p class="section-sub" style="margin-bottom:16px;">Free score preview stays open. Full dashboard analytics and client workflows are paid.</p>
       <div class="pricing">
@@ -1547,7 +1452,7 @@
         <article class="card anim-card">
           <h3>🔗 Data Enrichment API</h3>
           <p>Developer API for enriching company and contact data from email, domain, or phone. Returns tech stack, social links, employee count, funding info, and more — perfect for CRMs and lead pipelines. Free tier: 50 calls/mo. Pro: 5,000 calls/mo.</p>
-          <p style="margin-top:8px;"><strong style="color:var(--accent)">$19/mo Pro</strong> · <a href="https://clawhub.ai/EdgeIQ-Labs/data-enrichment-api" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a></p>
+          <p style="margin-top:8px;"><strong style="color:var(--accent)">$19/mo Pro</strong> · <a href="https://clawhub.ai/EdgeIQ-Labs/data-enrichment-api" target="_blank" style="color:var(--accent);font-size:0.9rem;">View on ClawHub →</a>
           <a href="https://buy.stripe.com/6oUeVf8dZ9pj8EccQU7wA0q" target="_blank" class="btn btn-secondary" style="margin-top:8px;font-size:0.85rem;">Buy Pro →</a>
         </article>
         <article class="card anim-card">
@@ -1775,9 +1680,9 @@
   // Tab switching
   window.showScannerTab = function(tab) {
     // Panel + form IDs for each tab
-    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel', whois: 'whois-panel', cve: 'cve-panel', score: 'score-panel' };
-    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form', whois: 'whois-scan-form', cve: 'cve-scan-form', score: 'score-scan-form' };
-    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns', 'whois', 'cve', 'score'];
+    var panelMap = { ssl: 'ssl-panel', headers: 'headers-panel', xss: 'xss-quick-panel', sub: 'sub-panel', dns: 'dns-panel', whois: 'whois-panel', cve: 'cve-panel' };
+    var formMap  = { ssl: 'ssl-scan-form', headers: 'headers-scan-form', xss: 'xss-quick-form', sub: 'sub-scan-form', dns: 'dns-scan-form', whois: 'whois-scan-form', cve: 'cve-scan-form' };
+    var tabs = ['ssl', 'headers', 'xss', 'sub', 'dns', 'whois', 'cve'];
 
     tabs.forEach(function(t) {
       var panel = document.getElementById(panelMap[t]);
@@ -2360,54 +2265,7 @@
 })();
 
 // ── Billing Toggle ──────────────────────────────────────────────────────────
-  var scoreForm = document.getElementById('score-scan-form');
-  if (scoreForm) {
-    scoreForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      var domain = document.getElementById('score-domain').value.trim();
-      if (!domain) return;
-      var btn = document.getElementById('score-submit');
-      var lbl = document.getElementById('score-label');
-      var ldg = document.getElementById('score-loading');
-      var results = document.getElementById('score-results');
-      var errDiv = document.getElementById('score-error');
-      lbl.style.display = 'none'; ldg.style.display = 'inline'; btn.disabled = true;
-      results.style.display = 'none'; errDiv.style.display = 'none';
-      try {
-        var resp = await fetch('https://edgeiq-score-engine.gpalmieri21.workers.dev?domain=' + encodeURIComponent(domain));
-        var data = await resp.json().catch(function() { return null; });
-        if (!resp.ok || !data) throw new Error('Score engine returned invalid data');
-        results.style.display = 'block';
-        document.getElementById('score-hostname').textContent = domain;
-        var grade = data.grade || '?';
-        var gradeEl = document.getElementById('score-grade-badge');
-        gradeEl.textContent = grade;
-        gradeEl.className = 'scan-grade grade-' + grade;
-        document.getElementById('score-summary').textContent = 'Security Score: ' + (data.score != null ? data.score + '/100 — ' : '') + (data.risk_label || '') + ' risk';
-        var findingsEl = document.getElementById('score-findings');
-        var sev = data.severity_breakdown || {};
-        var top = (data.top_findings || []).slice(0, 5);
-        var html = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;text-align:center;">' +
-          '<div><div style="font-size:1.4rem;font-weight:800;color:#fecaca;">' + (sev.critical||0) + '</div><div style="color:var(--muted);font-size:0.78rem;">Critical</div></div>' +
-          '<div><div style="font-size:1.4rem;font-weight:800;color:#fca5a5;">' + (sev.high||0) + '</div><div style="color:var(--muted);font-size:0.78rem;">High</div></div>' +
-          '<div><div style="font-size:1.4rem;font-weight:800;color:#fde68a;">' + (sev.medium||0) + '</div><div style="color:var(--muted);font-size:0.78rem;">Medium</div></div>' +
-          '<div><div style="font-size:1.4rem;font-weight:800;color:#bbf7d0;">' + (sev.low||0) + '</div><div style="color:var(--muted);font-size:0.78rem;">Low</div></div>' +
-          '</div>';
-        if (top.length > 0) {
-          html += '<div style="margin-top:16px;"><strong style="font-size:0.88rem;">Top Findings:</strong><ul style="margin-top:8px;padding-left:18px;color:var(--muted);font-size:0.85rem;">';
-          top.forEach(function(f) { html += '<li style="margin-bottom:4px;">[' + (f.severity||'?').toUpperCase() + '] ' + (f.title||f.description||'').substring(0,80) + '</li>'; });
-          html += '</ul></div>';
-        }
-        findingsEl.innerHTML = html;
-      } catch(err) {
-        errDiv.style.display = 'block';
-        document.getElementById('score-error-msg').textContent = 'Score engine unavailable — please try again in a moment.';
-      } finally {
-        lbl.style.display = 'inline'; ldg.style.display = 'none'; btn.disabled = false;
-      }
-    });
-  }
-
+;(function() {
   var toggle = document.getElementById('billingToggle');
   var labels = document.querySelectorAll('.billing-toggle-label');
   var note   = document.getElementById('billingNote');
