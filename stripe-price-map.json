@@ -1,0 +1,161 @@
+{
+  "xss": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "XSS Scanner Pro",
+    "billing": "monthly"
+  },
+  "network": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Network Scanner Pro",
+    "billing": "monthly"
+  },
+  "subdomain": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Subdomain Hunter Pro",
+    "billing": "monthly"
+  },
+  "ssl": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "SSL Watcher Pro",
+    "billing": "monthly"
+  },
+  "sqli": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "SQL Injection Scanner Pro",
+    "billing": "monthly"
+  },
+  "oauth": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "OAuth Security Checker Pro",
+    "billing": "monthly"
+  },
+  "darkweb": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Dark Web Credential Checker Pro",
+    "billing": "monthly"
+  },
+  "malware": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Malware Signature Scanner Pro",
+    "billing": "monthly"
+  },
+  "email": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Email Header Analyzer Pro",
+    "billing": "monthly"
+  },
+  "phishing": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Phishing Kit Detector Pro",
+    "billing": "monthly"
+  },
+  "api": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "API Endpoint Discovery Pro",
+    "billing": "monthly"
+  },
+  "business": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Business Listing Aggregator Pro",
+    "billing": "monthly"
+  },
+  "report": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Security Report Generator Pro",
+    "billing": "monthly"
+  },
+  "alerting": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Alerting System Pro",
+    "billing": "monthly"
+  },
+  "marketwatch": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Market Watch Bot Pro",
+    "billing": "monthly"
+  },
+  "competitor": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 1900,
+    "name": "Competitor Price Intelligence Pro",
+    "billing": "monthly"
+  },
+  "smb_essentials": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 2900,
+    "name": "SMB Essentials",
+    "billing": "monthly"
+  },
+  "smb_plus": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 4900,
+    "name": "SMB Plus",
+    "billing": "monthly"
+  },
+  "fix_it_pro": {
+    "product_id": "prod_XYZ",
+    "price_id": "price_XYZ",
+    "amount": 900,
+    "name": "Fix-it Pro",
+    "billing": "monthly"
+  },
+  "compliance": {
+    "essential": {
+      "product_id": "prod_URvfU61X6zYPiU",
+      "price_id": "price_1TT1o1RC1NZ20yDTm2FcJwXF",
+      "amount": 4900,
+      "name": "Compliance Essential",
+      "billing": "monthly",
+      "checkout_url": "https://buy.stripe.com/eVq3cxam730V9Ig5os7wA2N"
+    },
+    "business": {
+      "product_id": "prod_URvf2n2TEJNNy4",
+      "price_id": "price_1TT1o2RC1NZ20yDTfrvIwnwL",
+      "amount": 9900,
+      "name": "Compliance Business",
+      "billing": "monthly",
+      "checkout_url": "https://buy.stripe.com/3cI28tcuf6d76w42cg7wA2O"
+    },
+    "bundle": {
+      "product_id": "prod_URvfgWsKCFaCW4",
+      "price_id": "price_1TT1o3RC1NZ20yDTVa40QEsb",
+      "amount": 11900,
+      "name": "Score Engine + Compliance Bundle",
+      "billing": "monthly",
+      "checkout_url": "https://buy.stripe.com/9B66oJ8dZcBv9Igg367wA2P"
+    }
+  }
+}
